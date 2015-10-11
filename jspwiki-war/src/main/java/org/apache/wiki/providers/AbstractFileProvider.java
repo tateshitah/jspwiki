@@ -18,11 +18,34 @@
  */
 package org.apache.wiki.providers;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-import org.apache.wiki.*;
+import org.apache.wiki.InternalWikiException;
+import org.apache.wiki.WikiEngine;
+import org.apache.wiki.WikiPage;
+import org.apache.wiki.WikiProvider;
+import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
+import org.apache.wiki.api.exceptions.ProviderException;
+import org.apache.wiki.search.QueryItem;
+import org.apache.wiki.search.SearchMatcher;
+import org.apache.wiki.search.SearchResult;
+import org.apache.wiki.search.SearchResultComparator;
 import org.apache.wiki.util.FileUtil;
 import org.apache.wiki.util.TextUtil;
 
@@ -75,8 +98,8 @@ public abstract class AbstractFileProvider
                IOException, FileNotFoundException
     {
         log.debug("Initing FileSystemProvider");
-        m_pageDirectory = TextUtil.getStringProperty( properties, PROP_PAGEDIR, 
-                                                      System.getProperty( "user.home" ) + File.separator + "jspwiki-files" );
+        m_pageDirectory = TextUtil.getCanonicalFilePathProperty(properties, PROP_PAGEDIR,
+                System.getProperty("user.home") + File.separator + "jspwiki-files");
 
         File f = new File(m_pageDirectory);
 
@@ -99,7 +122,7 @@ public abstract class AbstractFileProvider
                 throw new IOException( "Page directory is not writable: " + f.getAbsolutePath() );
             }
         }
-        
+
         m_engine = engine;
 
         m_encoding = properties.getProperty( WikiEngine.PROP_ENCODING, 
@@ -207,7 +230,15 @@ public abstract class AbstractFileProvider
     {
         File pagefile = findPage( page );
 
-        return pagefile.exists();        
+        return pagefile.exists();
+    }
+
+    /**
+     *  {@inheritDoc}
+     */
+    public boolean pageExists( String page, int version )
+    {
+        return pageExists (page);
     }
 
     /**

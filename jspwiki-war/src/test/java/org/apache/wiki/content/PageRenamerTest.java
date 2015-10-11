@@ -25,6 +25,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import net.sf.ehcache.CacheManager;
 import org.apache.wiki.*;
 import org.apache.wiki.api.exceptions.WikiException;
 import org.apache.wiki.attachment.Attachment;
@@ -36,14 +37,15 @@ public class PageRenamerTest extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
-        
-        Properties props = new Properties();
-        
-        props.load( TestEngine.findTestProperties() );
+
+        Properties props = TestEngine.getTestProperties();
 
         props.setProperty( WikiEngine.PROP_MATCHPLURALS, "true" );
-        
+
+        CacheManager.getInstance().removalAll();
+
         TestEngine.emptyWorkDir();
+
         m_engine = new TestEngine(props);  
     }
 
@@ -274,7 +276,7 @@ public class PageRenamerTest extends TestCase
     {
         m_engine.saveText( "TestPage", "hubbub");
         m_engine.saveText( "TestPage2", "[TestPage|]" );
-        
+
         rename( "TestPage", "FooTest" );
 
         WikiPage p = m_engine.getPage( "FooTest" );

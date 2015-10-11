@@ -20,11 +20,12 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import net.sf.ehcache.CacheManager;
 
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
-import org.apache.wiki.providers.ProviderException;
+import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.util.FileUtil;
 
 public class AttachmentManagerTest extends TestCase
@@ -32,7 +33,7 @@ public class AttachmentManagerTest extends TestCase
     public static final String NAME1 = "TestPage";
     public static final String NAMEU = "TestPage\u00e6";
 
-    Properties props = new Properties();
+    Properties props = TestEngine.getTestProperties();
 
     TestEngine m_engine;
     AttachmentManager m_manager;
@@ -47,7 +48,9 @@ public class AttachmentManagerTest extends TestCase
     public void setUp()
         throws Exception
     {
-        props.load( TestEngine.findTestProperties() );
+        CacheManager m_cacheManager = CacheManager.getInstance();
+        m_cacheManager.clearAll();
+        m_cacheManager.removalAll();
 
         m_engine  = new TestEngine(props);
         m_manager = m_engine.getAttachmentManager();
@@ -338,7 +341,7 @@ public class AttachmentManagerTest extends TestCase
                     m_engine.pageExists( att.getName() ) );
     }
 
-    public void testNonexistantPage() throws Exception
+    public void testNonexistentPage() throws Exception
     {
         try
         {

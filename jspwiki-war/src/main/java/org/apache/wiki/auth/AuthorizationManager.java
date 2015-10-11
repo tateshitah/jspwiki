@@ -22,9 +22,16 @@ package org.apache.wiki.auth;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.security.*;
+import java.security.AccessControlException;
+import java.security.AccessController;
+import java.security.CodeSource;
+import java.security.Permission;
+import java.security.Principal;
+import java.security.PrivilegedAction;
+import java.security.ProtectionDomain;
 import java.security.cert.Certificate;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -33,7 +40,11 @@ import java.util.WeakHashMap;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.wiki.*;
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.WikiEngine;
+import org.apache.wiki.WikiPage;
+import org.apache.wiki.WikiSession;
+import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.WikiException;
 import org.apache.wiki.auth.acl.Acl;
 import org.apache.wiki.auth.acl.AclEntry;
@@ -85,8 +96,8 @@ import org.freshcookies.security.policy.PolicyException;
  * @since 2.3
  * @see AuthenticationManager
  */
-public final class AuthorizationManager
-{
+public class AuthorizationManager {
+
     private static final Logger log = Logger.getLogger( AuthorizationManager.class );
     /**
      * The default external Authorizer is the {@link org.apache.wiki.auth.authorize.WebContainerAuthorizer}
@@ -236,7 +247,7 @@ public final class AuthorizationManager
 
         log.debug( "Checking ACL entries..." );
         log.debug( "Acl for this page is: " + acl );
-        log.debug( "Checking for principal: " + aclPrincipals );
+        log.debug( "Checking for principal: " + Arrays.toString( aclPrincipals ) );
         log.debug( "Permission: " + permission );
 
         for( Principal aclPrincipal : aclPrincipals )

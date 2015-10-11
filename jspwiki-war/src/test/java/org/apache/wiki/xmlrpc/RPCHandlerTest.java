@@ -19,6 +19,7 @@
 
 package org.apache.wiki.xmlrpc;
 
+import net.sf.ehcache.CacheManager;
 import org.apache.wiki.*;
 import org.apache.wiki.attachment.Attachment;
 import junit.framework.*;
@@ -30,7 +31,7 @@ public class RPCHandlerTest extends TestCase
 {
     TestEngine m_engine;
     RPCHandler m_handler;
-    Properties m_props;
+    Properties m_props = TestEngine.getTestProperties();
 
     static final String NAME1 = "Test";
 
@@ -42,9 +43,7 @@ public class RPCHandlerTest extends TestCase
     public void setUp()
         throws Exception
     {
-        m_props = new Properties();
-        m_props.load( TestEngine.findTestProperties() );
-
+        CacheManager.getInstance().removalAll();
         m_engine = new TestEngine( m_props );
 
         m_handler = new RPCHandler();
@@ -117,15 +116,15 @@ public class RPCHandlerTest extends TestCase
         Calendar cal = Calendar.getInstance();
         cal.setTime( d );
 
-        System.out.println("Real: "+directInfo.getLastModified() );
-        System.out.println("RPC:  "+d );
+        // System.out.println("Real: "+directInfo.getLastModified() );
+        // System.out.println("RPC:  "+d );
 
         // Offset the ZONE offset and DST offset away.  DST only
         // if we're actually in DST.
         cal.add( Calendar.MILLISECOND,
                  (cal.get( Calendar.ZONE_OFFSET )+
                   (cal.getTimeZone().inDaylightTime( d ) ? cal.get( Calendar.DST_OFFSET ) : 0 ) ) );
-        System.out.println("RPC2: "+cal.getTime() );
+        // System.out.println("RPC2: "+cal.getTime() );
 
         assertEquals( "date", cal.getTime().getTime(),
                       directInfo.getLastModified().getTime() );

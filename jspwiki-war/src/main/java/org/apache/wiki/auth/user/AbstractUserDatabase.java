@@ -26,9 +26,8 @@ import java.util.*;
 
 import org.apache.catalina.util.HexUtils;
 import org.apache.log4j.Logger;
-
-import org.apache.wiki.NoRequiredPropertyException;
 import org.apache.wiki.WikiEngine;
+import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.auth.NoSuchPrincipalException;
 import org.apache.wiki.auth.WikiPrincipal;
 import org.apache.wiki.auth.WikiSecurityException;
@@ -183,7 +182,8 @@ public abstract class AbstractUserDatabase implements UserDatabase
      * {@inheritDoc}
      * @see org.apache.wiki.auth.user.UserDatabase#initialize(org.apache.wiki.WikiEngine, java.util.Properties)
      */
-    public abstract void initialize( WikiEngine engine, Properties props ) throws NoRequiredPropertyException;
+    public abstract void initialize( WikiEngine engine, Properties props ) throws NoRequiredPropertyException,
+            WikiSecurityException;
 
     /**
      * Factory method that instantiates a new DefaultUserProfile with a new, distinct

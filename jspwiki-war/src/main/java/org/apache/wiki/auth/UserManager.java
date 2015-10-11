@@ -21,18 +21,23 @@ package org.apache.wiki.auth;
 import java.security.Permission;
 import java.security.Principal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.WeakHashMap;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.apache.wiki.NoRequiredPropertyException;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiSession;
 import org.apache.wiki.api.engine.FilterManager;
+import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.WikiException;
 import org.apache.wiki.api.filters.PageFilter;
 import org.apache.wiki.auth.permissions.AllPermission;
@@ -53,14 +58,21 @@ import org.apache.wiki.ui.InputValidator;
 import org.apache.wiki.util.ClassUtil;
 import org.apache.wiki.util.MailUtil;
 import org.apache.wiki.util.TextUtil;
-import org.apache.wiki.workflow.*;
+import org.apache.wiki.workflow.Decision;
+import org.apache.wiki.workflow.DecisionRequiredException;
+import org.apache.wiki.workflow.Fact;
+import org.apache.wiki.workflow.Outcome;
+import org.apache.wiki.workflow.Task;
+import org.apache.wiki.workflow.Workflow;
+import org.apache.wiki.workflow.WorkflowBuilder;
+
 
 /**
  * Provides a facade for obtaining user information.
  * @since 2.3
  */
-public final class UserManager
-{
+public class UserManager {
+
     private static final String USERDATABASE_PACKAGE = "org.apache.wiki.auth.user";
     private static final String SESSION_MESSAGES = "profile";
     private static final String PARAM_EMAIL = "email";
@@ -170,6 +182,10 @@ public final class UserManager
         catch( IllegalAccessException e )
         {
             log.error( "You are not allowed to access this user database class", e );
+        }
+        catch( WikiSecurityException e )
+        {
+            log.error( "Exception initializing user database: " + e.getMessage() );
         }
         finally
         {
@@ -587,7 +603,6 @@ public final class UserManager
          * No-op.
          * @throws WikiSecurityException never...
          */
-        @SuppressWarnings("deprecation")
         public void commit() throws WikiSecurityException
         {
             // No operation
@@ -669,6 +684,7 @@ public final class UserManager
 
         /**
          * No-op.
+         *
          * @param engine the wiki engine
          * @param props the properties used to initialize the wiki engine
          * @throws NoRequiredPropertyException never...
@@ -720,7 +736,7 @@ public final class UserManager
          * Constructs a new Task for saving a user profile.
          * @param engine the wiki engine
          * @deprecated will be removed in 2.10 scope. Consider using 
-         * {@link UserManager.SaveUserProfileTask#UserManager.SaveUserProfileTask(WikiEngine, Locale)} instead
+         * {@link #SaveUserProfileTask(WikiEngine, Locale)} instead
          */
         @Deprecated
         public SaveUserProfileTask( WikiEngine engine )
@@ -770,7 +786,7 @@ public final class UserManager
                                                profile.getFullname(),
                                                profile.getEmail(),
                                                m_engine.getURL( WikiContext.LOGIN, null, null, true ) );
-                    MailUtil.sendMessage( m_engine, to, subject, content);
+                    MailUtil.sendMessage( m_engine.getWikiProperties(), to, subject, content);
                 }
                 catch ( AddressException e)
                 {

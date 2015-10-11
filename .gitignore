@@ -1,0 +1,9 @@
+jspwiki-war/target
+jspwiki-site/target
+jspwiki-it-tests/jspwiki-it-test-container/target
+jspwiki-it-tests/jspwiki-it-test-custom-jdbc/target
+jspwiki-it-tests/jspwiki-it-test-custom/target
+jspwiki-it-tests/jspwiki-selenium-tests/target
+target
+rss.rdf
+.project
