@@ -51,7 +51,11 @@ var Behavior = new Class({
 
     add: function(selector, behavior, options, once){
 
+<<<<<<< HEAD
         this.behaviors.push({s: selector, b: behavior, o: options, once:once});
+=======
+        this.behaviors.push({s: selector, b: behavior, o: options, once: once});
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return this;
 
     },
@@ -64,6 +68,7 @@ var Behavior = new Class({
 
     update: function(){
 
+<<<<<<< HEAD
         //console.log(this.behaviors);
         var cache = "_bhvr", updated, type, nodes;
 
@@ -96,6 +101,47 @@ var Behavior = new Class({
             }
 
         })
+=======
+        var cache = "_bhvr", updated, type, isClass, isFunction,
+            nodes, node, i = 0, j, item, behavior, options;
+
+        while( item = this.behaviors[ i++ ] ){
+
+            //console.log("BEHAVIOR ", item.once?"ONCE ":"", nodes.length, item.s, typeOf(item.b) );
+            options = item.o;
+            behavior = item.b;
+            type = typeOf(behavior);
+            isClass = ( type == "class" );
+            isFunction = ( type == "function" );
+
+            nodes = $$(item.s); //selector
+
+            if( nodes[0] ){
+
+                if( item.once ){
+
+                    if( isClass ){ new behavior(nodes, options); }
+                    else if( isFunction ){ behavior(nodes, options); }
+
+                } else {
+
+                    for( j=0; node = nodes[ j++ ]; ){
+
+                        updated = node[cache] || (node[cache] = []);
+
+                        if ( updated.indexOf(item) < 0 ){
+
+                            //if( isString ) node[behavior](options);
+                            if( isClass ){ new behavior(node, options); }
+                            else if( isFunction ){ behavior.call(node, node, options); }
+
+                            updated.push( item );
+                        }
+                    }
+                }
+            }
+        }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         return this;
     }

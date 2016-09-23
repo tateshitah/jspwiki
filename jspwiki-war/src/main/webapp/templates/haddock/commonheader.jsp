@@ -38,6 +38,7 @@
    can be included).
 --%>
 <%-- CSS stylesheet --%>
+<<<<<<< HEAD
 
 <link rel="stylesheet" type="text/css" media="screen, projection, print"
      href="<wiki:Link format='url' templatefile='haddock.css'/>" />
@@ -61,12 +62,38 @@ String.I18N.PREFIX = "javascript.";
 
 <script type="text/javascript" src="<wiki:Link format='url' jsp='scripts/haddock.js'/>"></script>
 
+=======
+<%--
+BOOTSTRAP, IE compatibility / http://getbootstrap.com/getting-started/#support-ie-compatibility-modes
+--%>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+<%-- Localized JS; must come before any css, to avoid blocking immediate execution --%>
+<%-- var LocalizedStrings= { "javascript.<xx>":"...", etc. } --%>
+<script type="text/javascript">//<![CDATA[
+<wiki:IncludeResources type="jslocalizedstrings"/>
+String.I18N = LocalizedStrings;
+String.I18N.PREFIX = "javascript.";
+//]]></script>
+
+<link rel="stylesheet" type="text/css" media="screen, projection, print" id="main-stylesheet"
+     href="<wiki:Link format='url' templatefile='haddock.css'/>" />
+
+<wiki:IncludeResources type="stylesheet"/>
+<wiki:IncludeResources type="inlinecss" />
+
+<%-- JAVASCRIPT --%>
+
+<script src="<wiki:Link format='url' jsp='scripts/haddock.js'/>"></script>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 <wiki:IncludeResources type="script"/>
 
 <%--TODO:
 <!--[if lte IE 8]><script src="js/libs/selectivizr.js"></script><![endif]-->
 --%>
+<<<<<<< HEAD
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -75,16 +102,33 @@ String.I18N.PREFIX = "javascript.";
    Preferences.setupPreferences(pageContext);
  %>
 
+=======
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<%-- COOKIE read client preferences --%>
+<%
+   Preferences.setupPreferences(pageContext);
+%>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <meta name="wikiContext" content='<wiki:Variable var="requestcontext" />' />
 <wiki:Permission permission="edit"><meta name="wikiEditPermission" content="true"/></wiki:Permission>
 <meta name="wikiBaseUrl" content='<wiki:BaseURL />' />
 <meta name="wikiPageUrl" content='<wiki:Link format="url"  page="#$%"/>' />
 <meta name="wikiEditUrl" content='<wiki:EditLink format="url" page="#$%"/>' />
 <meta name="wikiCloneUrl" content='<wiki:EditLink format="url" page="#$%"/>&clone=<wiki:Variable var="pagename" />' />
+<<<<<<< HEAD
 <meta name="wikiJsonUrl" content='<%=  WikiContext.findContext(pageContext).getURL( WikiContext.NONE, "JSON-RPC" ) %>' /><%--unusual pagename--%>
 <meta name="wikiPageName" content='<wiki:Variable var="pagename" />' /><%--pagename without blanks--%>
 <meta name="wikiUserName" content='<wiki:UserName />' />
 <meta name="wikiTemplateUrl" content='<wiki:Link format="url" templatefile="" />' />
+=======
+<meta name="wikiJsonUrl" content='<%=  WikiContext.findContext(pageContext).getURL( WikiContext.NONE, "ajax" ) %>' /><%--unusual pagename--%>
+<meta name="wikiPageName" content='<wiki:Variable var="pagename" />' /><%--pagename without blanks--%>
+<meta name="wikiUserName" content='<wiki:UserName />' />
+<meta name="wikiTemplateUrl" content='<wiki:Link format="url" templatefile="" />' />
+<meta name="wikiApplicationName" content='<wiki:Variable var="ApplicationName" />' />
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%--CHECKME
     <wiki:link> seems not to lookup the right jsp from the right template directory
     EG when a templatefile is not present, the generated link should point to the default template.
@@ -93,8 +137,13 @@ String.I18N.PREFIX = "javascript.";
 <meta name="wikiXHRSearch" content='<wiki:Link format="url" templatefile="../default/AJAXSearch.jsp" />' />
 <meta name="wikiXHRPreview" content='<wiki:Link format="url" templatefile="../default/AJAXPreview.jsp" />' />
 <meta name="wikiXHRCategories" content='<wiki:Link format="url" templatefile="../default/AJAXCategories.jsp" />' />
+<<<<<<< HEAD
 <meta name="wikiApplicationName" content='<wiki:Variable var="ApplicationName" />' />
 
+=======
+<meta name="wikiXHRHtml2Markup" content='<wiki:Link format="url" jsp="XHRHtml2Markup.jsp" />' />
+<meta name="wikiXHRMarkup2Wysiwyg" content='<wiki:Link format="url" jsp="XHRMarkup2Wysiwyg.jsp" />' />
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 <script type="text/javascript">//<![CDATA[
 <wiki:IncludeResources type="jsfunction"/>
@@ -110,8 +159,13 @@ String.I18N.PREFIX = "javascript.";
   WikiContext c = WikiContext.findContext( pageContext );
   String frontpage = c.getEngine().getFrontPage();
 %>
+<<<<<<< HEAD
 <link rel="start"  href="<wiki:LinkTo format='url' page='<%=frontpage%>' />" title="Front page" />
 
+=======
+<link rel="start"  href="<wiki:LinkTo format='url' page='<%=frontpage%>' />"
+    title="Front page" />
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <link rel="alternate stylesheet" type="text/css" href="<wiki:Link format='url' templatefile='haddock.css'/>"
     title="Standard" />
 <link rel="shortcut icon" type="image/x-icon" href="<wiki:Link format='url' jsp='images/favicon.ico'/>" />
@@ -122,8 +176,13 @@ String.I18N.PREFIX = "javascript.";
 <wiki:CheckRequestContext context='view|info|diff|upload'>
   <wiki:Permission permission="edit">
     <wiki:PageType type="page">
+<<<<<<< HEAD
     <link rel="alternate" type="application/x-wiki"
           href="<wiki:EditLink format='url' />"
+=======
+      <link rel="alternate" type="application/x-wiki"
+           href="<wiki:EditLink format='url' />"
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
           title="<fmt:message key='actions.edit.title'/>" />
     </wiki:PageType>
   </wiki:Permission>
@@ -135,10 +194,13 @@ String.I18N.PREFIX = "javascript.";
 <c:if test='${(!empty prefs.SkinName) && (prefs.SkinName!="PlainVanilla") }'>
 <link rel="stylesheet" type="text/css" media="screen, projection, print"
      href="<wiki:Link format='url' templatefile='skins/' /><c:out value='${prefs.SkinName}/skin.css' />" />
+<<<<<<< HEAD
 <%--
 <link rel="stylesheet" type="text/css" media="print"
      href="<wiki:Link format='url' templatefile='skins/' /><c:out value='${prefs.SkinName}/print_skin.css' />" />
 --%>
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <script type="text/javascript"
          src="<wiki:Link format='url' templatefile='skins/' /><c:out value='${prefs.SkinName}/skin.js' />" ></script>
 </c:if>

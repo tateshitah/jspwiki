@@ -121,12 +121,20 @@ public class WebContainerAuthorizer implements WebAuthorizer
         catch ( IOException e )
         {
             log.error("Initialization failed: ",e);
+<<<<<<< HEAD
             throw new InternalWikiException( e.getClass().getName()+": "+e.getMessage() );
+=======
+            throw new InternalWikiException( e.getClass().getName()+": "+e.getMessage() , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         catch ( JDOMException e )
         {
             log.error("Malformed XML in web.xml",e);
+<<<<<<< HEAD
             throw new InternalWikiException( e.getClass().getName()+": "+e.getMessage() );
+=======
+            throw new InternalWikiException( e.getClass().getName()+": "+e.getMessage() , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         if ( m_containerRoles.length > 0 )

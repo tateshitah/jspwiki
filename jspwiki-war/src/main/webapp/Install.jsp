@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -30,7 +34,11 @@
 <fmt:setBundle basename="CoreResources"/>
 
 <%!
+<<<<<<< HEAD
     Logger log = Logger.getLogger("JSPWiki"); 
+=======
+    Logger log = Logger.getLogger("JSPWiki");
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 %>
 
 <%
@@ -59,7 +67,11 @@ if( request.getParameter("submit") != null )
         if ( password != null )
         {
         	Object[] args = { Installer.ADMIN_ID, password, Installer.ADMIN_GROUP };
+<<<<<<< HEAD
         	wikiSession.addMessage( Installer.INSTALL_INFO, 
+=======
+        	wikiSession.addMessage( Installer.INSTALL_INFO,
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         			MessageFormat.format( rb.getString( "install.jsp.install.msg.rnd.pwd" ), args ) );
        }
     }
@@ -76,7 +88,11 @@ if ( !installer.adminExists() )
     response.setHeader("Cache-Control", "no-cache" );
     response.setContentType("text/html; charset=UTF-8");
 %>
+<<<<<<< HEAD
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+=======
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -103,7 +119,11 @@ if ( !installer.adminExists() )
   <wiki:Messages div="warning" topic="<%=Installer.INSTALL_WARNING%>" prefix='<%= rb.getString( "install.jsp.install.warning" )%>'/>
   <wiki:Messages div="error" topic="<%=Installer.INSTALL_ERROR%>" prefix='<%= rb.getString( "install.jsp.install.error" )%>'/>
 </div>
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <div class="formcontainer">
 
 <form action="Install.jsp" method="post">
@@ -111,24 +131,39 @@ if ( !installer.adminExists() )
   <!-- Page and log directories -->
   <h3><fmt:message key="install.jsp.basics.title" /></h3>
   <div class="block">
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <label><fmt:message key="install.jsp.basics.appname.label" /></label>
     <input type="text" name="<%=Installer.APP_NAME%>" size="20" value="<%=installer.getProperty( Installer.APP_NAME )%>"/>
     <div class="description">
       <fmt:message key="install.jsp.basics.appname.desc"/>
+<<<<<<< HEAD
     </div> 
     
+=======
+    </div>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <br/> <label><fmt:message key="install.jsp.basics.baseurl.label" /></label>
     <input type="text" name="<%=Installer.BASE_URL%>" size="40" value="<%=installer.getProperty( Installer.BASE_URL )%>"/>
     <div class="description">
       <fmt:message key="install.jsp.basics.baseurl.desc" />
+<<<<<<< HEAD
     </div> 
     
+=======
+    </div>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <br/><label><fmt:message key="install.jsp.basics.page.storage.label" /></label>
     <input type="text" name="<%=Installer.PAGE_DIR%>" size="40" value="<%=installer.getProperty( Installer.PAGE_DIR )%>"/>
     <div class="description">
       <fmt:message key="install.jsp.basics.page.storage.desc" />
     </div>
+<<<<<<< HEAD
     
   </div>
   
@@ -145,6 +180,15 @@ if ( !installer.adminExists() )
    </div>
   
     <% 
+=======
+
+  </div>
+
+  <h3><fmt:message key="install.jsp.security.title" /></h3>
+  <div class="block">
+
+    <%
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       if( validated )
       {
         if ( password != null )
@@ -170,7 +214,11 @@ if ( !installer.adminExists() )
       }
     %>
   </div>
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <h3><fmt:message key="install.jsp.adv.settings.title" /></h3>
   <div class="block">
     <label><fmt:message key="install.jsp.adv.settings.logfile.label" /></label>
@@ -185,7 +233,11 @@ if ( !installer.adminExists() )
       <fmt:message key="install.jsp.adv.settings.workdir.desc" />
     </div>
   </div>
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <br/>
   <div class="block">
     <div class="instructions">
@@ -195,13 +247,21 @@ if ( !installer.adminExists() )
     </div>
     <input type="submit" name="submit" value="<fmt:message key="install.jsp.instr.submit" />" />
   </div>
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </form>
 
 </div>
 
 <hr />
+<<<<<<< HEAD
     <% 
+=======
+    <%
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       if( validated )
       {
     %>

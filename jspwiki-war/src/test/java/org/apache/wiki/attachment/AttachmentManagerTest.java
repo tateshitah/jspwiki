@@ -13,7 +13,16 @@
  */
 package org.apache.wiki.attachment;
 
+<<<<<<< HEAD
 import java.io.*;
+=======
+import java.io.File;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.Collection;
 import java.util.Properties;
 
@@ -50,7 +59,11 @@ public class AttachmentManagerTest extends TestCase
     {
         CacheManager m_cacheManager = CacheManager.getInstance();
         m_cacheManager.clearAll();
+<<<<<<< HEAD
         m_cacheManager.removalAll();
+=======
+        m_cacheManager.removeAllCaches();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         m_engine  = new TestEngine(props);
         m_manager = m_engine.getAttachmentManager();
@@ -239,7 +252,11 @@ public class AttachmentManagerTest extends TestCase
 
         m_manager.storeAttachment( att, makeAttachmentFile() );
 
+<<<<<<< HEAD
         Collection c = m_manager.listAttachments( new WikiPage(m_engine, NAME1) );
+=======
+        Collection<?> c = m_manager.listAttachments( new WikiPage(m_engine, NAME1) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         assertEquals( "Length", 1, c.size() );
 

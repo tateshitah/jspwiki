@@ -18,9 +18,19 @@
     specific language governing permissions and limitations
     under the License.
 */
+<<<<<<< HEAD
 /*
 Mootools Extension: String.Extend.js
 	String-extensions: capitalize,() deCamelize(), trunc(), xsubs()
+=======
+
+/*eslint-env browser*/
+/*global $, typeOf */
+
+/*
+Mootools Extension: String.Extend.js
+    String-extensions: capitalize,() deCamelize(), trunc(), xsubs()
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 */
 String.implement({
 
@@ -34,7 +44,11 @@ String.implement({
     */
     capitalize: function(){
         //fix mootools implementation , supporting i18n chars such as éàè, not matched by \b
+<<<<<<< HEAD
 		//return String(this).replace(/\b[a-z]/g, function(match){
+=======
+        //return String(this).replace(/\b[a-z]/g, function(match){
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return this.replace(/(\s|^)\S/g, function(match){
             return match.toUpperCase();
         });
@@ -59,7 +73,11 @@ String.implement({
 
     Arguments:
         size - maximum length of the string, excluding the length of the elips
+<<<<<<< HEAD
         elips - (optional) replaces the truncated part (defaults to '...')
+=======
+        ellipsis - (optional) replaces the truncated part (defaults to '...')
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     Alternative
         Use css propoerty
@@ -71,9 +89,15 @@ String.implement({
     > "this is a long string".trunc(7) === "this is..."
     > "this is a long string".trunc(7,'__') === "this is__"
     */
+<<<<<<< HEAD
     trunc: function (size, elips){
 
         return this.slice(0, size-1) + ((this.length<size) ? '' : (elips||'…'));
+=======
+    trunc: function (size, ellipsis){
+
+        return this.slice(0, size-1) + ((this.length<size) ? '' : (ellipsis||'…'));
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
@@ -92,20 +116,35 @@ String.implement({
         (start code)
         //initialize the translation strings
         String.I18N = {
+<<<<<<< HEAD
             "javascript.moreInfo":"More",
             "javascript.imageInfo":"Image {0} of {1}",  //indexed parms
             "javascript.imageInfo2":Image {imgCount} of {totalCount}"   //named parms
             "javascript.curlyBraces":"Show \{Curly Braces}",  //escaped curly braces
+=======
+            "javascript.moreInfo": "More",
+            "javascript.imageInfo": "Image {0} of {1}",  //indexed parms
+            "javascript.imageInfo2": "Image {imgCount} of {totalCount}"   //named parms
+            "javascript.curlyBraces": "Show \{Curly Braces}",  //escaped curly braces
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         String.I18N.PREFIX="javascript.";
 
         "moreInfo".localize() === "More";
+<<<<<<< HEAD
         "imageInfo".localize(2,4) ===  "Image 2 of 4"
         "imageInfo2".localize({totalCount:4, imgCount:2}) === "Image 2 of 4"
         "curlyBraces".localize() === "Show {Curly Braces}"
 
         (end)
 
+=======
+        "imageInfo".localize(2, 4) ===  "Image 2 of 4"
+        "imageInfo2".localize({totalCount: 4, imgCount: 2}) === "Image 2 of 4"
+        "curlyBraces".localize() === "Show {Curly Braces}"
+
+        (end)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     */
     localize: function( params ){
 
@@ -113,12 +152,52 @@ String.implement({
 
         return ( I18N[I18N.PREFIX + this] || this ).substitute(
 
+<<<<<<< HEAD
             ( typeOf(params) == 'object' ) ? params : Array.from(arguments)
+=======
+            ( typeOf(params) == "object" ) ? params : Array.from(arguments)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         );
 
     },
 
+<<<<<<< HEAD
+=======
+
+    /*
+    Function: setHash
+        Set HASH without page jump
+
+	Example:
+	>	"here is a new hash".setHash();
+    */
+    setHash:function( ){
+
+        if( history.pushState ){
+
+            //history.pushState( state-object, title-ffs, "#" + hash );
+            history.pushState( null, "", "#" + this);
+
+        }
+
+        else {
+
+            var el = $( this ),
+                id = el && el.id;
+
+            el && el.removeAttribute( id );
+
+            location.hash = "#" + this ;
+
+            el && el.setAttribute("id", id);
+
+        }
+
+    },
+
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /*
     Function: xsubs (extended Substitute)
         Equal to substitute(), but also supports anonymous arguments.
@@ -130,13 +209,18 @@ String.implement({
     */
     xsubs: function(object, regexp){
 
+<<<<<<< HEAD
         if( typeOf(object) != 'object' ){
+=======
+        if( typeOf(object) != "object" ){
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             object = Array.from(arguments);
             regexp = null;
         }
         return this.substitute(object, regexp);
     },
 
+<<<<<<< HEAD
 	/*
 	Function:slick(props)
 		Convert css selector into a new DOM Element
@@ -149,6 +233,20 @@ String.implement({
 		return new Element(this+"", props);
 
 	},
+=======
+    /*
+    Function:slick(props)
+        Fancy DOM Element builder
+
+    Example:
+    >    "input#someID.someClass1.someClass2[disabled=true]".slick({text:"Hi"});
+    */
+    slick: function(props){
+
+        return new Element(this + "", props);
+
+    },
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /*
     Function: sliceArgs
@@ -159,7 +257,11 @@ String.implement({
         > <command>.sliceArgs( args (, regexp) );
 
     Arguments:
+<<<<<<< HEAD
         args : (string) or dom-element with classname 
+=======
+        args : (string) or dom-element with classname
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         regexp : (optional string) pattern match for the arguments, defaults (-\w+)*
 
     Example
@@ -170,6 +272,7 @@ String.implement({
     */
     sliceArgs: function(element, regexp){
 
+<<<<<<< HEAD
     	var args = element.grab /*isElement*/ ? element.className : element;
 
         if( !regexp) regexp = "(^|\\s)"+this+"(-\\w+)*(?:\\s|$)"; //default '-' separated arguments
@@ -202,3 +305,37 @@ String.implement({
 	}
 
 });
+=======
+        var args = element.grab /*isElement*/ ? element.className : element;
+
+        if( !regexp) regexp = "(?:^|\\s)("+this+"(?:-\\w+)*)(?:\\s|$)"; //default '-' separated arguments
+
+        args = args.match( regexp );
+        return args && args[1].split("-").slice(1);
+
+    },
+
+    /*
+    Function: fetchContext
+        Match an elements classname or string against one of the bootstrap contextual patterns.
+        Supported contexts: default, primary, success, info, warning, danger
+
+        Return a (string) classname to invoke the contextual colors.
+
+    Example
+    >    'panel'.fetchContext( 'accordion-danger') => 'panel panel-danger'
+    >    'panel'.fetchContext( 'commentbox-success') => 'panel panel-success'
+
+    */
+    fetchContext : function(element){
+
+        var name = element.grab /*isElement*/ ? element.className : element;
+
+        name = (name.match( /\b(default|primary|success|info|warning|danger)(\b|$)/ )||[,'default'])[1];
+
+        return this + " " + this + "-" + name ;
+
+    }
+
+});
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

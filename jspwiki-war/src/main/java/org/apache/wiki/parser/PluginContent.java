@@ -199,8 +199,15 @@ public class PluginContent extends Text {
             } else {
                 // log.info("Failed to execute plugin",e);
                 ResourceBundle rb = Preferences.getBundle(context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE);
+<<<<<<< HEAD
                 result = JSPWikiMarkupParser.makeError(
                         MessageFormat.format(rb.getString("plugin.error.insertionfailed"), e.getMessage())).getText();
+=======
+                result = MarkupParser.makeError( MessageFormat.format( rb.getString( "plugin.error.insertionfailed" ), 
+                		                                               context.getRealPage().getWiki(), 
+                		                                               context.getRealPage().getName(), 
+                		                                               e.getMessage() ) ).getText();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
         }
 
@@ -268,7 +275,11 @@ public class PluginContent extends Text {
             }
         } catch (ClassCastException e) {
             log.error("Invalid type offered in parsing plugin arguments.", e);
+<<<<<<< HEAD
             throw new InternalWikiException("Oops, someone offered !String!");
+=======
+            throw new InternalWikiException("Oops, someone offered !String!", e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         } catch (NoSuchElementException e) {
             String msg = "Missing parameter in plugin definition: " + commandline;
             log.warn(msg, e);

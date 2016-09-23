@@ -19,7 +19,19 @@
 package org.apache.wiki.plugin;
 
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 import org.apache.log4j.Logger;
 import org.apache.wiki.WikiContext;
@@ -69,7 +81,11 @@ public class WeblogArchivePlugin implements WikiPlugin
                                                 context.getURL( WikiContext.VIEW, weblogName,
                                                                 "weblog.startDate='ddMMyy'&amp;weblog.days=%d")+"'");
 
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+        StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         sb.append( "<div class=\"weblogarchive\">\n" );
         

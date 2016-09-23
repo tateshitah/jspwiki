@@ -23,6 +23,7 @@ Javascript routines to support JSPWiki UserPreferences
     PreferencesContent.jsp
     PreferencesTab.jsp
 
+<<<<<<< HEAD
     *  prefSkin:'SkinName',
     *  prefTimeZone:'TimeZone',
     *  prefTimeFormat:'DateFormat',
@@ -63,3 +64,69 @@ Wiki.once('#setCookie', function(form){
 
         });
 });
+=======
+    *  prefSkin:"SkinName",
+    *  prefTimeZone:"TimeZone",
+    *  prefTimeFormat:"DateFormat",
+    *  prefOrientation:"Orientation",
+    *  editor:"editor",
+    *  prefLanguage:"Language",
+    *  prefSectionEditing:"SectionEditing" =>checkbox "on"
+*/
+!function( wiki ){
+
+    var datapref = "*[data-pref]"; //data preference form elements
+
+    function getValue( el ){
+        return ( el.match( "[type=checkbox]" ) ? el.checked : el.value );
+    }
+
+    function windowUnload( onbeforeunload ){
+        window.onbeforeunload = onbeforeunload || function(){};
+    }
+
+    wiki.add("#preferences", function( form ){
+
+        //when leaving this pages check for changed preferences. If so, ask first.
+        windowUnload( function(){
+
+            if( form.getElements( datapref ).some( function(el){
+
+                //if(getValue(el) != el.getDefaultValue()){ console.log(el.get('data-pref'),getValue(el),el.getDefaultValue());}
+                return ( getValue(el) != el.getDefaultValue() );
+
+            }) ){ return "prefs.areyousure".localize(); }
+
+        });
+
+        //save & clear button handlers
+        //form.getElements("[name=action]").addEvent( function(event){
+        form.action[0].onclick = form.action[1].onclick = function(event){
+
+            switch( event.target.value ){
+
+                case "setAssertedName" :
+
+                    form.getElements( datapref ).each( function(el){
+
+                        wiki.prefs.set( el.get( "data-pref" ), getValue(el) );
+
+                    });
+                    break;
+
+                default :  //"clearAssertedName"
+
+                    //FFS: no need for an AreYouSure dialog ??
+                    wiki.prefs.empty();
+
+            };
+
+            //on normal submit, leave the page without asking confirmation
+            windowUnload();
+
+        };
+
+    });
+
+}(Wiki);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

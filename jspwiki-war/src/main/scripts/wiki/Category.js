@@ -51,6 +51,7 @@ DOM structure after:
 Wiki.Category = function(element, pagename, xhrURL){
 
     function poppy(event){
+<<<<<<< HEAD
     
         var popup = this.getNext();
         event.stop();
@@ -74,3 +75,28 @@ Wiki.Category = function(element, pagename, xhrURL){
     });
 
 }
+=======
+
+        var popup = this.getNext();
+        event.stop();
+        popup.swapClass("hide", "loading");
+        element.set("title", "").removeEvents();
+
+        new Request.HTML({
+            url: xhrURL, //+"?page="+pagename,
+            data: { page: decodeURIComponent(pagename) },
+            update: popup,
+            onSuccess: function(){ popup.swapClass("loading", "active"); }
+        }).send();
+    }
+
+    ["span", ["div.popup.hide"]].slick().wraps(element, "top");
+
+    element.set({
+        "class": "category-link",
+        title: "category.title".localize( pagename ),
+        events: { click: poppy }
+    });
+
+};
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

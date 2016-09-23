@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* 
+=======
+/*
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -14,7 +18,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.ui;
 
@@ -104,7 +112,11 @@ public final class InputValidator
         if ( isBlank( input ) )
         {
             ResourceBundle rb = Preferences.getBundle( m_context, InternationalizationManager.CORE_BUNDLE );
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.cantbenull"),
                                                                 label ) );
             return false;
@@ -143,9 +155,16 @@ public final class InputValidator
             valid = !matcher.find();
             if ( !valid )
             {
+<<<<<<< HEAD
                 Object[] args = { label, "&quot;&#39;&lt;&gt;;&amp;[]#\\@{}%$" };
                 m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.unsafechars"),
                                                                     args ) );
+=======
+                //MessageTag already invokes replaceEntities()
+                //Object[] args = { label, "&quot;&#39;&lt;&gt;;&amp;[]#\\@{}%$" };
+                Object[] args = { label, "\'\"<>;&[]#\\@{}%$" };
+                m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.unsafechars"), args ) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             return valid;
         case EMAIL:
@@ -154,8 +173,12 @@ public final class InputValidator
             if ( !valid )
             {
                 Object[] args = { label };
+<<<<<<< HEAD
                 m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.invalidemail"),
                                                                     args ) );
+=======
+                m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.invalidemail"), args ) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             return valid;
         case ID:
@@ -163,9 +186,16 @@ public final class InputValidator
             valid = !matcher.find();
             if ( !valid )
             {
+<<<<<<< HEAD
                 Object[] args = { label, "&quot;&#39;&lt;&gt;;&amp;{}" };
                 m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.unsafechars"),
                                                                     args ) );
+=======
+                //MessageTag already invokes replaceEntities()
+                //Object[] args = { label, "&quot;&#39;&lt;&gt;;&amp;{}" };
+                Object[] args = { label, "\'\"<>;&{}" };
+                m_session.addMessage( m_form, MessageFormat.format( rb.getString("validate.unsafechars"), args ) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             return valid;
          default:

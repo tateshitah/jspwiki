@@ -20,6 +20,10 @@
 package org.apache.wiki.plugin;
 
 import org.apache.commons.lang.ClassUtils;
+<<<<<<< HEAD
+=======
+import org.apache.commons.lang.StringUtils;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.log4j.Logger;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.MatchResult;
@@ -31,6 +35,11 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.apache.wiki.InternalWikiException;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.ajax.WikiAjaxDispatcherServlet;
+import org.apache.wiki.ajax.WikiAjaxServlet;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.engine.PluginManager;
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.plugin.InitializablePlugin;
@@ -65,6 +74,11 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
+<<<<<<< HEAD
+=======
+import javax.servlet.http.HttpServlet;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  *  Manages plugin classes.  There exists a single instance of PluginManager
  *  per each instance of WikiEngine, that is, each JSPWiki instance.
@@ -219,7 +233,11 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
             m_pluginPattern = compiler.compile( PLUGIN_INSERT_PATTERN );
         } catch( MalformedPatternException e ) {
             log.fatal( "Internal error: someone messed with pluginmanager patterns.", e );
+<<<<<<< HEAD
             throw new InternalWikiException( "PluginManager patterns are broken" );
+=======
+            throw new InternalWikiException( "PluginManager patterns are broken" , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
     }
@@ -543,7 +561,11 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
             m_pluginClassMap.put( name, pluginClass );
         }
 
+<<<<<<< HEAD
         pluginClass.initializePlugin( m_engine , m_searchPath, m_externalJars);
+=======
+        pluginClass.initializePlugin( pluginClass, m_engine , m_searchPath, m_externalJars);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     private void registerPlugins() {
@@ -577,6 +599,10 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
     	
         private String    m_className;
         private String    m_alias;
+<<<<<<< HEAD
+=======
+        private String    m_ajaxAlias;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         private Class<?>  m_clazz;
 
         private boolean m_initialized = false;
@@ -601,12 +627,21 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
         
         /**
          *  Initializes a plugin, if it has not yet been initialized.
+<<<<<<< HEAD
+=======
+         *  If the plugin extends {@link HttpServlet} it will automatically 
+         *  register it as AJAX using {@link WikiAjaxDispatcherServlet.register}.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
          *
          *  @param engine The WikiEngine
          *  @param searchPath A List of Strings, containing different package names.
          *  @param externalJars the list of external jars to search
          */
+<<<<<<< HEAD
         protected void initializePlugin( WikiEngine engine , List<String> searchPath, List<String> externalJars) {
+=======
+        protected void initializePlugin( WikiPluginInfo info, WikiEngine engine , List<String> searchPath, List<String> externalJars) {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             if( !m_initialized ) {
                 // This makes sure we only try once per class, even if init fails.
                 m_initialized = true;
@@ -616,6 +651,16 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
                     if( p instanceof InitializablePlugin ) {
                         ( ( InitializablePlugin )p ).initialize( engine );
                     }
+<<<<<<< HEAD
+=======
+                    if( p instanceof WikiAjaxServlet ) {
+                    	WikiAjaxDispatcherServlet.registerServlet( (WikiAjaxServlet) p );
+                    	String ajaxAlias = info.getAjaxAlias();
+                    	if (StringUtils.isNotBlank(ajaxAlias)) {
+                    		WikiAjaxDispatcherServlet.registerServlet( info.getAjaxAlias(), (WikiAjaxServlet) p );
+                    	}
+                    }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 } catch( Exception e ) {
                     log.info( "Cannot initialize plugin " + m_className, e );
                 }
@@ -629,6 +674,10 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
         protected void initializeFromXML( Element el ) {
             super.initializeFromXML( el );
             m_alias = el.getChildText( "alias" );
+<<<<<<< HEAD
+=======
+            m_ajaxAlias = el.getChildText( "ajaxAlias" );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         /**
@@ -666,6 +715,17 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
         public String getAlias() {
             return m_alias;
         }
+<<<<<<< HEAD
+=======
+        
+        /**
+         *  Returns the ajax alias name for this object.
+         *  @return An ajax alias name for the plugin.
+         */
+        public String getAjaxAlias() {
+            return m_ajaxAlias;
+        }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         /**
          *  Creates a new plugin instance.
@@ -761,6 +821,10 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
     /**
      *  {@inheritDoc}
      */
+<<<<<<< HEAD
+=======
+    @Override
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public Collection< WikiModuleInfo > modules() {
         Set< WikiModuleInfo > ls = new TreeSet< WikiModuleInfo >();
         
@@ -771,6 +835,17 @@ public class DefaultPluginManager extends ModuleManager implements PluginManager
         
         return ls;
     }
+<<<<<<< HEAD
+=======
+    
+    /**
+     *  {@inheritDoc}
+     */
+    @Override
+    public WikiPluginInfo getModuleInfo(String moduleName) {
+        return m_pluginClassMap.get(moduleName);
+    }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /**
      * Creates a {@link WikiPlugin}.

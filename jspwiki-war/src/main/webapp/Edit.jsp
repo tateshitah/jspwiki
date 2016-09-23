@@ -263,6 +263,10 @@
 
     log.info("Editing page "+pagereq+". User="+user+", host="+HttpUtil.getRemoteAddress(request) );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     //
     //  Determine and store the date the latest version was changed.  Since
     //  the newest version is the one that is changed, we need to track

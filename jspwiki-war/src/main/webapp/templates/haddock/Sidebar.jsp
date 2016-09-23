@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -25,6 +29,7 @@
 <%@ page import="org.apache.wiki.*" %>
 
 <div class="sidebar">
+<<<<<<< HEAD
   <button class="close" type="button">&times;</button>
 
   <%-- move this to the LeftMenu
@@ -41,6 +46,12 @@
   <wiki:Permission permission="view">
 
   <%-- LeftMenu is automatically generated from a Wiki page called "LeftMenu" --%>
+=======
+  <%--<button class="close" type="button">&times;</button>--%>
+
+  <wiki:Permission permission="view">
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <div class="leftmenu">
     <wiki:InsertPage page="LeftMenu" />
     <wiki:NoSuchPage page="LeftMenu">
@@ -51,7 +62,11 @@
       </div>
     </wiki:NoSuchPage>
   </div>
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <div class="leftmenufooter">
     <wiki:InsertPage page="LeftMenuFooter" />
     <wiki:NoSuchPage page="LeftMenuFooter">
@@ -65,8 +80,13 @@
 
   </wiki:Permission>
 
+<<<<<<< HEAD
   <div class="wikiversion"><%=Release.APPNAME%> v<%=Release.getVersionString()%>
     <wiki:RSSImageLink title='<%=LocaleSupport.getLocalizedMessage(pageContext,"fav.aggregatewiki.title")%>' />
   </div>  
   
+=======
+  <div class="wikiversion"><%=Release.APPNAME%> v<wiki:Variable var="jspwikiversion" /> <wiki:RSSImageLink title='<%=LocaleSupport.getLocalizedMessage(pageContext,"fav.aggregatewiki.title")%>' /></div>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </div>

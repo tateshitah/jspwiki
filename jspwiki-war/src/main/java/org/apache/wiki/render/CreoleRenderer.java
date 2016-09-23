@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+<<<<<<< HEAD
 import org.jdom2.Content;
 import org.jdom2.Element;
 import org.jdom2.Text;
@@ -30,6 +31,14 @@ import org.jdom2.Text;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.parser.PluginContent;
 import org.apache.wiki.parser.WikiDocument;
+=======
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.parser.PluginContent;
+import org.apache.wiki.parser.WikiDocument;
+import org.jdom2.Content;
+import org.jdom2.Element;
+import org.jdom2.Text;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  *  Implements DOM-to-Creole rendering.
@@ -89,11 +98,19 @@ public class CreoleRenderer extends WikiRenderer
     }
     
     /**
+<<<<<<< HEAD
      * Renders an element into the StringBuffer given
      * @param ce
      * @param sb
      */
     private void renderElement( Element ce, StringBuffer sb )
+=======
+     * Renders an element into the StringBuilder given
+     * @param ce
+     * @param sb
+     */
+    private void renderElement( Element ce, StringBuilder sb )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     {
         String endEl = EMPTY_STRING;
         for( int i = 0; i < ELEMENTS.length; i+=3 )
@@ -193,7 +210,11 @@ public class CreoleRenderer extends WikiRenderer
      */
     public String getString() throws IOException
     {
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer(1000);
+=======
+    	StringBuilder sb = new StringBuilder(1000);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         Element ce = m_document.getRootElement();
         

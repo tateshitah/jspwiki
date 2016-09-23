@@ -14,21 +14,35 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
+=======
+    under the License.
+--%>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ page import="org.apache.wiki.*" %>
 <%@ page import="org.apache.wiki.auth.*" %>
 <%@ page import="org.apache.wiki.ui.progress.*" %>
 <%@ page import="org.apache.wiki.auth.permissions.*" %>
 <%@ page import="java.security.Permission" %>
+<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+=======
+<%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
 <%
   int MAXATTACHNAMELENGTH = 30;
   WikiContext c = WikiContext.findContext(pageContext);
+<<<<<<< HEAD
   String progressId = c.getEngine().getProgressManager().getNewProgressIdentifier();
 %>
 
@@ -37,10 +51,20 @@
 
   <form action="<wiki:Link jsp='attach' format='url' absolute='true'><wiki:Param name='progressid' value='<%=progressId%>'/></wiki:Link>"
          class="accordion-close"
+=======
+%>
+<c:set var="progressId" value="<%= c.getEngine().getProgressManager().getNewProgressIdentifier() %>" />
+<div class="page-content">
+<wiki:Permission permission="upload">
+
+  <form action="<wiki:Link jsp='attach' format='url' absolute='true'><wiki:Param name='progressid' value='${progressId}'/></wiki:Link>"
+         class="accordion<wiki:HasAttachments>-close</wiki:HasAttachments>"
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             id="uploadform"
         method="post"
        enctype="multipart/form-data" accept-charset="<wiki:ContentEncoding/>" >
 
+<<<<<<< HEAD
 
     <h4><fmt:message key="attach.add"/></h4>
     <wiki:Messages div="alert alert-danger" />
@@ -48,15 +72,32 @@
     <%--
     <p><fmt:message key="attach.add.info" /></p>
     --%>
+=======
+    <h4><fmt:message key="attach.add"/></h4>
+    <input type="hidden" name="nextpage" value="<wiki:Link context='upload' format='url'/>" />
+    <input type="hidden" name="page" value="<wiki:Variable var="pagename"/>" />
+    <input type="hidden" name="action" value="upload" />
+
+    <wiki:Messages div="alert alert-danger" />
+
+    <%-- <p><fmt:message key="attach.add.info" /></p> --%>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <div class="form-group">
       <label class="control-label form-col-20" for="files"><fmt:message key="attach.add.selectfile"/></label>
 
       <ul class="list-group form-col-50">
         <li class="list-group-item droppable">
+<<<<<<< HEAD
           <label>Select files <%--or drop them here!--%></label>
           <input type="file" name="files" id="files" size="60"/>
           <a class="hidden delete btn btn-danger btn-xs pull-right">Delete</a>
         </li> 
+=======
+          <a class="hidden delete btn btn-danger btn-xs pull-right">Delete</a>
+          <label>Select files <span class='canDragAndDrop'>or drop them here!</span></label>
+          <input type="file" name="files" id="files" size="60" multiple="multiple"/>
+        </li>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       </ul>
     </div>
     <div class="form-group">
@@ -64,6 +105,7 @@
       <input class="form-control form-col-50" type="text" name="changenote" id="changenote" maxlength="80" size="60" />
     </div>
     <div class="form-group">
+<<<<<<< HEAD
     <input type="hidden" name="nextpage" value="<wiki:Link context='upload' format='url'/>" />
     <input type="hidden" name="page" value="<wiki:Variable var="pagename"/>" />
     <input class="btn btn-primary form-col-offset-20 form-col-50" 
@@ -72,6 +114,13 @@
     </div>
     <div class="hidden form-col-offset-20 form-col-80 progress progress-striped active">
       <div class="progress-bar" data-progressid="<%=progressId%>" style="width: 100%;"></div>
+=======
+      <input class="btn btn-success form-col-offset-20 form-col-50"
+             type="submit" name="upload" id="upload" disabled="disabled" value="<fmt:message key='attach.add.submit'/>" />
+    </div>
+    <div class="hidden form-col-offset-20 form-col-50 progress progress-striped active">
+      <div class="progress-bar" data-progressid="${progressId}" style="width: 100%;"></div>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     </div>
 
   </form>
@@ -80,7 +129,10 @@
   <div class="warning"><fmt:message key="attach.add.permission"/></div>
 </wiki:Permission>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <wiki:HasAttachments>
 
 <%--<h3><fmt:message key="attach.list"/></h3>--%>
@@ -89,6 +141,7 @@
     <%-- hidden delete form --%>
     <form action="tbd"
            class="hidden"
+<<<<<<< HEAD
               id="deleteForm"
           method="post" accept-charset="<wiki:ContentEncoding />"
         onsubmit="return(confirm('<fmt:message key="attach.deleteconfirm"/>') );" >
@@ -97,10 +150,23 @@
       <input type="hidden" name="nextpage" value="<wiki:Link context='upload' format='url'/>" />
       --%>
       <input class="btn btn-danger btn-xs" id="delete-all" name="delete-all" type="submit" value="Delete" />
+=======
+            name="deleteForm" id="deleteForm"
+          method="post" accept-charset="<wiki:ContentEncoding />" >
+
+      <%--TODO: "nextpage" is not yet implemented in Delete.jsp
+      --%>
+      <input type="hidden" name="nextpage" value="<wiki:Link context='upload' format='url'/>" />
+      <input id="delete-all" name="delete-all" type="submit"
+        data-modal="+ .modal"
+             value="Delete" />
+      <div class="modal"><fmt:message key='attach.deleteconfirm'/></div>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     </form>
   </wiki:Permission>
 
+<<<<<<< HEAD
   <div class="slimbox-attachments sortable table-filter-hover-sort table-filter">
   <table class="table">
     <tr>
@@ -111,10 +177,23 @@
       <th><fmt:message key="info.date"/></th>
       <th><fmt:message key="info.author"/></th>
       <wiki:Permission permission="delete"><th><fmt:message key="info.actions"/></th></wiki:Permission>
+=======
+  <div class="slimbox-attachments table-filter-striped-sort-condensed">
+  <table class="table">
+    <tr>
+      <th><fmt:message key="info.attachment.name"/></th>
+      <th><fmt:message key="info.version"/></th>
+      <th><fmt:message key="info.date"/></th>
+      <th><fmt:message key="info.size"/></th>
+      <th><fmt:message key="info.attachment.type"/></th>
+      <th><fmt:message key="info.author"/></th>
+      <th><fmt:message key="info.actions"/></th>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <th><fmt:message key="info.changenote"/></th>
     </tr>
 
     <wiki:AttachmentsIterator id="att">
+<<<<<<< HEAD
     <%
       String name = att.getFileName();
       int dot = name.lastIndexOf(".");
@@ -150,6 +229,47 @@
            <% String changenote = (String) att.getAttribute( WikiPage.CHANGENOTE );  %>
 		   <%= (changenote==null) ? "" : changenote  %>
       </td>
+=======
+    <tr>
+
+      <%-- see styles/fontjspwiki/icon.less : icon-file-<....>-o  --%>
+      <c:set var="parts" value="${fn:split(att.fileName, '.')}" />
+      <c:set var="type" value="${ fn:length(parts)>1 ? parts[fn:length(parts)-1] : ''}" />
+
+      <td class="attach-name" title="${att.fileName}"><wiki:LinkTo>${att.fileName}</wiki:LinkTo></td>
+
+      <td><wiki:PageVersion /></td>
+
+      <td class="nowrap" data-sortvalue="${att.lastModified.time}">
+        <fmt:formatDate value="${att.lastModified}" pattern="${prefs.DateFormat}" timeZone="${prefs.TimeZone}" />
+      </td>
+
+      <td class="nowrap" title="${att.size} bytes">
+        <%-- <fmt:formatNumber value='${att.size/1024.0}' maxFractionDigits='1' minFractionDigits='1'/>&nbsp;<fmt:message key="info.kilobytes"/> --%>
+        <%= org.apache.commons.io.FileUtils.byteCountToDisplaySize( att.getSize() ) %>
+      </td>
+
+      <td class="attach-type"><span class="icon-file-${fn:toLowerCase(type)}-o"></span>${type}</td>
+
+      <td><wiki:Author /></td>
+
+      <td class="nowrap">
+        <a class="btn btn-primary btn-xs" href="<wiki:Link context='info' format='url'/>" title="<fmt:message key='attach.moreinfo.title'/>">
+          <fmt:message key="attach.moreinfo"/>
+        </a>
+        <wiki:Permission permission="delete">
+          <input type="button"
+                class="btn btn-danger btn-xs"
+                value="<fmt:message key='attach.delete'/>"
+                  src="<wiki:Link format='url' context='<%=WikiContext.DELETE%>' ><wiki:Param name='tab' value='attach' /></wiki:Link>"
+              onclick="document.deleteForm.action=this.src; document.deleteForm['delete-all'].click();" />
+        </wiki:Permission>
+      </td>
+
+      <c:set var="changenote" value="<%= (String)att.getAttribute( WikiPage.CHANGENOTE ) %>" />
+      <td class="changenote">${changenote}</td>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     </tr>
     </wiki:AttachmentsIterator>
 

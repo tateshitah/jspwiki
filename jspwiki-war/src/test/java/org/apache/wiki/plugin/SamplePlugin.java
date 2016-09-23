@@ -38,15 +38,25 @@ public class SamplePlugin implements WikiPlugin, ParserStagePlugin {
     protected static boolean c_rendered = false;
     
     public String execute( WikiContext context, Map< String, String > params ) throws PluginException {
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
 
         String text = (String) params.get("text");
+=======
+    	StringBuilder sb = new StringBuilder();
+
+        String text = params.get("text");
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         if( text != null ) {
             sb.append( text );
         }
 
+<<<<<<< HEAD
         String body = (String)params.get("_body");
+=======
+        String body = params.get("_body");
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( body != null ) {
             sb.append( " ("+body.replace('\n','+')+")" );
         }

@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ page import="org.apache.log4j.*" %>
@@ -23,12 +27,20 @@
 <%@ page import="org.apache.wiki.tags.BreadcrumbsTag" %>
 <%@ page import="org.apache.wiki.tags.BreadcrumbsTag.FixedQueue" %>
 <%@ page import="java.util.*" %>
+<<<<<<< HEAD
+=======
+<%@ page import="org.apache.wiki.util.TextUtil" %>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ page import="org.apache.wiki.attachment.Attachment" %>
 <%@ page import="org.apache.wiki.preferences.Preferences" %>
 <%@ page errorPage="/Error.jsp" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 
+<<<<<<< HEAD
 <%! 
+=======
+<%!
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Logger log = Logger.getLogger("JSPWiki");
 %>
 
@@ -69,12 +81,17 @@
             session.setAttribute( BreadcrumbsTag.BREADCRUMBTRAIL_KEY, trail );
         }
 
+<<<<<<< HEAD
         response.sendRedirect(wiki.getURL( WikiContext.INFO, redirTo, null, false ));
+=======
+        response.sendRedirect( TextUtil.replaceString( wiki.getURL( WikiContext.VIEW, redirTo, "tab="+request.getParameter("tab"), false ),"&amp;","&" ));
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return;
     }
     else if( delete != null )
     {
         log.info("Deleting a range of pages from "+pagereq);
+<<<<<<< HEAD
         
         for( Enumeration params = request.getParameterNames(); params.hasMoreElements(); )
         {
@@ -86,13 +103,40 @@
                 
                 WikiPage p = wiki.getPage( pagereq, version );
                 
+=======
+
+        for( Enumeration params = request.getParameterNames(); params.hasMoreElements(); )
+        {
+            String paramName = (String)params.nextElement();
+
+            if( paramName.startsWith("delver") )
+            {
+                int version = Integer.parseInt( paramName.substring(7) );
+
+                WikiPage p = wiki.getPage( pagereq, version );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 log.debug("Deleting version "+version);
                 wiki.deleteVersion( p );
             }
         }
+<<<<<<< HEAD
         
         response.sendRedirect(wiki.getURL( WikiContext.INFO, redirTo, null, false ));
         return; 
+=======
+
+        response.sendRedirect(
+            TextUtil.replaceString(
+                wiki.getURL(
+                    WikiContext.VIEW, redirTo, "tab="+request.getParameter("tab"), false
+                ),"&amp;","&"
+            )
+        );
+
+
+        return;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     // Set the content type and include the response content

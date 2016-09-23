@@ -55,6 +55,12 @@ public final class XhtmlUtil {
 	
     private XhtmlUtil() {}
     
+<<<<<<< HEAD
+=======
+    /** to print <td></td> instead of <td /> */
+    public static final Format EXPAND_EMPTY_NODES = Format.getCompactFormat().setExpandEmptyElements( true );
+    
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  Serializes the Element to a String using a compact serialization format.
      *  

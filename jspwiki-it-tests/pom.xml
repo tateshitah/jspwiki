@@ -22,7 +22,11 @@
   <parent>
     <groupId>org.apache.jspwiki</groupId>
     <artifactId>jspwiki-builder</artifactId>
+<<<<<<< HEAD
     <version>2.10.1</version>
+=======
+    <version>2.10.3-SNAPSHOT</version>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   </parent>
   
   <groupId>org.apache.jspwiki.it</groupId>
@@ -133,7 +137,10 @@
           <plugin>
             <groupId>org.apache.tomcat.maven</groupId>
             <artifactId>tomcat7-maven-plugin</artifactId>
+<<<<<<< HEAD
             <version>2.1</version>
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             <executions>
               <execution>
                 <id>tomcat-run</id>

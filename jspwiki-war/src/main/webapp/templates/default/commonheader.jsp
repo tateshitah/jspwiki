@@ -38,7 +38,11 @@
    can be included).
 --%>
 <%-- CSS stylesheet --%>
+<<<<<<< HEAD
 <link rel="stylesheet" media="screen, projection, print" type="text/css"
+=======
+<link rel="stylesheet" media="screen, projection, print" type="text/css"  id="main-stylesheet"
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      href="<wiki:Link format='url' templatefile='jspwiki.css'/>"/>
 <%-- put this at the top, to avoid double load when not yet cached --%>
 <link rel="stylesheet" type="text/css" media="print"
@@ -67,7 +71,11 @@
 <meta name="wikiBaseUrl" content='<wiki:BaseURL />' />
 <meta name="wikiPageUrl" content='<wiki:Link format="url"  page="#$%"/>' />
 <meta name="wikiEditUrl" content='<wiki:EditLink format="url" />' />
+<<<<<<< HEAD
 <meta name="wikiJsonUrl" content='<%=  WikiContext.findContext(pageContext).getURL( WikiContext.NONE, "JSON-RPC" ) %>' /><%--unusual pagename--%>
+=======
+<meta name="wikiJsonUrl" content='<%=  WikiContext.findContext(pageContext).getURL( WikiContext.NONE, "ajax" ) %>' /><%--unusual pagename--%>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <meta name="wikiPageName" content='<wiki:Variable var="pagename" />' /><%--pagename without blanks--%>
 <meta name="wikiUserName" content='<wiki:UserName />' />
 <meta name="wikiTemplateUrl" content='<wiki:Link format="url" templatefile="" />' />

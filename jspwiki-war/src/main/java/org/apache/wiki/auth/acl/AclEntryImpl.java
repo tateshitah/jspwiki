@@ -141,7 +141,11 @@ public class AclEntryImpl implements AclEntry, Serializable
      */
     public String toString()
     {
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+    	StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         Principal p = getPrincipal();
 

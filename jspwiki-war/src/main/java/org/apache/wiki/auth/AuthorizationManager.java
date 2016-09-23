@@ -62,7 +62,10 @@ import org.apache.wiki.preferences.Preferences;
 import org.apache.wiki.tags.WikiTagBase;
 import org.apache.wiki.util.ClassUtil;
 import org.freshcookies.security.policy.LocalPolicy;
+<<<<<<< HEAD
 import org.freshcookies.security.policy.PolicyException;
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  * <p>Manages all access control and authorization; determines what authenticated
@@ -124,8 +127,11 @@ public class AuthorizationManager {
 
     private LocalPolicy                       m_localPolicy     = null;
 
+<<<<<<< HEAD
     private boolean                           m_useJAAS         = true;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      * Constructs a new AuthorizationManager instance.
      */
@@ -178,6 +184,7 @@ public class AuthorizationManager {
      */
     public boolean checkPermission( WikiSession session, Permission permission )
     {
+<<<<<<< HEAD
         if( !m_useJAAS )
         {
             //
@@ -190,6 +197,8 @@ public class AuthorizationManager {
             return true;
         }
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         //
         //  A slight sanity check.
         //
@@ -473,15 +482,21 @@ public class AuthorizationManager {
      * @param properties the set of properties used to initialize the wiki engine
      * @throws WikiException if the AuthorizationManager cannot be initialized
      */
+<<<<<<< HEAD
     @SuppressWarnings("deprecation")
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void initialize( WikiEngine engine, Properties properties ) throws WikiException
     {
         m_engine = engine;
 
+<<<<<<< HEAD
         m_useJAAS = AuthenticationManager.SECURITY_JAAS.equals( properties.getProperty(AuthenticationManager.PROP_SECURITY, AuthenticationManager.SECURITY_JAAS ) );
 
         if( !m_useJAAS ) return;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         //
         //  JAAS authorization continues
         //
@@ -496,7 +511,11 @@ public class AuthorizationManager {
             
             if (policyURL != null) 
             {
+<<<<<<< HEAD
                 File policyFile = new File( policyURL.getPath() );
+=======
+                File policyFile = new File( policyURL.toURI().getPath() );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 log.info("We found security policy URL: " + policyURL + " and transformed it to file " + policyFile.getAbsolutePath());
                 m_localPolicy = new LocalPolicy( policyFile, engine.getContentEncoding() );
                 m_localPolicy.refresh();
@@ -504,6 +523,7 @@ public class AuthorizationManager {
             }
             else
             {
+<<<<<<< HEAD
                 StringBuffer sb = new StringBuffer( "JSPWiki was unable to initialize the " );
                 sb.append( "default security policy (WEB-INF/jspwiki.policy) file. " );
                 sb.append( "Please ensure that the jspwiki.policy file exists in the default location. " );
@@ -515,6 +535,18 @@ public class AuthorizationManager {
             }
         }
         catch ( PolicyException e )
+=======
+                String sb = "JSPWiki was unable to initialize the default security policy (WEB-INF/jspwiki.policy) file. " + 
+                            "Please ensure that the jspwiki.policy file exists in the default location. " + 
+                		    "This file should exist regardless of the existance of a global policy file. " +
+                            "The global policy file is identified by the java.security.policy variable. ";
+                WikiSecurityException wse = new WikiSecurityException( sb );
+                log.fatal( sb, wse );
+                throw wse;
+            }
+        }
+        catch ( Exception e)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         {
             log.error("Could not initialize local security policy: " + e.getMessage() );
             throw new WikiException( "Could not initialize local security policy: " + e.getMessage(), e );
@@ -525,10 +557,19 @@ public class AuthorizationManager {
      * Returns <code>true</code> if JSPWiki's JAAS authorization system
      * is used for authorization in addition to container controls.
      * @return the result
+<<<<<<< HEAD
      */
     protected boolean isJAASAuthorized()
     {
         return m_useJAAS;
+=======
+     * @deprecated functionality deprecated - returns true always. To be removed on 2.11.0
+     */
+    @Deprecated
+    protected boolean isJAASAuthorized()
+    {
+        return true;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -628,8 +669,11 @@ public class AuthorizationManager {
      */
     protected boolean checkStaticPermission( final WikiSession session, final Permission permission )
     {
+<<<<<<< HEAD
         if( !m_useJAAS ) return true;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         Boolean allowed = (Boolean) WikiSession.doPrivileged( session, new PrivilegedAction<Boolean>()
         {
             public Boolean run()
@@ -681,11 +725,14 @@ public class AuthorizationManager {
      */
     public Principal resolvePrincipal( String name )
     {
+<<<<<<< HEAD
         if( !m_useJAAS )
         {
             return new UnresolvedPrincipal(name);
         }
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Check built-in Roles first
         Role role = new Role(name);
         if ( Role.isBuiltInRole( role ) )

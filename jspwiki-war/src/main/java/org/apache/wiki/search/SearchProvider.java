@@ -21,6 +21,10 @@ package org.apache.wiki.search;
 import java.io.IOException;
 import java.util.Collection;
 
+<<<<<<< HEAD
+=======
+import org.apache.wiki.WikiContext;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.WikiProvider;
 import org.apache.wiki.api.exceptions.ProviderException;
@@ -50,9 +54,17 @@ public interface SearchProvider extends WikiProvider
     /**
      * Search for pages matching a search query
      * @param query query to search for
+<<<<<<< HEAD
+=======
+     * @param wikiContext the context within which to run the search
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @return collection of pages that match query
      * @throws ProviderException if the search provider failed.
      * @throws IOException if for some reason the query could not be executed.
      */
+<<<<<<< HEAD
     Collection findPages(String query) throws ProviderException, IOException;
+=======
+    Collection findPages(String query, WikiContext wikiContext) throws ProviderException, IOException;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }

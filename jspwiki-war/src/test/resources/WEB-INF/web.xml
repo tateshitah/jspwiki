@@ -86,10 +86,13 @@
        <url-pattern>/RPC2/</url-pattern>
    </filter-mapping>
    <filter-mapping>
+<<<<<<< HEAD
        <filter-name>WikiServletFilter</filter-name>
        <url-pattern>/JSON-RPC</url-pattern>
    </filter-mapping> 
    <filter-mapping>
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        <filter-name>WikiJSPFilter</filter-name>
        <url-pattern>/wiki/*</url-pattern>
    </filter-mapping>
@@ -142,12 +145,22 @@
            <param-value>wiki</param-value>
        </init-param>
    </servlet>
+<<<<<<< HEAD
 
    <!-- JSON AJAX API -->
    <servlet>
        <servlet-name>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-name>
        <servlet-class>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-class>
    </servlet>
+=======
+   
+    <!-- WikiAjaxDispatcherServlet -->
+    <servlet>
+        <servlet-name>WikiAjaxDispatcherServlet</servlet-name>
+        <servlet-class>org.apache.wiki.ajax.WikiAjaxDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
    <!-- Atom Publishing Protocol -->
    <servlet>
@@ -211,10 +224,18 @@
    </servlet-mapping>
    
    <servlet-mapping>
+<<<<<<< HEAD
        <servlet-name>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-name>
        <url-pattern>/JSON-RPC</url-pattern>
    </servlet-mapping>
 
+=======
+       <servlet-name>WikiAjaxDispatcherServlet</servlet-name>
+       <url-pattern>/ajax/*</url-pattern>
+       <url-pattern>/admin/ajax/*</url-pattern>
+   </servlet-mapping>
+    
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <!-- This means that we don't have to use redirection
         from index.html anymore.  Yay! -->
    <welcome-file-list>

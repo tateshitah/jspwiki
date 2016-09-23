@@ -20,6 +20,7 @@
 */
 /*
 Class: Wiki.Edit
+<<<<<<< HEAD
     The WikiEdit class implements the JSPWiki's specific editor, with support
     for JSPWIki's markup, suggestion popups, ajax based page preview, etc...
 
@@ -80,10 +81,70 @@ wiki.add('#editform', function( element ){
 
     })
     
+=======
+    Wiki.Edit implements the JSPWiki plain editor, with support
+    for JSPWIki's markup, suggestion popups, ajax based page preview, etc...
+
+    It uses an enhanced textarea based on the [Snipe] class.
+*/
+
+/*eslint-env browser*/
+/*global Wiki, Snipe, Request */
+
+!function( wiki ){
+
+var editform,
+    textarea,
+    snipe,
+    preview,
+    previewcache,
+    isLivePreview,
+    sectionsDropDown;
+
+wiki.add("#editform", function( element ){
+
+    editform = element;
+    textarea = getFormElement(".editor");
+    preview = getFormElement(".ajaxpreview");
+    isLivePreview = getFormElement("[data-cmd=livepreview]") || {};
+
+    onbeforeunload( );
+
+    if(!textarea) return;
+
+    snipe = new Snipe( textarea, {
+
+        container: editform,
+        undoBtns: {
+            undo: getFormElement("[data-cmd=undo]"),
+            redo: getFormElement("[data-cmd=redo]")
+        },
+        snippets: wiki.Snips,
+        directsnips: wiki.DirectSnips,
+        onChange: livepreview.debounce(500)
+
+    });
+
+    if( sectionsDropDown = getFormElement(".sections") ){
+
+        new Snipe.Sections( sectionsDropDown, {
+           snipe: snipe,
+           parser: jspwikiSectionParser  //callback
+        });
+    }
+
+    wiki.configPrefs( editform, function(cmd, isChecked){
+        snipe.set(cmd, isChecked); //and snipe will fire the change event
+    });
+
+    wiki.resizer( snipe.toElement(), function(h){ preview.setStyle("height", h); });
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 });
 
 
     /*
+<<<<<<< HEAD
     Function: onbeforeunload
         Install an onbeforeunload handler, which is called ''before'' the page unloads.
         The user gets a warning in case the textarea was changed, without saving.
@@ -150,10 +211,50 @@ wiki.add('#editform', function( element ){
 
 
     /*
+=======
+    Function: getFormElement
+        Helper function : lookup first matching descendant DOM element from the editform
+    */
+    function getFormElement( selector ){
+
+        return editform.getElement( selector );
+
+    }
+
+    /*
+    Function: onbeforeunload
+        Install an onbeforeunload handler, which is called ""before"" the page unloads.
+        The user gets a warning in case the textarea was changed, without saving.
+
+        The onbeforeunload handler then gets removed on regular exit of the page.
+
+        wiki.editOBU(textarea);
+
+    */
+    function onbeforeunload( ){
+
+        window.onbeforeunload = function(){
+
+            if( textarea.value != textarea.defaultValue ){
+
+                return "edit.areyousure".localize();
+
+            }
+        };
+
+        editform.addEvent("submit", function(){
+            window.onbeforeunload = null;
+        });
+    }
+
+
+   /*
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Function: livepreview
         Linked as onChange handler to the SnipEditor.
         Make AJAX call to the backend to convert the contents of the textarea
         (wiki markup) to HTML.
+<<<<<<< HEAD
         FIXME: should work bothways. wysiwyg <-> wikimarkup
 
     */
@@ -164,16 +265,41 @@ wiki.add('#editform', function( element ){
         if( !$('livepreview').checked ){
 
             //clean preview area
+=======
+        TODO: should work bothways. wysiwyg <-> wikimarkup
+
+    */
+    function livepreview( ){
+
+        var text = snipe.toElement().get("value"),
+            loading = "loading";
+
+        console.log("**** change event", new Date().getSeconds() );
+
+        if( !isLivePreview.checked ){
+
+            //cleanup the preview area
+            console.log("cleanup");
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             if( previewcache ){
                 preview.empty();
                 previewcache = null;
             }
 
+<<<<<<< HEAD
         } else if( previewcache != text.length ){
 
             previewcache = text.length;
             //return preview.set('html',preview.get('html')+' Lorem ipsum'); //test code
 
+=======
+        } else if( previewcache != text ){
+
+            previewcache = text;
+            //return preview.set("html",preview.get("html")+" Lorem ipsum"); //test code
+
+            //console.log("**** invoke Request.HTML ",previewcache, wiki.XHRPreview)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             new Request.HTML({
                 url: wiki.XHRPreview,
                 data: {
@@ -181,6 +307,7 @@ wiki.add('#editform', function( element ){
                     wikimarkup: text
                 },
                 update: preview,
+<<<<<<< HEAD
                 onRequest: function(){ preview.addClass('loading'); },
                 onComplete: function(){ 
                     preview.removeClass('loading'); 
@@ -233,10 +360,21 @@ wiki.add('#editform', function( element ){
             }
         
             snipe.set(cmd, state).fireEvent('change');
+=======
+                onRequest: function(){ preview.addClass(loading); },
+                onComplete: function(){
+
+                    preview.removeClass(loading);
+                    wiki.update();
+
+                }
+            }).send();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         }
     }
 
+<<<<<<< HEAD
         
     /*
     Function: sectionParser
@@ -246,6 +384,14 @@ wiki.add('#editform', function( element ){
         This function is a callback function for the [SnipEditor].
         It is called by [snipeditor.buildToc] every time the textarea of the
         snipeditor is being changed.
+=======
+    /*
+    Function: jspwikiSectionParser
+        Convert a jspwiki-markup page into an array of page sections.
+        Sections are marked by jspwiki headers:  !, !!  or !!!
+
+        This function is used as a callback for [Snip.Sections]
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     Returns:
         This function returns a array of objects [{title, start, depth}]
@@ -253,6 +399,7 @@ wiki.add('#editform', function( element ){
         start - (number) offset within the text string where this section starts
         depth - (number) nesting level of the section 0,1...n
     */
+<<<<<<< HEAD
     function sectionParser( text ){
 
         var result = [],
@@ -263,17 +410,37 @@ wiki.add('#editform', function( element ){
                 .replace(/\{\{\{([\s\S]*?)\}\}\}/g, function(match){
                     return match.replace( /^!/mg, ' ' );
                 })
+=======
+    function jspwikiSectionParser( text ){
+
+        var result = [],
+            DELIM = "\u00a4",
+
+            tt = text
+
+                // mask confusing header markup inside a {{{ ... }}} but keep length of the text unchanged!
+                .replace(/\{\{\{([\s\S]*?)\}\}\}/g, function(match){
+                    return match.replace( /^!/mg, " " );
+                })
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 // break string up into array of headers and section-bodies :
                 // [0] : text prior to the first header
                 // [1,odd] : header markup !, !! or !!!
                 // [2,even] : remainder of the section, starting with header title
+<<<<<<< HEAD
                 .replace( /^([!]{1,3})/mg, DELIM+"$1"+DELIM )
+=======
+                .replace( /^([!]{1,3})/mg, DELIM + "$1" + DELIM )
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 .split(DELIM),
 
             pos = tt.shift().length,  //get length of the first element, prior to first section
             count = tt.length,
             i, hlen, title;
 
+<<<<<<< HEAD
         for( i=0; i<count; i=i+2 ){
 
             hlen = tt[i].length;
@@ -294,3 +461,29 @@ wiki.add('#editform', function( element ){
 
 
 }(Wiki);
+=======
+        for( i = 0; i < count; i = i + 2 ){
+
+            hlen = tt[i].length;
+            //take first line
+            title = tt[i + 1].split(/[\r\n]/)[0]
+
+                //remove unescaped(~) inline wiki markup __,"",{{,}}, %%(*), /%
+                .replace(/(^|[^~])(__|""|\{\{|\}\}|%%\([^\)]+\)|%%\S+\s|%%\([^\)]+\)|\/%)/g, "$1")
+
+                //and remove wiki-markup escape chars ~
+                .replace(/~([^~])/g, "$1");
+
+            //depth: convert length of header markup (!!!,!!,!) into #depth-level:  3,2,1 => 0,1,2
+            result.push({ title: title, start: pos, depth: 3 - hlen });
+            pos += hlen + tt[i + 1].length;
+
+        }
+
+        return result;
+
+    }
+
+
+}( Wiki );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

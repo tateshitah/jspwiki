@@ -371,7 +371,11 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
         if( links == null || links.isEmpty() )
             return "";
 
+<<<<<<< HEAD
         StringBuffer output = new StringBuffer();
+=======
+        StringBuilder output = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         Iterator it     = links.iterator();
         int      count  = 0;

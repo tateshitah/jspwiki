@@ -81,7 +81,11 @@
 </wiki:CheckRequestContext>
 <% if( usertext == null ) usertext = "";
 
+<<<<<<< HEAD
    RenderingManager renderingManager = new RenderingManager();
+=======
+   RenderingManager renderingManager = engine.getRenderingManager();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
    // since the WikiProperties are shared, we'll want to make our own copy of it for modifying.
    Properties copyOfWikiProperties = new Properties();

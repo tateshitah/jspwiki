@@ -491,7 +491,13 @@ public class VersioningFileProvider
             Properties props = getPageProperties( page.getName() );
 
             String authorFirst = null;
+<<<<<<< HEAD
             if ( firstUpdate )
+=======
+            // if the following file exists, we are NOT migrating from FileSystemProvider
+            File pagePropFile = new File(getPageDirectory() + File.separator + PAGEDIR + File.separator + mangleName(page.getName()) + File.separator + "page" + FileSystemProvider.PROP_EXT);
+            if ( firstUpdate && ! pagePropFile.exists())
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             {
                 // we might not yet have a versioned author because the
                 // old page was last maintained by FileSystemProvider
@@ -517,6 +523,12 @@ public class VersioningFileProvider
                 props.setProperty( versionNumber+".changenote", changeNote );
             }
 
+<<<<<<< HEAD
+=======
+            // Get additional custom properties from page and add to props
+            getCustomProperties(page, props);
+            
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             putPageProperties( page.getName(), props );
         }
         catch( IOException e )
@@ -599,7 +611,11 @@ public class VersioningFileProvider
                     // we might not have a versioned author because the
                     // old page was last maintained by FileSystemProvider
                     Properties props2 = getHeritagePageProperties( page );
+<<<<<<< HEAD
                     author = props2.getProperty( "author" );
+=======
+                    author = props2.getProperty( WikiPage.AUTHOR );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 if ( author != null )
                 {
@@ -609,6 +625,11 @@ public class VersioningFileProvider
                 String changenote = props.getProperty( realVersion+".changenote" );
                 if( changenote != null ) p.setAttribute( WikiPage.CHANGENOTE, changenote );
 
+<<<<<<< HEAD
+=======
+                // Set the props values to the page attributes
+                setCustomProperties(p, props);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             catch( IOException e )
             {
@@ -698,7 +719,11 @@ public class VersioningFileProvider
                 Properties props = new Properties();
                 props.load(in);
 
+<<<<<<< HEAD
                 String originalAuthor = props.getProperty("author");
+=======
+                String originalAuthor = props.getProperty(WikiPage.AUTHOR);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 if ( originalAuthor.length() > 0 )
                 {
                     // simulate original author as if already versioned

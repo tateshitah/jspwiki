@@ -57,7 +57,11 @@ public class RSSGeneratorTest extends TestCase
     {
         props.setProperty( WikiEngine.PROP_BASEURL, "http://localhost/" );
         props.setProperty( RSSGenerator.PROP_GENERATE_RSS, "true" );
+<<<<<<< HEAD
         CacheManager.getInstance().removalAll();
+=======
+        CacheManager.getInstance().removeAllCaches();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_testEngine = new TestEngine(props);
     }
 
@@ -84,10 +88,17 @@ public class RSSGeneratorTest extends TestCase
 
         WeblogPlugin blogplugin = new WeblogPlugin();
 
+<<<<<<< HEAD
         List entries = blogplugin.findBlogEntries( m_testEngine.getPageManager(),
                                                    "TestBlog",
                                                    new Date(0),
                                                    new Date(Long.MAX_VALUE) );
+=======
+        List< ? > entries = blogplugin.findBlogEntries( m_testEngine.getPageManager(),
+                                                       "TestBlog",
+                                                        new Date(0),
+                                                        new Date(Long.MAX_VALUE) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         Feed feed = new RSS10Feed( context );
         String blog = gen.generateBlogRSS( context, entries, feed );
@@ -114,10 +125,17 @@ public class RSSGeneratorTest extends TestCase
 
         WeblogPlugin blogplugin = new WeblogPlugin();
 
+<<<<<<< HEAD
         List entries = blogplugin.findBlogEntries( m_testEngine.getPageManager(),
                                                    "TestBlog",
                                                    new Date(0),
                                                    new Date(Long.MAX_VALUE) );
+=======
+        List< ? > entries = blogplugin.findBlogEntries( m_testEngine.getPageManager(),
+                                                       "TestBlog",
+                                                        new Date(0),
+                                                        new Date(Long.MAX_VALUE) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         Feed feed = new RSS20Feed( context );
         String blog = gen.generateBlogRSS( context, entries, feed );

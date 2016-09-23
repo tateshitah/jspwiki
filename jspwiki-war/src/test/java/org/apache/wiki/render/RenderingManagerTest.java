@@ -23,16 +23,23 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+<<<<<<< HEAD
 
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang.time.StopWatch;
 
+=======
+import net.sf.ehcache.CacheManager;
+
+import org.apache.commons.lang.time.StopWatch;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.parser.MarkupParser;
 import org.apache.wiki.parser.WikiDocument;
 
+<<<<<<< HEAD
 public class RenderingManagerTest extends TestCase
 {
     RenderingManager m_manager;
@@ -50,6 +57,22 @@ public class RenderingManagerTest extends TestCase
 
     protected void tearDown() throws Exception
     {
+=======
+public class RenderingManagerTest extends TestCase {
+	
+    RenderingManager m_manager;
+    TestEngine       m_engine;
+    
+    protected void setUp() throws Exception {
+        CacheManager.getInstance().removeAllCaches();
+        Properties props = TestEngine.getTestProperties();
+        m_engine = new TestEngine( props );
+        
+        m_manager = m_engine.getRenderingManager();
+    }
+
+    protected void tearDown() throws Exception {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.deletePage( "TestPage" );
     }
         

@@ -29,6 +29,11 @@ Example:
 > alert( new Date().toISOString() ); // alerts 2009-05-21
 > alert( new Date().toISOString() ); // alerts 2009-05-21T16:06:05.000TZ
 */
+<<<<<<< HEAD
+=======
+
+/* Obsolete -- now covered by ECMAScript5, ok in most browsers
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 Date.extend({
     toISOString: function(){
         var d = this,
@@ -38,3 +43,7 @@ Date.extend({
         return d.getFullYear() + '-' + (mm<10 ?'0':'') + mm + '-' + (dd<10 ?'0':'') + dd;
     }
 });
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ page import="org.apache.log4j.*" %>
@@ -28,7 +32,11 @@
 <%@ page errorPage="/Error.jsp" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 
+<<<<<<< HEAD
 <%! 
+=======
+<%!
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Logger log = Logger.getLogger("JSPWikiSearch");
 %>
 
@@ -43,13 +51,18 @@
     Collection list = null;
     String query = request.getParameter( "query");
     String go    = request.getParameter("go");
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     if( query != null )
     {
         log.info("Searching for string "+query);
 
         try
         {
+<<<<<<< HEAD
             list = wiki.findPages( query );
 
             //
@@ -79,27 +92,45 @@
         
             pageContext.setAttribute( "searchresults",
                                       filteredList,
+=======
+            list = wiki.findPages( query, wikiContext );
+
+            pageContext.setAttribute( "searchresults",
+                                      list,
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                                       PageContext.REQUEST_SCOPE );
         }
         catch( Exception e )
         {
             wikiContext.getWikiSession().addMessage( e.getMessage() );
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         query = TextUtil.replaceEntities( query );
 
         pageContext.setAttribute( "query",
                                   query,
                                   PageContext.REQUEST_SCOPE );
+<<<<<<< HEAD
         
         //
         //  Did the user click on "go"?
         //           
+=======
+
+        //
+        //  Did the user click on "go"?
+        //
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( go != null )
         {
             if( list != null && list.size() > 0 )
             {
                 SearchResult sr = (SearchResult) list.iterator().next();
+<<<<<<< HEAD
                 
                 WikiPage wikiPage = sr.getPage();
                 
@@ -110,6 +141,18 @@
                 return;
             }
         }                              
+=======
+
+                WikiPage wikiPage = sr.getPage();
+
+                String url = wikiContext.getViewURL( wikiPage.getName() );
+
+                response.sendRedirect( url );
+
+                return;
+            }
+        }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     // Set the content type and include the response content

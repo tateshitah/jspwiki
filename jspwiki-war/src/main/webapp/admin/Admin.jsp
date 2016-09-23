@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ page import="org.apache.log4j.*" %>
@@ -27,8 +31,13 @@
 <%@ page errorPage="/Error.jsp" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 
+<<<<<<< HEAD
 <%! 
     Logger log = Logger.getLogger("JSPWiki"); 
+=======
+<%!
+    Logger log = Logger.getLogger("JSPWiki");
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 %>
 <%
     String bean = request.getParameter("bean");
@@ -36,7 +45,11 @@
     // Create wiki context and check for authorization
     WikiContext wikiContext = wiki.createContext( request, WikiContext.ADMIN );
     if(!wiki.getAuthorizationManager().hasAccess( wikiContext, response )) return;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     //
     //  This is an experimental feature, so we will turn it off unless the
     //  user really wants to.
@@ -70,14 +83,22 @@
     String contentPage = wiki.getTemplateManager().findJSP( pageContext,
                                                             wikiContext.getTemplate(),
                                                             "admin/AdminTemplate.jsp" );
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     pageContext.setAttribute( "engine", wiki, PageContext.REQUEST_SCOPE );
     pageContext.setAttribute( "context", wikiContext, PageContext.REQUEST_SCOPE );
 
     if( request.getMethod().equalsIgnoreCase("post") && bean != null )
     {
         AdminBean ab = wiki.getAdminBeanManager().findBean( bean );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( ab != null )
         {
             ab.doPost( wikiContext );
@@ -87,5 +108,9 @@
             wikiContext.getWikiSession().addMessage( "No such bean "+bean+" was found!" );
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 %><wiki:Include page="<%=contentPage%>" />

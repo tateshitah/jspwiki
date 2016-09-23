@@ -15,7 +15,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 -->
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
@@ -69,7 +73,10 @@
        <url-pattern>/atom/*</url-pattern>
        <url-pattern>/RPCU/</url-pattern>
        <url-pattern>/RPC2/</url-pattern>
+<<<<<<< HEAD
        <url-pattern>/JSON-RPC</url-pattern>
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    </filter-mapping>
    <filter-mapping>
        <filter-name>WikiJSPFilter</filter-name>
@@ -83,7 +90,11 @@
    <listener>
       <listener-class>org.apache.wiki.auth.SessionMonitor</listener-class>
    </listener>
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <!--
        Now, let's define the XML-RPC interfaces.  You probably don't have to
        touch these.
@@ -92,7 +103,11 @@
      -->
    <servlet>
        <servlet-name>XMLRPC</servlet-name>
+<<<<<<< HEAD
        <servlet-class>org.apache.wiki.xmlrpc.RPCServlet</servlet-class>       
+=======
+       <servlet-class>org.apache.wiki.xmlrpc.RPCServlet</servlet-class>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        <init-param>
            <param-name>handler</param-name>
            <param-value>org.apache.wiki.xmlrpc.RPCHandler</param-value>
@@ -110,7 +125,11 @@
 
    <servlet>
        <servlet-name>XMLRPC-UTF8</servlet-name>
+<<<<<<< HEAD
        <servlet-class>org.apache.wiki.xmlrpc.RPCServlet</servlet-class>       
+=======
+       <servlet-class>org.apache.wiki.xmlrpc.RPCServlet</servlet-class>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        <init-param>
            <param-name>handler</param-name>
            <param-value>org.apache.wiki.xmlrpc.RPCHandlerUTF8</param-value>
@@ -122,22 +141,39 @@
        </init-param>
    </servlet>
 
+<<<<<<< HEAD
    <!-- JSON AJAX API -->
    <servlet>
        <servlet-name>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-name>
        <servlet-class>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-class>
    </servlet>
+=======
+    <!-- WikiAjaxDispatcherServlet -->
+    <servlet>
+        <servlet-name>WikiAjaxDispatcherServlet</servlet-name>
+        <servlet-class>org.apache.wiki.ajax.WikiAjaxDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
    <!-- Atom Publishing Protocol -->
    <servlet>
        <servlet-name>ATOM</servlet-name>
+<<<<<<< HEAD
        <servlet-class>org.apache.wiki.rpc.atom.AtomAPIServlet</servlet-class>       
+=======
+       <servlet-class>org.apache.wiki.rpc.atom.AtomAPIServlet</servlet-class>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    </servlet>
 
    <!-- Maps short URLS to JSPs; also, detects webapp shutdown. -->
    <servlet>
        <servlet-name>WikiServlet</servlet-name>
+<<<<<<< HEAD
        <servlet-class>org.apache.wiki.WikiServlet</servlet-class>       
+=======
+       <servlet-class>org.apache.wiki.WikiServlet</servlet-class>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        <load-on-startup>1</load-on-startup>
    </servlet>
 
@@ -159,11 +195,20 @@
        <servlet-name>WikiServlet</servlet-name>
        <url-pattern>/wiki/*</url-pattern>
    </servlet-mapping>
+<<<<<<< HEAD
    
    <servlet-mapping>
        <servlet-name>com.metaparadigm.jsonrpc.JSONRPCServlet</servlet-name>
        <url-pattern>/JSON-RPC</url-pattern>
    </servlet-mapping>
+=======
+
+    <servlet-mapping>
+        <servlet-name>WikiAjaxDispatcherServlet</servlet-name>
+        <url-pattern>/ajax/*</url-pattern>
+        <url-pattern>/admin/ajax/*</url-pattern>
+    </servlet-mapping>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     <!--
         And finally, let us tell the servlet container which
@@ -194,7 +239,11 @@
    <welcome-file-list>
        <welcome-file>Wiki.jsp</welcome-file>
    </welcome-file-list>
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <!-- Error pages -->
    <error-page>
      <error-code>403</error-code>
@@ -243,15 +292,22 @@
 
    <!--
        CONTAINER-MANAGED AUTHENTICATION & AUTHORIZATION
+<<<<<<< HEAD
     
        Here we define the users which are allowed to access JSPWiki.
        These restrictions cause the web container to apply further 
+=======
+
+       Here we define the users which are allowed to access JSPWiki.
+       These restrictions cause the web container to apply further
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        contraints to the default security policy in jspwiki.policy,
        and should be suitable for a corporate intranet or public wiki.
 
        In particular, the restrictions below allow all users to
        read documents, but only Authenticated users can comment
        on or edit them (i.e., access the Edit.jsp page).
+<<<<<<< HEAD
        Users with the role Admin are the only persons who can 
        delete pages. 
 
@@ -274,6 +330,30 @@
        returned by your container's security realm. We don't care
        either way, as long as they match.
        
+=======
+       Users with the role Admin are the only persons who can
+       delete pages.
+
+       To implement this policy, the container enforces two web
+       resource constraints: one for the Administrator resources,
+       and one for  Authenticated users. Note that the "role-name"
+       values are significant and should match the role names
+       retrieved by your web container's security realm. The roles
+       of "Admin" and "Authenticated" are assigned by the web
+       container at login time.
+
+       For example, if you are using Tomcat's built-in "memory realm",
+       you should edit the $CATALINA_HOME/conf/tomcat-users.xml file
+       and add the desired actual user accounts. Each user must possess
+       one or both of the Admin or Authenticated roles. For other realm
+       types, consult your web container's documentation.
+
+       Alternatively, you could also replace all references to
+       "Authenticated" and "Admin" with role names that match those
+       returned by your container's security realm. We don't care
+       either way, as long as they match.
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        Note that accessing protected resources will cause your
        container to try to use SSL (default port for Tomcat is 8443)
        to secure the web session. This, of course, assumes your
@@ -283,7 +363,11 @@
    -->
 
    <!--  REMOVE ME TO ENABLE CONTAINER-MANAGED AUTH
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <security-constraint>
        <web-resource-collection>
            <web-resource-name>Administrative Area</web-resource-name>
@@ -296,7 +380,11 @@
            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
        </user-data-constraint>
    </security-constraint>
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <security-constraint>
        <web-resource-collection>
            <web-resource-name>Authenticated area</web-resource-name>
@@ -352,7 +440,13 @@
        </description>
        <role-name>Admin</role-name>
    </security-role>
+<<<<<<< HEAD
    
    REMOVE ME TO ENABLE CONTAINER-MANAGED AUTH  -->
  
+=======
+
+   REMOVE ME TO ENABLE CONTAINER-MANAGED AUTH  -->
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </web-app>

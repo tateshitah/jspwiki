@@ -22,7 +22,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+<<<<<<< HEAD
 import java.security.*;
+=======
+import java.security.AccessControlException;
+import java.security.AccessController;
+import java.security.KeyStore;
+import java.security.Permission;
+import java.security.Principal;
+import java.security.PrivilegedAction;
+import java.security.ProtectionDomain;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +46,15 @@ import org.apache.wiki.InternalWikiException;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiSession;
 import org.apache.wiki.api.exceptions.WikiException;
+<<<<<<< HEAD
 import org.apache.wiki.auth.authorize.*;
+=======
+import org.apache.wiki.auth.authorize.Group;
+import org.apache.wiki.auth.authorize.GroupDatabase;
+import org.apache.wiki.auth.authorize.GroupManager;
+import org.apache.wiki.auth.authorize.Role;
+import org.apache.wiki.auth.authorize.WebContainerAuthorizer;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.auth.permissions.AllPermission;
 import org.apache.wiki.auth.permissions.GroupPermission;
 import org.apache.wiki.auth.permissions.PermissionFactory;
@@ -198,7 +216,11 @@ public final class SecurityVerifier
             colWidth = "67%";
         }
 
+<<<<<<< HEAD
         StringBuffer s = new StringBuffer();
+=======
+        StringBuilder s = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         // Write the table header
         s.append( "<table class=\"wikitable\" border=\"1\">\n" );
@@ -301,7 +323,11 @@ public final class SecurityVerifier
      */
     private String printPermissionTest( Permission permission, Principal principal, int cols )
     {
+<<<<<<< HEAD
         StringBuffer s = new StringBuffer();
+=======
+    	StringBuilder s = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if ( permission == null )
         {
             s.append( "    <td colspan=\"" + cols + "\" align=\"center\" title=\"N/A\">" );
@@ -357,7 +383,11 @@ public final class SecurityVerifier
         // Now, print a table with JSP pages listed on the left, and
         // an evaluation of each pages' constraints for each role
         // we discovered
+<<<<<<< HEAD
         StringBuffer s = new StringBuffer();
+=======
+        StringBuilder s = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         Principal[] roles = authorizer.getRoles();
         s.append( "<table class=\"wikitable\" border=\"1\">\n" );
         s.append( "<thead>\n" );
@@ -419,7 +449,11 @@ public final class SecurityVerifier
             // If we couldn't evaluate constraints it means
             // there's some sort of IO mess or parsing issue
             LOG.error( "Malformed XML in web.xml", e );
+<<<<<<< HEAD
             throw new InternalWikiException( e.getClass().getName() + ": " + e.getMessage() );
+=======
+            throw new InternalWikiException( e.getClass().getName() + ": " + e.getMessage() , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         s.append( "</tbody>\n" );
@@ -588,6 +622,7 @@ public final class SecurityVerifier
      */
     protected void verifyJaas()
     {
+<<<<<<< HEAD
         // See if JAAS is on
         AuthorizationManager authMgr = m_engine.getAuthorizationManager();
         if ( !authMgr.isJAASAuthorized() )
@@ -601,6 +636,8 @@ public final class SecurityVerifier
                     "so that security works properly." );
         }
         
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Verify that the specified JAAS moduie corresponds to a class we can load successfully.
         String jaasClass = m_engine.getWikiProperties().getProperty( AuthenticationManager.PROP_LOGIN_MODULE );
         if ( jaasClass == null || jaasClass.length() == 0 )
@@ -612,7 +649,11 @@ public final class SecurityVerifier
         }
         
         // See if we can find the LoginModule on the classpath
+<<<<<<< HEAD
         Class c = null;
+=======
+        Class< ? > c = null;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         try
         {
             m_session.addMessage( INFO_JAAS, "The property '" + AuthenticationManager.PROP_LOGIN_MODULE +

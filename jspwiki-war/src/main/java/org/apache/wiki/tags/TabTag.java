@@ -19,6 +19,11 @@
 
 package org.apache.wiki.tags;
 
+<<<<<<< HEAD
+=======
+import java.io.IOException;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import javax.servlet.jsp.JspTagException;
 
 import org.apache.wiki.util.TextUtil;
@@ -129,7 +134,11 @@ public class TabTag extends WikiTagBase
 
         if( !parent.isStateGenerateTabBody() ) return SKIP_BODY;
 
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer(32);
+=======
+        StringBuilder sb = new StringBuilder(32);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         sb.append( "<div id=\""+ getId() + "\"" );
 
@@ -154,11 +163,19 @@ public class TabTag extends WikiTagBase
     /**
      * {@inheritDoc}
      */
+<<<<<<< HEAD
     public int doEndTag() throws javax.servlet.jsp.JspTagException
     {
         TabbedSectionTag parent=(TabbedSectionTag)findAncestorWithClass( this, TabbedSectionTag.class );
 
         StringBuffer sb = new StringBuffer();
+=======
+    public int doEndTag() throws JspTagException
+    {
+        TabbedSectionTag parent=(TabbedSectionTag)findAncestorWithClass( this, TabbedSectionTag.class );
+
+        StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         if( parent.isStateFindDefaultTab() )
         {
@@ -199,7 +216,11 @@ public class TabTag extends WikiTagBase
         {
             pageContext.getOut().write( sb.toString() );
         }
+<<<<<<< HEAD
         catch( java.io.IOException e )
+=======
+        catch( IOException e )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         {
             throw new JspTagException( "IO Error: " + e.getMessage() );
         }

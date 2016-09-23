@@ -38,12 +38,20 @@ import java.util.TreeSet;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+<<<<<<< HEAD
+=======
+import org.apache.commons.lang.StringUtils;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.auth.NoSuchPrincipalException;
 import org.apache.wiki.auth.WikiPrincipal;
 import org.apache.wiki.auth.WikiSecurityException;
 import org.apache.wiki.util.Serializer;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.util.TextUtil;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -281,7 +289,11 @@ public class XMLUserDatabase extends AbstractUserDatabase {
         }
 
         // Get database file location
+<<<<<<< HEAD
         String file = props.getProperty( PROP_USERDATABASE );
+=======
+        String file = TextUtil.getStringProperty(props, PROP_USERDATABASE, defaultFile.getAbsolutePath());
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( file == null )
         {
             log.warn( "XML user database property " + PROP_USERDATABASE + " not found; trying " + defaultFile  );
@@ -623,11 +635,32 @@ public class XMLUserDatabase extends AbstractUserDatabase {
         NodeList users = c_dom.getElementsByTagName( USER_TAG );
         
         if( users == null ) return null;
+<<<<<<< HEAD
         
         for( int i = 0; i < users.getLength(); i++ )
         {
             Element user = (Element) users.item( i );
             if ( user.getAttribute( matchAttribute ).equals( index ) )
+=======
+
+        // check if we have to do a case insensitive compare
+        boolean caseSensitiveCompare = true;
+        if (matchAttribute.equals(EMAIL))
+        {
+            caseSensitiveCompare = false;
+        }
+
+        for( int i = 0; i < users.getLength(); i++ )
+        {
+            Element user = (Element) users.item( i );
+            String userAttribute = user.getAttribute( matchAttribute );
+            if (!caseSensitiveCompare)
+            {
+                userAttribute = StringUtils.lowerCase(userAttribute);
+                index = StringUtils.lowerCase(index);
+            }
+            if ( userAttribute.equals( index ) )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             {
                 UserProfile profile = newProfile();
                 

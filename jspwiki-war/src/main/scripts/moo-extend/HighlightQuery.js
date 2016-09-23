@@ -31,6 +31,7 @@ Credit:
 Arguments
     node - (DOM-element)
     query - (optional) query string, default is document referrer query string
+<<<<<<< HEAD
     template - (string) html template replacement string, default <span class='highlight'>$1</span>
 */
 function HighlightQuery( node, query, template ){
@@ -87,3 +88,42 @@ function HighlightQuery( node, query, template ){
     }
 
 };
+=======
+    template - (string) html template replacement string, default <mark>$&</mark>
+*/
+/*eslint-env browser*/
+/*exported HighlightQuery */
+
+function HighlightQuery( node, query, template ){
+
+    if( query || (query = (document.referrer.match(/(?:\?|&)(?:q|query)=([^&]*)/)||[,''])[1]) ){
+
+        var words = decodeURIComponent(query)
+                    .stripScripts() //xss vulnerability
+                    .replace( /\+/g, " " )
+                    .replace( /\s+-\S+/g, "" )
+                    .replace( /([\(\[\{\\\^\$\|\)\?\*\.\+])/g, "\\$1" ) //escape metachars
+                    .trim().replace(/\s+/g,'|'),
+
+            hasWords = RegExp( "(" + words + ")" , "gi");
+
+        //console.log("highlight word : ",query, words);
+
+        node.mapTextNodes( function(s){
+
+            var t = s.replace( /</g, "&lt;" ); //pre element may contain xml <
+
+            if( hasWords.test(t) ){
+
+                s = t.replace( hasWords, template || "<mark>$&</mark>" );
+
+            }
+
+            return s;
+
+        }, true /* includePreCodeNodes */ );
+
+    }
+
+}
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

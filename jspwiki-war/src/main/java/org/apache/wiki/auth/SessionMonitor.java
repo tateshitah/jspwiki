@@ -19,20 +19,36 @@
 package org.apache.wiki.auth;
 
 import java.security.Principal;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
+<<<<<<< HEAD
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiSession;
 import org.apache.wiki.event.WikiEventListener;
 import org.apache.wiki.event.WikiEventManager;
 import org.apache.wiki.event.WikiSecurityEvent;
+<<<<<<< HEAD
 import org.apache.wiki.rpc.json.JSONRPCManager;
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  *  <p>Manages WikiSession's for different WikiEngine's.</p>
@@ -249,8 +265,11 @@ public class SessionMonitor implements HttpSessionListener
     public void sessionCreated( HttpSessionEvent se )
     {
         HttpSession session = se.getSession();
+<<<<<<< HEAD
         
         JSONRPCManager.sessionCreated(session);
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**

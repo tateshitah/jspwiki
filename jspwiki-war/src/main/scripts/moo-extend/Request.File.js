@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
     JSPWiki - a JSP-based WikiWiki clone.
 
     Licensed to the Apache Software Foundation (ASF) under one
@@ -19,6 +20,8 @@
     under the License.
 */
 /*
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 ---
 
 name: Request.File
@@ -63,7 +66,11 @@ Request.File = new Class({
 
     send: function(options){
         if (!this.check(options)) return this;
+<<<<<<< HEAD
 //console.log(this.formData);
+=======
+        //console.log(this.formData, this.options.url);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         this.options.isSuccess = this.options.isSuccess || this.isSuccess;
         this.running = true;
 

@@ -141,7 +141,11 @@ public abstract class WikiBackgroundThread extends Thread implements WikiEventLi
             shutdownTask();
         } catch( Throwable t ) {
             LOG.error( "Background thread error: (stack trace follows)", t );
+<<<<<<< HEAD
             throw new InternalWikiException( t.getMessage() );
+=======
+            throw new InternalWikiException( t.getMessage() ,t);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
     

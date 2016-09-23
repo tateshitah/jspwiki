@@ -24,9 +24,19 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+<<<<<<< HEAD
 
 import net.sf.ehcache.CacheManager;
 import org.apache.wiki.*;
+=======
+import net.sf.ehcache.CacheManager;
+
+import org.apache.wiki.TestEngine;
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.WikiEngine;
+import org.apache.wiki.WikiPage;
+import org.apache.wiki.WikiProvider;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.WikiException;
 import org.apache.wiki.attachment.Attachment;
 
@@ -42,7 +52,11 @@ public class PageRenamerTest extends TestCase
 
         props.setProperty( WikiEngine.PROP_MATCHPLURALS, "true" );
 
+<<<<<<< HEAD
         CacheManager.getInstance().removalAll();
+=======
+        CacheManager.getInstance().removeAllCaches();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         TestEngine.emptyWorkDir();
 

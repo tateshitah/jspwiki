@@ -84,7 +84,11 @@ public class VariableContent extends Text
             }
             catch( NoSuchVariableException e )
             {
+<<<<<<< HEAD
                 result = JSPWikiMarkupParser.makeError("No such variable: "+e.getMessage()).getText(); 
+=======
+                result = MarkupParser.makeError( "No such variable: " + e.getMessage() ).getText(); 
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
         }
 

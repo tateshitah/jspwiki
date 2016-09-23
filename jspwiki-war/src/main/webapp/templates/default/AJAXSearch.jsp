@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -35,7 +39,11 @@
 <%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
+<<<<<<< HEAD
 <%! 
+=======
+<%!
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   public void jspInit()
   {
     wiki = WikiEngine.getInstance( getServletConfig() );
@@ -49,12 +57,17 @@
   /* Create wiki context and check for authorization */
   WikiContext wikiContext = wiki.createContext( request, WikiContext.FIND );
   if(!wiki.getAuthorizationManager().hasAccess( wikiContext, response )) return;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   String query = request.getParameter( "query");
 
   if( (query != null) && ( !query.trim().equals("") ) )
   {
     try
+<<<<<<< HEAD
     { 
       Collection list = wiki.findPages( query );
 
@@ -73,6 +86,26 @@
 
         try
         {            
+=======
+    {
+      Collection list = wiki.findPages( query, wikiContext );
+
+      //  Filter down to only those that we actually have a permission to view
+      AuthorizationManager mgr = wiki.getAuthorizationManager();
+
+      ArrayList items = new ArrayList();
+
+      for( Iterator i = list.iterator(); i.hasNext(); )
+      {
+        SearchResult r = (SearchResult)i.next();
+
+        WikiPage p = r.getPage();
+
+        PagePermission pp = new PagePermission( p, PagePermission.VIEW_ACTION );
+
+        try
+        {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
           if( mgr.checkPermission( wikiContext.getWikiSession(), pp ) )
           {
             items.add( r );
@@ -80,7 +113,11 @@
         }
         catch( Exception e ) { log.error( "Searching for page "+p, e ); }
       }
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       pageContext.setAttribute( "searchresults", items, PageContext.REQUEST_SCOPE );
     }
     catch( Exception e )
@@ -106,6 +143,7 @@
 
   <p>
   <fmt:message key="find.externalsearch"/>
+<<<<<<< HEAD
     <a class="external" 
         href="http://www.google.com/search?q=<c:out value='${param.query}'/>"
         title="Google Search '<c:out value='${param.query}'/>'"
@@ -113,10 +151,20 @@
     |     
     <a class="external" 
         href="http://en.wikipedia.org/wiki/Special:Search?search=<c:out value='${param.query}'/>" 
+=======
+    <a class="external"
+        href="http://www.google.com/search?q=<c:out value='${param.query}'/>"
+        title="Google Search '<c:out value='${param.query}'/>'"
+       target="_blank">Google</a><img class="outlink" src="images/out.png" alt="" />
+    |
+    <a class="external"
+        href="http://en.wikipedia.org/wiki/Special:Search?search=<c:out value='${param.query}'/>"
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         title="Wikipedia Search '<c:out value='${param.query}'/>'"
        target="_blank">Wikipedia</a><img class="outlink" src="images/out.png" alt="" />
   </p>
 
+<<<<<<< HEAD
   <wiki:SetPagination start="${param.start}" total="<%=list.size()%>" pagesize="20" maxlinks="9" 
                      fmtkey="info.pagination"
                     onclick="$('start').value=%s; SearchBox.runfullsearch();" />
@@ -124,6 +172,15 @@
     <div class="graphBars">
     <div class="zebra-table">
     <table class="wikitable" >
+=======
+  <wiki:SetPagination start="${param.start}" total="<%=list.size()%>" pagesize="20" maxlinks="9"
+                     fmtkey="info.pagination"
+                    onclick="$('start').value=%s; SearchBox.runfullsearch();" />
+
+    <div class="graphBars">
+    <div class="zebra-table">
+    <table class="wikitable  table-striped" >
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
       <tr>
          <th align="left"><fmt:message key="find.results.page"/></th>
@@ -139,6 +196,7 @@
 	  <c:if test="${param.details == 'on'}">
 <%
         String[] contexts = searchref.getContexts();
+<<<<<<< HEAD
         if( (contexts != null) && (contexts.length > 0) ) 
         {
 %>  
@@ -147,6 +205,15 @@
           <div class="fragment">
 <%
           for (int i = 0; i < contexts.length; i++) 
+=======
+        if( (contexts != null) && (contexts.length > 0) )
+        {
+%>
+      <tr class="odd" >
+        <td class="fragment" colspan="2">
+<%
+          for (int i = 0; i < contexts.length; i++)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
           {
 %>
             <%= (i > 0 ) ? "<span class='fragment_ellipsis'> ... </span>" : ""  %>
@@ -154,15 +221,22 @@
 <%
           }
 %>
+<<<<<<< HEAD
            </div>
          </td>
        </tr>
 <% 
+=======
+         </td>
+       </tr>
+<%
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 %>
 	  </c:if><%-- details --%>
       </wiki:SearchResultIterator>
 
+<<<<<<< HEAD
       <wiki:IfNoSearchResults>
         <tr>
           <td class="nosearchresult" colspan="2"><fmt:message key="find.noresults"/></td>
@@ -170,6 +244,15 @@
       </wiki:IfNoSearchResults>
 
       </table>
+=======
+      </table>
+
+      <wiki:IfNoSearchResults>
+        <p class="warning"><fmt:message key="find.noresults"/></p>
+      </wiki:IfNoSearchResults>
+
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     </div>
     </div>
     ${pagination}

@@ -18,11 +18,24 @@
  */
 package org.apache.wiki.providers;
 
+<<<<<<< HEAD
 import java.io.*;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.apache.wiki.*;
+=======
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.wiki.WikiPage;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.ProviderException;
 
 /**
@@ -72,17 +85,40 @@ public class FileSystemProvider
         {
             String author = page.getAuthor();
             String changenote = (String)page.getAttribute( WikiPage.CHANGENOTE );
+<<<<<<< HEAD
             
             if( author != null )
             {
                 props.setProperty( "author", author );
+=======
+            String viewcount = (String)page.getAttribute( WikiPage.VIEWCOUNT );
+            
+            if( author != null )
+            {
+                props.setProperty( WikiPage.AUTHOR, author );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             
             if( changenote != null )
             {
+<<<<<<< HEAD
                 props.setProperty( "changenote", changenote );
             }
             
+=======
+                props.setProperty( WikiPage.CHANGENOTE, changenote );
+            }
+
+            if( viewcount != null )
+            {
+                props.setProperty( WikiPage.VIEWCOUNT, viewcount );
+            }
+            
+            // Get additional custom properties from page and add to props
+            getCustomProperties(page, props);
+            	
+            
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             File file = new File( getPageDirectory(), 
                                   mangleName(page.getName())+PROP_EXT );
      
@@ -95,7 +131,11 @@ public class FileSystemProvider
             if( out != null ) out.close();
         }
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  Gets basic metadata from file.
      */
@@ -116,13 +156,31 @@ public class FileSystemProvider
 
                 props.load(in);
 
+<<<<<<< HEAD
                 page.setAuthor( props.getProperty( "author" ) );
                 
                 String changenote = props.getProperty( "changenote" );
+=======
+                page.setAuthor( props.getProperty( WikiPage.AUTHOR ) );
+                
+                String changenote = props.getProperty( WikiPage.CHANGENOTE );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 if( changenote != null )
                 {
                     page.setAttribute( WikiPage.CHANGENOTE, changenote );
                 }
+<<<<<<< HEAD
+=======
+                
+                String viewcount = props.getProperty( WikiPage.VIEWCOUNT );
+                if( viewcount != null )
+                {
+                    page.setAttribute( WikiPage.VIEWCOUNT, viewcount );
+                }
+                
+                // Set the props values to the page attributes
+                setCustomProperties(page, props);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }            
         }
         finally

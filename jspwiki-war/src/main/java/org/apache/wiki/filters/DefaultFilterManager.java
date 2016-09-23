@@ -403,6 +403,10 @@ public class DefaultFilterManager extends ModuleManager implements FilterManager
     /**
      *  {@inheritDoc}
      */
+<<<<<<< HEAD
+=======
+    @Override
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public Collection modules()
     {
         ArrayList< PageFilter > modules = new ArrayList< PageFilter >();
@@ -411,6 +415,18 @@ public class DefaultFilterManager extends ModuleManager implements FilterManager
         
         return modules;
     }
+<<<<<<< HEAD
+=======
+    
+    
+    /**
+     *  {@inheritDoc}
+     */
+    @Override
+    public PageFilterInfo getModuleInfo(String moduleName) {
+        return m_filterClassMap.get(moduleName);
+    }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     private void registerFilters() {
         log.info( "Registering filters" );

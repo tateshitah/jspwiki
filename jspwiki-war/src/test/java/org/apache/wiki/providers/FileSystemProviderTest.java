@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* 
+=======
+/*
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -14,7 +18,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 
 package org.apache.wiki.providers;
@@ -24,10 +32,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+<<<<<<< HEAD
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.wiki.PageManager;
 import org.apache.wiki.TestEngine;
@@ -35,6 +46,13 @@ import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.util.FileUtil;
 
+<<<<<<< HEAD
+=======
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 public class FileSystemProviderTest extends TestCase {
 
@@ -49,24 +67,43 @@ public class FileSystemProviderTest extends TestCase {
         super( s );
     }
 
+<<<<<<< HEAD
     public void setUp() throws Exception {
         m_pagedir = System.getProperties().getProperty("java.io.tmpdir") + File.separatorChar + "jspwiki.test.pages";
+=======
+    @Override
+	public void setUp() throws Exception {
+        m_pagedir = "./target/jspwiki.test.pages";
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         props.setProperty( PageManager.PROP_PAGEPROVIDER, "FileSystemProvider" );
         props.setProperty( FileSystemProvider.PROP_PAGEDIR, m_pagedir );
 
         Properties props2 = new Properties();
         PropertyConfigurator.configure( props2 );
+<<<<<<< HEAD
         
         m_engine = new TestEngine(props);
         m_provider = new FileSystemProvider();
         m_provider.initialize( m_engine, props );
         
+=======
+
+        m_engine = new TestEngine(props);
+        m_provider = new FileSystemProvider();
+        m_provider.initialize( m_engine, props );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         props.setProperty( WikiEngine.PROP_ENCODING, "UTF-8" );
         m_providerUTF8 = new FileSystemProvider();
         m_providerUTF8.initialize( m_engine, props );
     }
 
+<<<<<<< HEAD
     public void tearDown() {
+=======
+    @Override
+	public void tearDown() {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         TestEngine.deleteAll( new File( props.getProperty( FileSystemProvider.PROP_PAGEDIR ) ) );
     }
 
@@ -74,6 +111,7 @@ public class FileSystemProviderTest extends TestCase {
         WikiPage page = new WikiPage(m_engine, "\u00c5\u00e4Test");
 
         m_provider.putPageText( page, "test" );
+<<<<<<< HEAD
         
         File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "%C5%E4Test.txt" );
         
@@ -81,6 +119,15 @@ public class FileSystemProviderTest extends TestCase {
         
         String contents = FileUtil.readContents( new FileInputStream(resultfile), "ISO-8859-1" );
         
+=======
+
+        File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "%C5%E4Test.txt" );
+
+        assertTrue("No such file", resultfile.exists());
+
+        String contents = FileUtil.readContents( new FileInputStream(resultfile), "ISO-8859-1" );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals("Wrong contents", contents, "test");
     }
 
@@ -109,6 +156,7 @@ public class FileSystemProviderTest extends TestCase {
         WikiPage page = new WikiPage(m_engine, "Test/Foobar");
 
         m_providerUTF8.putPageText( page, "test" );
+<<<<<<< HEAD
         
         File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "Test%2FFoobar.txt" );
         
@@ -117,6 +165,16 @@ public class FileSystemProviderTest extends TestCase {
         String contents = FileUtil.readContents( new FileInputStream(resultfile),
                                                  "UTF-8" );
         
+=======
+
+        File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "Test%2FFoobar.txt" );
+
+        assertTrue("No such file", resultfile.exists());
+
+        String contents = FileUtil.readContents( new FileInputStream(resultfile),
+                                                 "UTF-8" );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals("Wrong contents", contents, "test");
     }
 
@@ -126,6 +184,7 @@ public class FileSystemProviderTest extends TestCase {
         WikiPage page = new WikiPage(m_engine, "Test/Foobar");
 
         m_provider.putPageText( page, "test" );
+<<<<<<< HEAD
    
         File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "Test%2FFoobar.txt" );
    
@@ -134,6 +193,16 @@ public class FileSystemProviderTest extends TestCase {
         String contents = FileUtil.readContents( new FileInputStream(resultfile),
                                                  "ISO-8859-1" );
    
+=======
+
+        File resultfile = new File(  props.getProperty( FileSystemProvider.PROP_PAGEDIR ) , "Test%2FFoobar.txt" );
+
+        assertTrue("No such file", resultfile.exists());
+
+        String contents = FileUtil.readContents( new FileInputStream(resultfile),
+                                                 "ISO-8859-1" );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals("Wrong contents", contents, "test");
     }
 
@@ -152,7 +221,11 @@ public class FileSystemProviderTest extends TestCase {
 
         assertEquals("Wrong contents", contents, "test");
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void testAuthor()
         throws Exception
     {
@@ -189,7 +262,11 @@ public class FileSystemProviderTest extends TestCase {
 
         Properties pr = new Properties();
 
+<<<<<<< HEAD
         pr.setProperty( FileSystemProvider.PROP_PAGEDIR, 
+=======
+        pr.setProperty( FileSystemProvider.PROP_PAGEDIR,
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                            newdir );
 
         FileSystemProvider test = new FileSystemProvider();
@@ -215,7 +292,11 @@ public class FileSystemProviderTest extends TestCase {
 
             Properties pr = new Properties();
 
+<<<<<<< HEAD
             pr.setProperty( FileSystemProvider.PROP_PAGEDIR, 
+=======
+            pr.setProperty( FileSystemProvider.PROP_PAGEDIR,
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                                tmpFile.getAbsolutePath() );
 
             FileSystemProvider test = new FileSystemProvider();
@@ -247,28 +328,76 @@ public class FileSystemProviderTest extends TestCase {
 
         WikiPage p = new WikiPage(m_engine,"Test");
         p.setAuthor("AnonymousCoward");
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_provider.putPageText( p, "v1" );
 
         File f = new File( files, "Test"+FileSystemProvider.FILE_EXT );
 
         assertTrue( "file does not exist", f.exists() );
+<<<<<<< HEAD
         
         f = new File( files, "Test.properties" );
         
         assertTrue( "property file does not exist", f.exists() );
         
+=======
+
+        f = new File( files, "Test.properties" );
+
+        assertTrue( "property file does not exist", f.exists() );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_provider.deletePage( "Test" );
 
         f = new File( files, "Test"+FileSystemProvider.FILE_EXT );
 
         assertFalse( "file exists", f.exists() );
+<<<<<<< HEAD
         
         f = new File( files, "Test.properties" );
         
         assertFalse( "properties exist", f.exists() );
     }
 
+=======
+
+        f = new File( files, "Test.properties" );
+
+        assertFalse( "properties exist", f.exists() );
+    }
+
+    public void testCustomProperties() throws Exception {
+        String pageDir = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
+        String pageName = "CustomPropertiesTest";
+        String fileName = pageName+FileSystemProvider.FILE_EXT;
+        File file = new File (pageDir,fileName);
+
+        assertFalse( file.exists() );
+        WikiPage testPage = new WikiPage(m_engine,pageName);
+        testPage.setAuthor("TestAuthor");
+        testPage.setAttribute("@test","Save Me");
+        testPage.setAttribute("@test2","Save You");
+        testPage.setAttribute("test3","Do not save");
+        m_provider.putPageText( testPage, "This page has custom properties" );
+        assertTrue("No such file", file.exists() );
+        WikiPage pageRetrieved = m_provider.getPageInfo( pageName, -1 );
+        String value = (String)pageRetrieved.getAttribute("@test");
+        String value2 = (String)pageRetrieved.getAttribute("@test2");
+        String value3 = (String)pageRetrieved.getAttribute("test3");
+        assertNotNull(value);
+        assertNotNull(value2);
+        assertNull(value3);
+        assertEquals("Save Me",value);
+        assertEquals("Save You",value2);
+        file.delete();
+        assertFalse( file.exists() );
+    }
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public static Test suite()
     {
         return new TestSuite( FileSystemProviderTest.class );

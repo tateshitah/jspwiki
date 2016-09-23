@@ -28,13 +28,23 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
+<<<<<<< HEAD
 import javax.servlet.ServletContext;
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.wiki.PageManager;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiSession;
+<<<<<<< HEAD
 import org.apache.wiki.auth.*;
+=======
+import org.apache.wiki.auth.NoSuchPrincipalException;
+import org.apache.wiki.auth.UserManager;
+import org.apache.wiki.auth.WikiPrincipal;
+import org.apache.wiki.auth.WikiSecurityException;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.auth.authorize.Group;
 import org.apache.wiki.auth.authorize.GroupManager;
 import org.apache.wiki.auth.user.UserDatabase;
@@ -78,8 +88,12 @@ public class Installer
         m_engine = WikiEngine.getInstance( config );
         m_session = WikiSession.getWikiSession( m_engine, request );
         
+<<<<<<< HEAD
         // Get the servlet context, and file for properties
         ServletContext context = config.getServletContext();
+=======
+        // Get the file for properties
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_propertyFile = new File(TMP_DIR, PROPFILENAME);
         m_props = new Properties();
         
@@ -194,7 +208,10 @@ public class Installer
         return m_props.getProperty( key );
     }
     
+<<<<<<< HEAD
     @SuppressWarnings("deprecation")
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void parseProperties () throws Exception
     {
         ResourceBundle rb = ResourceBundle.getBundle( InternationalizationManager.CORE_BUNDLE,
@@ -227,10 +244,13 @@ public class Installer
         parseProperty( WORK_DIR, nullValue );
         sanitizePath( WORK_DIR );
         
+<<<<<<< HEAD
         // Get/sanitize security property
         nullValue = m_props.getProperty( AuthenticationManager.PROP_SECURITY, AuthenticationManager.SECURITY_JAAS );
         parseProperty( AuthenticationManager.PROP_SECURITY, nullValue );
         
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Set a few more default properties, for easy setup
         m_props.setProperty( STORAGE_DIR, m_props.getProperty( PAGE_DIR ) );
         m_props.setProperty( PageManager.PROP_PAGEPROVIDER, "VersioningFileProvider" );

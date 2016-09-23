@@ -23,13 +23,21 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.parser.WikiDocument;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.jdom2.JDOMException;
 import org.jdom2.Text;
 import org.jdom2.xpath.XPath;
 
+<<<<<<< HEAD
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.parser.WikiDocument;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  *  A simple renderer that just renders all the text() nodes
  *  from the DOM tree.  This is very useful for cleaning away
@@ -61,7 +69,11 @@ public class CleanTextRenderer
     public String getString()
         throws IOException
     {
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+    	StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         try
         {

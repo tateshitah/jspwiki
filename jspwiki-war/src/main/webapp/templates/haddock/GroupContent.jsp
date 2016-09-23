@@ -14,6 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
 --%>
 
@@ -168,3 +169,10 @@
   </form>
 
 </div>
+=======
+    under the License.
+--%>
+
+<%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
+<wiki:Include page="PreferencesContent.jsp" ></wiki:Include>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* 
+=======
+/*
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -14,7 +18,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 
 package org.apache.wiki;
@@ -24,11 +32,14 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
+<<<<<<< HEAD
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.ehcache.CacheManager;
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.attachment.Attachment;
 import org.apache.wiki.attachment.AttachmentManager;
 import org.apache.wiki.providers.BasicAttachmentProvider;
@@ -37,6 +48,14 @@ import org.apache.wiki.providers.FileSystemProvider;
 import org.apache.wiki.providers.VerySimpleProvider;
 import org.apache.wiki.util.TextUtil;
 
+<<<<<<< HEAD
+=======
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+import net.sf.ehcache.CacheManager;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 public class WikiEngineTest extends TestCase
 {
     public static final String NAME1 = "Test1";
@@ -62,11 +81,17 @@ public class WikiEngineTest extends TestCase
         junit.textui.TestRunner.main(new String[] { WikiEngineTest.class.getName() } );
     }
 
+<<<<<<< HEAD
     public void setUp()
+=======
+    @Override
+	public void setUp()
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         throws Exception
     {
         props.setProperty( WikiEngine.PROP_MATCHPLURALS, "true" );
 
+<<<<<<< HEAD
         CacheManager.getInstance().removalAll();
 
         TestEngine.emptyWorkDir();
@@ -74,6 +99,16 @@ public class WikiEngineTest extends TestCase
     }
 
     public void tearDown()
+=======
+        CacheManager.getInstance().removeAllCaches();
+
+        TestEngine.emptyWorkDir();
+        m_engine = new TestEngine(props);
+    }
+
+    @Override
+	public void tearDown()
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     {
         String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
 
@@ -86,11 +121,19 @@ public class WikiEngineTest extends TestCase
 
         TestEngine.emptyWorkDir();
     }
+<<<<<<< HEAD
     
     public void testNonExistentDirectory()
         throws Exception
     {
         String tmpdir = System.getProperties().getProperty("java.io.tmpdir");
+=======
+
+    public void testNonExistentDirectory()
+        throws Exception
+    {
+        String tmpdir = "./target";
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String dirname = "non-existent-directory";
         String newdir = tmpdir + File.separator + dirname;
 
@@ -164,7 +207,11 @@ public class WikiEngineTest extends TestCase
         assertEquals( "singular mistake", "Foobars",
                       m_engine.getFinalPageName( "Foobar" ) );
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void testPutPage()
         throws Exception
     {
@@ -260,7 +307,11 @@ public class WikiEngineTest extends TestCase
         String src="Foobar. [Foobar].  Frobozz.  [This is a link].";
 
         Object[] result = m_engine.scanWikiLinks( new WikiPage(m_engine, "Test"), src ).toArray();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "item 0", "Foobar", result[0] );
         assertEquals( "item 1", "This is a link", result[1] );
     }
@@ -331,7 +382,11 @@ public class WikiEngineTest extends TestCase
     public void testLatestGet()
         throws Exception
     {
+<<<<<<< HEAD
         props.setProperty( "jspwiki.pageProvider", 
+=======
+        props.setProperty( "jspwiki.pageProvider",
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                            "org.apache.wiki.providers.VerySimpleProvider" );
         props.setProperty( "jspwiki.usePageCache", "false" );
 
@@ -349,7 +404,11 @@ public class WikiEngineTest extends TestCase
     public void testLatestGet2()
         throws Exception
     {
+<<<<<<< HEAD
         props.setProperty( "jspwiki.pageProvider", 
+=======
+        props.setProperty( "jspwiki.pageProvider",
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                            "org.apache.wiki.providers.VerySimpleProvider" );
         props.setProperty( "jspwiki.usePageCache", "false" );
 
@@ -367,7 +426,11 @@ public class WikiEngineTest extends TestCase
     public void testLatestGet3()
         throws Exception
     {
+<<<<<<< HEAD
         props.setProperty( "jspwiki.pageProvider", 
+=======
+        props.setProperty( "jspwiki.pageProvider",
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                            "org.apache.wiki.providers.VerySimpleProvider" );
         props.setProperty( "jspwiki.usePageCache", "false" );
 
@@ -385,7 +448,11 @@ public class WikiEngineTest extends TestCase
     public void testLatestGet4()
         throws Exception
     {
+<<<<<<< HEAD
         props.setProperty( "jspwiki.pageProvider", 
+=======
+        props.setProperty( "jspwiki.pageProvider",
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                            "org.apache.wiki.providers.VerySimpleProvider" );
         props.setProperty( "jspwiki.usePageCache", "true" );
 
@@ -409,7 +476,11 @@ public class WikiEngineTest extends TestCase
     {
         ReferenceManager refMgr = m_engine.getReferenceManager();
         AttachmentManager attMgr = m_engine.getAttachmentManager();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.saveText( NAME1, "fooBar");
 
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
@@ -417,23 +488,40 @@ public class WikiEngineTest extends TestCase
         attMgr.storeAttachment( att, m_engine.makeAttachmentFile() );
 
         try
+<<<<<<< HEAD
         {    
             // and check post-conditions        
             Collection c = refMgr.findUncreated();
             assertTrue("attachment exists: "+c,            
                        c==null || c.size()==0 );
     
+=======
+        {
+            // and check post-conditions
+            Collection c = refMgr.findUncreated();
+            assertTrue("attachment exists: "+c,
+                       c==null || c.size()==0 );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             c = refMgr.findUnreferenced();
             assertEquals( "unreferenced count", 2, c.size() );
             Iterator< String > i = c.iterator();
             String first = i.next();
             String second = i.next();
+<<<<<<< HEAD
             assertTrue( "unreferenced",            
+=======
+            assertTrue( "unreferenced",
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                         (first.equals( NAME1 ) && second.equals( NAME1+"/TestAtt.txt"))
                         || (first.equals( NAME1+"/TestAtt.txt" ) && second.equals( NAME1 )) );
         }
         finally
+<<<<<<< HEAD
         { 
+=======
+        {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             // do cleanup
             String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
             TestEngine.deleteAll( new File( files, NAME1+BasicAttachmentProvider.DIR_EXTENSION ) );
@@ -441,7 +529,11 @@ public class WikiEngineTest extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      *  Is ReferenceManager updated properly if a page references 
+=======
+     *  Is ReferenceManager updated properly if a page references
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  its own attachments?
      */
 
@@ -465,6 +557,7 @@ public class WikiEngineTest extends TestCase
     {
         ReferenceManager refMgr = m_engine.getReferenceManager();
         AttachmentManager attMgr = m_engine.getAttachmentManager();
+<<<<<<< HEAD
         
         m_engine.saveText( NAME1, "[TestAtt.txt]");
 
@@ -485,10 +578,33 @@ public class WikiEngineTest extends TestCase
         
         // now we create the attachment
             
+=======
+
+        m_engine.saveText( NAME1, "[TestAtt.txt]");
+
+        // check a few pre-conditions
+
+        Collection c = refMgr.findReferrers( "TestAtt.txt" );
+        assertTrue( "normal, unexisting page",
+                    c!=null && ((String)c.iterator().next()).equals( NAME1 ) );
+
+        c = refMgr.findReferrers( NAME1+"/TestAtt.txt" );
+        assertTrue( "no attachment", c==null || c.size()==0 );
+
+        c = refMgr.findUncreated();
+        assertTrue( "unknown attachment",
+                    c!=null &&
+                    c.size()==1 &&
+                    ((String)c.iterator().next()).equals( "TestAtt.txt" ) );
+
+        // now we create the attachment
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
         att.setAuthor( "FirstPost" );
         attMgr.storeAttachment( att, m_engine.makeAttachmentFile() );
         try
+<<<<<<< HEAD
         {    
             // and check post-conditions        
             c = refMgr.findUncreated();
@@ -498,22 +614,45 @@ public class WikiEngineTest extends TestCase
             c = refMgr.findReferrers( "TestAtt.txt" );
             assertTrue( "no normal page", c==null || c.size()==0 );
     
+=======
+        {
+            // and check post-conditions
+            c = refMgr.findUncreated();
+            assertTrue( "attachment exists: ",
+                        c==null || c.size()==0 );
+
+            c = refMgr.findReferrers( "TestAtt.txt" );
+            assertTrue( "no normal page", c==null || c.size()==0 );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             c = refMgr.findReferrers( NAME1+"/TestAtt.txt" );
             assertTrue( "attachment exists now", c!=null && ((String)c.iterator().next()).equals( NAME1 ) );
 
             c = refMgr.findUnreferenced();
+<<<<<<< HEAD
             assertTrue( "unreferenced",            
                         c.size()==1 && ((String)c.iterator().next()).equals( NAME1 ));
         }
         finally
         { 
+=======
+            assertTrue( "unreferenced",
+                        c.size()==1 && ((String)c.iterator().next()).equals( NAME1 ));
+        }
+        finally
+        {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             // do cleanup
             String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
             TestEngine.deleteAll( new File( files, NAME1+BasicAttachmentProvider.DIR_EXTENSION ) );
         }
     }
 
+<<<<<<< HEAD
     /** 
+=======
+    /**
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  Checks, if ReferenceManager is informed if a link to an attachment is added.
      */
     public void testAttachmentRefs3()
@@ -521,7 +660,11 @@ public class WikiEngineTest extends TestCase
     {
         ReferenceManager refMgr = m_engine.getReferenceManager();
         AttachmentManager attMgr = m_engine.getAttachmentManager();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.saveText( NAME1, "fooBar");
 
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
@@ -531,6 +674,7 @@ public class WikiEngineTest extends TestCase
         m_engine.saveText( NAME1, " ["+NAME1+"/TestAtt.txt] ");
 
         try
+<<<<<<< HEAD
         {    
             // and check post-conditions        
             Collection c = refMgr.findUncreated();
@@ -544,13 +688,33 @@ public class WikiEngineTest extends TestCase
         }
         finally
         { 
+=======
+        {
+            // and check post-conditions
+            Collection c = refMgr.findUncreated();
+            assertTrue( "attachment exists",
+                        c==null || c.size()==0 );
+
+            c = refMgr.findUnreferenced();
+            assertEquals( "unreferenced count", c.size(), 1 );
+            assertTrue( "unreferenced",
+                        ((String)c.iterator().next()).equals( NAME1 ) );
+        }
+        finally
+        {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             // do cleanup
             String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
             TestEngine.deleteAll( new File( files, NAME1+BasicAttachmentProvider.DIR_EXTENSION ) );
         }
     }
+<<<<<<< HEAD
     
     /** 
+=======
+
+    /**
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  Checks, if ReferenceManager is informed if a third page references an attachment.
      */
     public void testAttachmentRefs4()
@@ -558,7 +722,11 @@ public class WikiEngineTest extends TestCase
     {
         ReferenceManager refMgr = m_engine.getReferenceManager();
         AttachmentManager attMgr = m_engine.getAttachmentManager();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.saveText( NAME1, "[TestPage2]");
 
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
@@ -568,6 +736,7 @@ public class WikiEngineTest extends TestCase
         m_engine.saveText( "TestPage2", "["+NAME1+"/TestAtt.txt]");
 
         try
+<<<<<<< HEAD
         {    
             // and check post-conditions        
             Collection c = refMgr.findUncreated();
@@ -581,15 +750,37 @@ public class WikiEngineTest extends TestCase
         }
         finally
         { 
+=======
+        {
+            // and check post-conditions
+            Collection c = refMgr.findUncreated();
+            assertTrue( "attachment exists",
+                        c==null || c.size()==0 );
+
+            c = refMgr.findUnreferenced();
+            assertEquals( "unreferenced count", c.size(), 1 );
+            assertTrue( "unreferenced",
+                        ((String)c.iterator().next()).equals( NAME1 ) );
+        }
+        finally
+        {
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             // do cleanup
             String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
             TestEngine.deleteAll( new File( files, NAME1+BasicAttachmentProvider.DIR_EXTENSION ) );
             new File( files, "TestPage2"+FileSystemProvider.FILE_EXT ).delete();
         }
+<<<<<<< HEAD
     }    
 
 
     
+=======
+    }
+
+
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     public void testDeletePage()
         throws Exception
@@ -617,17 +808,29 @@ public class WikiEngineTest extends TestCase
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
         att.setAuthor( "FirstPost" );
         m_engine.getAttachmentManager().storeAttachment( att, m_engine.makeAttachmentFile() );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
         File saved = new File( files, NAME1+FileSystemProvider.FILE_EXT );
 
         String atts = props.getProperty( BasicAttachmentProvider.PROP_STORAGEDIR );
         File attfile = new File( atts, NAME1+"-att/TestAtt.txt-dir" );
+<<<<<<< HEAD
         
         assertTrue( "Didn't create it!", saved.exists() );
 
         assertTrue( "Attachment dir does not exist", attfile.exists() );
         
+=======
+
+        assertTrue( "Didn't create it!", saved.exists() );
+
+        assertTrue( "Attachment dir does not exist", attfile.exists() );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         WikiPage page = m_engine.getPage( NAME1, WikiProvider.LATEST_VERSION );
 
         m_engine.deletePage( page.getName() );
@@ -644,22 +847,35 @@ public class WikiEngineTest extends TestCase
         Attachment att = new Attachment( m_engine, NAME1, "TestAtt.txt" );
         att.setAuthor( "FirstPost" );
         m_engine.getAttachmentManager().storeAttachment( att, m_engine.makeAttachmentFile() );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String files = props.getProperty( FileSystemProvider.PROP_PAGEDIR );
         File saved = new File( files, NAME1+FileSystemProvider.FILE_EXT );
 
         String atts = props.getProperty( BasicAttachmentProvider.PROP_STORAGEDIR );
         File attfile = new File( atts, NAME1+"-att/TestAtt.txt-dir" );
+<<<<<<< HEAD
         
         assertTrue( "Didn't create it!", saved.exists() );
 
         assertTrue( "Attachment dir does not exist", attfile.exists() );
         
+=======
+
+        assertTrue( "Didn't create it!", saved.exists() );
+
+        assertTrue( "Attachment dir does not exist", attfile.exists() );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         WikiPage page = m_engine.getPage( NAME1, WikiProvider.LATEST_VERSION );
 
         assertNotNull( "page", page );
 
         att = m_engine.getAttachmentManager().getAttachmentInfo(NAME1+"/TestAtt.txt");
+<<<<<<< HEAD
         
         m_engine.deletePage(att.getName());
         
@@ -673,11 +889,30 @@ public class WikiEngineTest extends TestCase
         assertNull( "referrers", refs );
     }
     
+=======
+
+        m_engine.deletePage(att.getName());
+
+        m_engine.deletePage( NAME1 );
+
+        assertNull( "Page not removed", m_engine.getPage(NAME1) );
+        assertNull( "Att not removed", m_engine.getPage(NAME1+"/TestAtt.txt") );
+
+        Collection refs = m_engine.getReferenceManager().findReferrers(NAME1);
+
+        assertNull( "referrers", refs );
+    }
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void testDeleteVersion()
         throws Exception
     {
         props.setProperty( "jspwiki.pageProvider", "VersioningFileProvider" );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         TestEngine engine = new TestEngine( props );
         engine.saveText( NAME1, "Test1" );
         engine.saveText( NAME1, "Test2" );
@@ -686,11 +921,19 @@ public class WikiEngineTest extends TestCase
         WikiPage page = engine.getPage( NAME1, 3 );
 
         engine.deleteVersion( page );
+<<<<<<< HEAD
         
         assertNull( "got page", engine.getPage( NAME1, 3 ) );
         
         String content = engine.getText( NAME1, WikiProvider.LATEST_VERSION );
         
+=======
+
+        assertNull( "got page", engine.getPage( NAME1, 3 ) );
+
+        String content = engine.getText( NAME1, WikiProvider.LATEST_VERSION );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "content", "Test2", content.trim() );
     }
 
@@ -698,13 +941,18 @@ public class WikiEngineTest extends TestCase
         throws Exception
     {
         props.setProperty( "jspwiki.pageProvider", "VersioningFileProvider" );
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         TestEngine engine = new TestEngine( props );
         engine.saveText( NAME1, "Test1" );
         engine.saveText( NAME1, "Test2" );
         engine.saveText( NAME1, "Test3" );
 
         WikiPage page = engine.getPage( NAME1, 1 );
+<<<<<<< HEAD
         
         engine.deleteVersion( page );
         
@@ -714,6 +962,17 @@ public class WikiEngineTest extends TestCase
         
         assertEquals( "content", "Test3", content.trim() );
         
+=======
+
+        engine.deleteVersion( page );
+
+        assertNull( "got page", engine.getPage( NAME1, 1 ) );
+
+        String content = engine.getText( NAME1, WikiProvider.LATEST_VERSION );
+
+        assertEquals( "content", "Test3", content.trim() );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "content1", "", engine.getText(NAME1, 1).trim() );
     }
 
@@ -724,6 +983,7 @@ public class WikiEngineTest extends TestCase
      */
     public void testOldVersionVars()
         throws Exception
+<<<<<<< HEAD
     {   
         Properties props = TestEngine.getTestProperties("/jspwiki-vers-custom.properties");
 
@@ -747,11 +1007,40 @@ public class WikiEngineTest extends TestCase
         engine.deletePage( NAME1 );
     }
     
+=======
+    {
+        Properties props = TestEngine.getTestProperties("/jspwiki-vers-custom.properties");
+
+        props.setProperty( PageManager.PROP_USECACHE, "true" );
+
+        TestEngine engine = new TestEngine( props );
+
+        engine.saveText( NAME1, "[{SET foo=bar}]" );
+
+        engine.saveText( NAME1, "[{SET foo=notbar}]");
+
+        WikiPage v1 = engine.getPage( NAME1, 1 );
+
+        WikiPage v2 = engine.getPage( NAME1, 2 );
+
+        assertEquals( "V1", "bar", v1.getAttribute("foo") );
+
+        // FIXME: The following must run as well
+        assertEquals( "V2", "notbar", v2.getAttribute("foo") );
+
+        engine.deletePage( NAME1 );
+    }
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void testSpacedNames1()
         throws Exception
     {
         m_engine.saveText("This is a test", "puppaa");
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "normal", "puppaa", m_engine.getText("This is a test").trim() );
     }
 
@@ -759,6 +1048,7 @@ public class WikiEngineTest extends TestCase
     public void testParsedVariables() throws Exception
     {
         m_engine.saveText( "TestPage", "[{SET foo=bar}][{SamplePlugin text='{$foo}'}]");
+<<<<<<< HEAD
         
         String res = m_engine.getHTML( "TestPage" );
         
@@ -768,12 +1058,24 @@ public class WikiEngineTest extends TestCase
     /**
      * Tests BugReferenceToRenamedPageNotCleared
      * 
+=======
+
+        String res = m_engine.getHTML( "TestPage" );
+
+        assertEquals( "bar\n", res );
+    }
+
+    /**
+     * Tests BugReferenceToRenamedPageNotCleared
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @throws Exception
      */
     public void testRename() throws Exception
     {
         m_engine.saveText( "RenameBugTestPage", "Mary had a little generic object" );
         m_engine.saveText( "OldNameTestPage", "Linked to RenameBugTestPage" );
+<<<<<<< HEAD
        
         Collection pages = m_engine.getReferenceManager().findReferrers( "RenameBugTestPage" );
         assertEquals( "has one", "OldNameTestPage", pages.iterator().next() );
@@ -800,6 +1102,34 @@ public class WikiEngineTest extends TestCase
 
         context.getPage().setAttribute( WikiPage.CHANGENOTE, "Test change" );
         
+=======
+
+        Collection pages = m_engine.getReferenceManager().findReferrers( "RenameBugTestPage" );
+        assertEquals( "has one", "OldNameTestPage", pages.iterator().next() );
+
+        WikiContext ctx = new WikiContext( m_engine, m_engine.getPage("OldNameTestPage") );
+
+        m_engine.renamePage( ctx, "OldNameTestPage", "NewNameTestPage", true );
+
+        assertFalse( "did not vanish", m_engine.pageExists( "OldNameTestPage") );
+        assertTrue( "did not appear", m_engine.pageExists( "NewNameTestPage") );
+
+        pages = m_engine.getReferenceManager().findReferrers( "RenameBugTestPage" );
+
+        assertEquals( "wrong # of referrers", 1, pages.size() );
+
+        assertEquals( "has wrong referrer", "NewNameTestPage", pages.iterator().next() );
+    }
+
+    public void testChangeNoteOldVersion2() throws Exception
+    {
+        WikiPage p = new WikiPage( m_engine, NAME1 );
+
+        WikiContext context = new WikiContext(m_engine,p);
+
+        context.getPage().setAttribute( WikiPage.CHANGENOTE, "Test change" );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.saveText( context, "test" );
 
         for( int i = 0; i < 5; i++ )
@@ -813,6 +1143,7 @@ public class WikiEngineTest extends TestCase
         }
 
         WikiPage p3 = m_engine.getPage( NAME1, -1 );
+<<<<<<< HEAD
     
         assertEquals( null, p3.getAttribute(WikiPage.CHANGENOTE) );
     }
@@ -822,6 +1153,17 @@ public class WikiEngineTest extends TestCase
         String text = "Foobar.\r\n";
         String name = "mrmyxpltz";
         
+=======
+
+        assertEquals( null, p3.getAttribute(WikiPage.CHANGENOTE) );
+    }
+
+    public void testCreatePage() throws Exception
+    {
+        String text = "Foobar.\r\n";
+        String name = "mrmyxpltz";
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "page should not exist right now",
                       false,
                       m_engine.pageExists( name ) );
@@ -832,12 +1174,21 @@ public class WikiEngineTest extends TestCase
                       true,
                       m_engine.pageExists( name ) );
     }
+<<<<<<< HEAD
     
     public void testCreateEmptyPage() throws Exception 
     {
         String text = "";
         String name = "mrmxyzptlk";
         
+=======
+
+    public void testCreateEmptyPage() throws Exception
+    {
+        String text = "";
+        String name = "mrmxyzptlk";
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertEquals( "page should not exist right now",
                       false,
                       m_engine.pageExists( name ) );
@@ -848,22 +1199,36 @@ public class WikiEngineTest extends TestCase
                       false,
                       m_engine.pageExists( name ) );
     }
+<<<<<<< HEAD
     
     public void testSaveExistingPageWithEmptyContent() throws Exception 
     {
         String text = "Foobar.\r\n";
         String name = NAME1;
         
+=======
+
+    public void testSaveExistingPageWithEmptyContent() throws Exception
+    {
+        String text = "Foobar.\r\n";
+        String name = NAME1;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine.saveText( name, text );
 
         assertEquals( "page does not exist",
                       true,
                       m_engine.pageExists( name ) );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // saveText uses normalizePostData to assure it conforms to certain rules
         assertEquals( "wrong content",
                       TextUtil.normalizePostData( text ),
                       m_engine.getText( name ) );
+<<<<<<< HEAD
         
         m_engine.saveText( name, "" );
         
@@ -871,6 +1236,15 @@ public class WikiEngineTest extends TestCase
                       TextUtil.normalizePostData( "" ), 
                       m_engine.getText( name ) );
         
+=======
+
+        m_engine.saveText( name, "" );
+
+        assertEquals( "wrong content",
+                      TextUtil.normalizePostData( "" ),
+                      m_engine.getText( name ) );
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
 }

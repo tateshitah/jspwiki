@@ -27,6 +27,10 @@ import java.util.ArrayList;
 import org.apache.wiki.StringTransmutator;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
+<<<<<<< HEAD
+=======
+import org.jdom2.Element;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  *   Provides an abstract class for the parser instances.
@@ -243,6 +247,22 @@ public abstract class MarkupParser
             m_in.unread( c );
         }
     }
+<<<<<<< HEAD
+=======
+    
+    /**
+     *  Writes HTML for error message.  Does not add it to the document, you
+     *  have to do it yourself.
+     *
+     *  @param error The error string.
+     *  @return An Element containing the error.
+     */
+
+    public static Element makeError( String error )
+    {
+        return new Element("span").setAttribute("class","error").addContent(error);
+    }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /**
      *  Cleans a Wiki name.  The functionality of this method was changed in 2.6
@@ -277,7 +297,11 @@ public abstract class MarkupParser
         if( link == null ) return null;
 
         link = link.trim();
+<<<<<<< HEAD
         StringBuffer clean = new StringBuffer(link.length());
+=======
+        StringBuilder clean = new StringBuilder(link.length());
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         //
         //  Remove non-alphanumeric characters that should not

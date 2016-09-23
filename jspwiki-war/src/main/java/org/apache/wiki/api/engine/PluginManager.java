@@ -27,6 +27,11 @@ import org.apache.oro.text.regex.Pattern;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.plugin.WikiPlugin;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.modules.WikiModuleInfo;
+import org.apache.wiki.plugin.DefaultPluginManager.WikiPluginInfo;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 
 public interface PluginManager {
@@ -150,12 +155,28 @@ public interface PluginManager {
 
     /**
      * Returns a collection of modules currently managed by this ModuleManager.  Each
+<<<<<<< HEAD
      * entry is an instance of the WikiModuleInfo class.  This method should return something
      * which is safe to iterate over, even if the underlying collection changes.
      * 
      * @return A Collection of WikiModuleInfo instances.
      */
     Collection modules();
+=======
+     * entry is an instance of the {@link WikiModuleInfo} class.  This method should return something
+     * which is safe to iterate over, even if the underlying collection changes.
+     * 
+     * @return A Collection of {@link WikiModuleInfo} instances.
+     */
+    Collection modules();
+
+    /**
+     * Returns the {@link WikiPluginInfo} information about the provided pluginName.
+     * @param pluginName
+     * @return The wikiPluginInfo
+     */
+    WikiPluginInfo getModuleInfo(String pluginName);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     
     /**
      * Creates a {@link WikiPlugin}.

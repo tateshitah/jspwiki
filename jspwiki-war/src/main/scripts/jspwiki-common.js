@@ -219,6 +219,75 @@ function getAncestorByTagName( node, tagName ) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+/** AJAX Requests as per http://javapapers.com/ajax/getting-started-with-ajax-using-java/ **/
+/*
+ * creates a new XMLHttpRequest object which is the backbone of AJAX,
+ * or returns false if the browser doesn't support it
+ */
+function getXMLHttpRequest() {
+	var xmlHttpReq = false;
+	// to create XMLHttpRequest object in non-Microsoft browsers
+	if (window.XMLHttpRequest) {
+		xmlHttpReq = new XMLHttpRequest();
+	} else if (window.ActiveXObject) {
+		try {
+			// to create XMLHttpRequest object in later versions
+			// of Internet Explorer
+			xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (exp1) {
+			try {
+				// to create XMLHttpRequest object in older versions
+				// of Internet Explorer
+				xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (exp2) {
+				xmlHttpReq = false;
+			}
+		}
+	}
+	return xmlHttpReq;
+}
+
+/*
+ * Returns a function that waits for the state change in XMLHttpRequest
+ */
+function getReadyStateHandler(xmlHttpRequest,responseId,loading,callback) {
+	// an anonymous function returned
+	// it listens to the XMLHttpRequest instance
+	return function() {
+		if (xmlHttpRequest.readyState >=1 && xmlHttpRequest.readyState <4) {
+			if (responseId && document.getElementById(responseId) != null) {
+				document.getElementById(responseId).innerHTML = loading;
+			}
+		}
+		if (xmlHttpRequest.readyState == 4) {
+			if (xmlHttpRequest.status == 200) {
+				if (responseId && document.getElementById(responseId) != null) {
+					document.getElementById(responseId).innerHTML = xmlHttpRequest.responseText;
+				} else {
+					// Javascript function JSON.parse to parse JSON data
+					var jsonResponse = xmlHttpRequest.responseText;
+					if (jsonResponse && jsonResponse.length>0) {
+			        	jsonResponse = JSON.parse(jsonResponse);
+					}
+			        callback(jsonResponse);
+				}
+			} else {
+				var errorMsg = "HTTP error " + xmlHttpRequest.status + ": " + xmlHttpRequest.statusText;
+				if (responseId && document.getElementById(responseId) != null) {
+					document.getElementById(responseId).innerHTML(errorMsg);
+				} else {
+					console.log(errorMsg);
+					callback(errorMsg);
+				}
+			}
+		}
+	};
+}
+/** End AJAX Requests **/
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /** 100 Wiki functions **/
 var Wiki = {
@@ -297,7 +366,12 @@ var Wiki = {
 	//allow letters, digits and punctuation chars: ()&+,-=._$
 	cleanLink: function(p){
 		return p.trim().replace(/\s+/g,' ')
+<<<<<<< HEAD
 				.replace(/[^0-9A-Za-z\u00C0-\u1FFF\u2800-\uFFFD()&+,-=._$ ]/g, '');
+=======
+                .replace(/[^\w\u00C0-\u1FFF\u2800-\uFFFD\(\)&\+,\-=\.\$ ]/g, "");
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	},
 
 	changeOrientation: function(){
@@ -379,11 +453,19 @@ var Wiki = {
 	submitUpload: function(form, progress){
 		$('progressbar').setStyle('visibility','visible');
 		this.progressbar =
+<<<<<<< HEAD
 		Wiki.jsonrpc.periodical(1000, this, ["progressTracker.getProgress",[progress],function(result){
 			result = result.stripScripts(); //xss vulnerability
 			if(!result.code) $('progressbar').getFirst().setStyle('width',result+'%').setHTML(result+'%');
 		}]);
 
+=======
+			Wiki.ajaxJsonCall.periodical(500, this, ["/progressTracker",[progress],function(result){
+			if(result) {
+				$('progressbar').getFirst().setStyle('width',result+'%').setHTML(result+'%');
+			}
+		}]);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		return Wiki.submitOnce(form);
 	},
 
@@ -412,6 +494,7 @@ var Wiki = {
 		);
 	},
 
+<<<<<<< HEAD
 	$jsonid : 10000,
 	jsonrpc: function(method, params, fn) {
 		new Ajax( Wiki.JsonUrl, {
@@ -425,6 +508,67 @@ var Wiki = {
 				}
 			}
 		}).request();
+=======
+	/*
+	 * AJAX call starts with these functions which rely on the Mootools Request.HTML and Request.JSON
+	 * http://mootools.net/core/docs/1.5.1/Request/Request.JSON
+	 */
+	/** Mootools version
+	ajaxHtmlCall:function(url, params, responseId, loading){
+		var update = document.getElementById(responseId);
+		if (update){ update.innerHTML = loading||'Loading...'; }
+
+		new Request.HTML({
+			url: this.JsonUrl + url,
+			method:'post',  // defaults to 'POST'
+			update: update
+		}).send({
+	        params: params
+	    });
+	},
+	ajaxJsonCall: function(url, params, callback){
+		//the Request.JSON does all encoding and decoding of the JSON automatically
+		new Request.JSON({
+			url: this.JsonURL + url,
+			method:'post',
+			onSuccess: function(response){
+			    if(response.error){
+			        console.log(response.error);
+			        callback(null);
+			    } else {
+			        callback(response.result)
+			    }
+			},
+			onError: function(response){
+			        console.log(response.error);
+			        callback(null);
+			}
+		}).send({
+	        params: params
+	    });
+	}
+	 */
+
+	ajaxHtmlCall: function (url, params, responseId, loading) {
+		url = Wiki.JsonUrl + url;
+		if (!loading) {
+			loading = "Loading...";
+		}
+		var xmlHttpRequest = getXMLHttpRequest();
+		xmlHttpRequest.onreadystatechange = getReadyStateHandler(xmlHttpRequest,responseId,loading);
+		xmlHttpRequest.open('post', url, true);
+		xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xmlHttpRequest.send("params="+params);
+	},
+
+	ajaxJsonCall: function (url, params, callback) {
+		url = Wiki.JsonUrl + url;
+		var xmlHttpRequest = getXMLHttpRequest();
+		xmlHttpRequest.onreadystatechange = getReadyStateHandler(xmlHttpRequest,null,null,callback);
+		xmlHttpRequest.open('post', url, true);
+		xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		xmlHttpRequest.send("params="+params);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	}
 }
 
@@ -938,6 +1082,7 @@ var SearchBox = {
 		$('searchTarget').setHTML('('+qv+') :');
 		$('searchSpin').show();
 
+<<<<<<< HEAD
 		Wiki.jsonrpc('search.findPages', [qv,20], function(result){
 				$('searchSpin').hide();
 				if(!result.list) return;
@@ -952,6 +1097,22 @@ var SearchBox = {
 				$('searchOutput').empty().adopt(frag);
 				Wiki.locatemenu( $('query'), $('searchboxMenu') );
 		});
+=======
+	   Wiki.ajaxJsonCall("/search/pages",[qv,'20'], function(result) {
+			$('searchSpin').hide();
+			if(!result) return;
+			var frag = new Element('ul');
+
+			result.each(function(el){
+				new Element('li').adopt(
+					new Element('a',{'href':Wiki.getUrl(el.page) }).setHTML(el.page),
+					new Element('span',{'class':'small'}).setHTML(" ("+el.score+")")
+				).inject(frag);
+			});
+			$('searchOutput').empty().adopt(frag);
+			Wiki.locatemenu( $('query'), $('searchboxMenu') );
+	   });
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	} ,
 
 	/* navigate to url, after smart pagename handling */
@@ -1402,7 +1563,11 @@ var Sortable =
 			/* chrome accepts numbers as valid Dates !! */
 			if(date) date = !isNaN(Date.parse(v)) && v.test(/[^\d]/);
 			if(ip4)  ip4  = v.test(/(?:\\d{1,3}\\.){3}\\d{1,3}/); //169.169.0.1
+<<<<<<< HEAD
 			if(euro) euro = v.test(/^[£$€][0-9.,]+/);
+=======
+			if(euro) euro = v.test(/^[Â£$â‚¬][0-9.,]+/);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			if(kmgt) kmgt = v.test(/(?:[0-9.,]+)\s*(?:[kmgt])b/);  //2 MB, 4GB, 1.2kb, 8Tb
 
 		});

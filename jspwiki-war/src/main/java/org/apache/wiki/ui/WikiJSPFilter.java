@@ -19,7 +19,10 @@
 package org.apache.wiki.ui;
 
 import java.io.ByteArrayOutputStream;
+<<<<<<< HEAD
 import java.io.CharArrayWriter;
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -46,7 +49,11 @@ import org.apache.wiki.event.WikiEventManager;
 import org.apache.wiki.event.WikiPageEvent;
 import org.apache.wiki.url.DefaultURLConstructor;
 import org.apache.wiki.util.TextUtil;
+<<<<<<< HEAD
 import org.apache.wiki.util.UtilJ2eeCompat;
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  * This filter goes through the generated page response prior and
@@ -58,7 +65,11 @@ import org.apache.wiki.util.UtilJ2eeCompat;
  * redirections or sends error codes (such as access control methods).
  * <p>
  * Inclusion markers are placed by the IncludeResourcesTag; the
+<<<<<<< HEAD
  * defult content templates (see .../templates/default/commonheader.jsp)
+=======
+ * default content templates (see .../templates/default/commonheader.jsp)
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  * are configured to do this. As an example, a JavaScript resource marker
  * is added like this:
  * <pre>
@@ -79,16 +90,28 @@ import org.apache.wiki.util.UtilJ2eeCompat;
  */
 public class WikiJSPFilter extends WikiServletFilter
 {
+<<<<<<< HEAD
     private Boolean m_useOutputStream;
     private String m_wiki_encoding;
+=======
+    private String m_wiki_encoding;
+    private boolean useEncoding;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /** {@inheritDoc} */
     public void init( FilterConfig config ) throws ServletException
     {
         super.init( config );
         m_wiki_encoding = m_engine.getWikiProperties().getProperty(WikiEngine.PROP_ENCODING);
+<<<<<<< HEAD
         ServletContext context = config.getServletContext();
         m_useOutputStream = UtilJ2eeCompat.useOutputStream( context.getServerInfo() );
+=======
+        
+        useEncoding =  !(new Boolean(m_engine.getWikiProperties().getProperty(WikiEngine.PROP_NO_FILTER_ENCODING, "false").trim()).booleanValue());
+        
+        ServletContext context = config.getServletContext();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     public void doFilter( ServletRequest  request, ServletResponse response, FilterChain chain )
@@ -102,6 +125,7 @@ public class WikiJSPFilter extends WikiServletFilter
             w.enterState("Filtering for URL "+((HttpServletRequest)request).getRequestURI(), 90 );
             HttpServletResponseWrapper responseWrapper;
          
+<<<<<<< HEAD
             if( m_useOutputStream )
             {
                 log.debug( "Using ByteArrayResponseWrapper" );
@@ -112,6 +136,9 @@ public class WikiJSPFilter extends WikiServletFilter
                 log.debug( "Using MyServletResponseWrapper" );
                 responseWrapper = new MyServletResponseWrapper( (HttpServletResponse)response, m_wiki_encoding );
             }
+=======
+            responseWrapper = new MyServletResponseWrapper( (HttpServletResponse)response, m_wiki_encoding, useEncoding);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
             // fire PAGE_REQUESTED event
             String pagename = DefaultURLConstructor.parsePageFromURL(
@@ -131,7 +158,11 @@ public class WikiJSPFilter extends WikiServletFilter
                 WikiContext wikiContext = getWikiContext( request );
                 String r = filter( wikiContext, responseWrapper );
                 
+<<<<<<< HEAD
                 if (m_useOutputStream) 
+=======
+                if (useEncoding) 
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 {
                     OutputStreamWriter out = new OutputStreamWriter(response.getOutputStream(), 
                                                                     response.getCharacterEncoding());
@@ -240,7 +271,11 @@ public class WikiJSPFilter extends WikiServletFilter
         
         String[] resources = TemplateManager.getResourceRequests( wikiContext, type );
         
+<<<<<<< HEAD
         StringBuffer concat = new StringBuffer( resources.length * 40 );
+=======
+        StringBuilder concat = new StringBuilder( resources.length * 40 );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         for( int i = 0; i < resources.length; i++  )
         {
@@ -263,14 +298,24 @@ public class WikiJSPFilter extends WikiServletFilter
     private static class MyServletResponseWrapper
         extends HttpServletResponseWrapper
     {
+<<<<<<< HEAD
         private CharArrayWriter m_output;
         private MyServletOutputStream m_servletOut;
         private PrintWriter m_writer;
       
+=======
+        ByteArrayOutputStream m_output;
+        private MyServletOutputStream m_servletOut;
+        private PrintWriter m_writer;
+        private HttpServletResponse m_response;
+        private boolean useEncoding;
+        
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         /** 
          *  How large the initial buffer should be.  This should be tuned to achieve
          *  a balance in speed and memory consumption.
          */
+<<<<<<< HEAD
         private static final int INIT_BUFFER_SIZE = 4096;
         
         public MyServletResponseWrapper( HttpServletResponse r, final String wiki_encoding )
@@ -279,6 +324,20 @@ public class WikiJSPFilter extends WikiServletFilter
             m_output = new CharArrayWriter( INIT_BUFFER_SIZE );
             m_servletOut = new MyServletOutputStream(m_output);
             m_writer = new PrintWriter(new OutputStreamWriter(m_servletOut, wiki_encoding), true);
+=======
+        private static final int INIT_BUFFER_SIZE = 0x8000;
+   
+        
+        public MyServletResponseWrapper( HttpServletResponse r, final String wiki_encoding, boolean useEncoding)
+                throws UnsupportedEncodingException {
+            super(r);
+            m_output = new ByteArrayOutputStream(INIT_BUFFER_SIZE);
+            m_servletOut = new MyServletOutputStream(m_output);
+            m_writer = new PrintWriter(new OutputStreamWriter(m_servletOut, wiki_encoding), true);
+            this.useEncoding = useEncoding;
+            
+            m_response = r;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         /**
@@ -303,12 +362,21 @@ public class WikiJSPFilter extends WikiServletFilter
 
         class MyServletOutputStream extends ServletOutputStream
         {
+<<<<<<< HEAD
             CharArrayWriter m_buffer;
 
             public MyServletOutputStream(CharArrayWriter aCharArrayWriter)
             {
                 super();
                 m_buffer = aCharArrayWriter;
+=======
+            ByteArrayOutputStream m_buffer;
+
+            public MyServletOutputStream(ByteArrayOutputStream byteArrayOutputStream)
+            {
+                super();
+                m_buffer = byteArrayOutputStream;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
 
             @Override
@@ -324,6 +392,7 @@ public class WikiJSPFilter extends WikiServletFilter
         public String toString()
         {
             try
+<<<<<<< HEAD
             {
                 flushBuffer();
             }
@@ -425,6 +494,34 @@ public class WikiJSPFilter extends WikiServletFilter
         }
     }
 
+=======
+			{
+				flushBuffer();
+			} catch (IOException e)
+			{
+                log.error( e );
+                return StringUtils.EMPTY;
+			}
+
+            try
+			{
+				if (useEncoding)
+				{
+					return m_output.toString(m_response.getCharacterEncoding());
+				}
+
+				return m_output.toString();
+			}                
+            catch( UnsupportedEncodingException e )
+            {
+                log.error( e );
+                return StringUtils.EMPTY;
+             }
+        }
+    }
+
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     // events processing .......................................................
 
 

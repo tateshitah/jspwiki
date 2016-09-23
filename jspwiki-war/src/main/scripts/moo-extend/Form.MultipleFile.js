@@ -55,7 +55,11 @@ Form.MultipleFile = new Class({
     _files: [],
 
     initialize: function(input, list, drop, options){
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         input = this.element = document.id(input);
         list = this.list = document.id(list);
         drop = document.id(drop);
@@ -77,17 +81,29 @@ Form.MultipleFile = new Class({
         });
 
         function activateDrop(event, isOn){
+<<<<<<< HEAD
             drop.ifClass(isOn, 'active', '');
+=======
+            drop.ifClass(isOn, 'active');
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             self.fireEvent( event.type, event );
         };
 
         if(drop && (typeof document.body.draggable != 'undefined')){
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             input.addEvents({
             dragenter: function(event){ activateDrop(event,true); }, //self.fireEvent.bind(self, 'dragenter'),
             dragleave: function(event){ activateDrop(event,false); }, //self.fireEvent.bind(self, 'dragleave'),
             dragend: self.fireEvent.bind(self, 'dragend'),
+<<<<<<< HEAD
             dragover: function(event){ 
+=======
+            dragover: function(event){
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 event.preventDefault();
                 self.fireEvent(event.type, event);
             },
@@ -98,7 +114,11 @@ Form.MultipleFile = new Class({
                 activateDrop(event, false);
             }
             });
+<<<<<<< HEAD
 /*        
+=======
+/*
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             input.addEvents({
             dragenter: function(e){ activateDrop(true); console.log(e.type); self.fireEvent('dragenter'); },
             dragleave: self.fireEvent.bind(self, 'dragleave'),
@@ -121,12 +141,21 @@ Form.MultipleFile = new Class({
     },
 
     add: function(file){
+<<<<<<< HEAD
     
         this._files.push(file);
         
         var newItem = this.list.getFirst().clone(true,true);          
         newItem.getElement('input').destroy();
         newItem.getElement('label').set('html', file.name + "<b>"+file.size/1024+" Kb</b>" );
+=======
+
+        this._files.push(file);
+
+        var newItem = this.list.getFirst().clone(true,true);
+        newItem.getElement('input').destroy();
+        newItem.getElement('label').set('html', file.name + "<b>"+(file.size/1024).toFixed(1)+" kB</b>" );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         newItem.getElement('.delete').removeClass('hidden').store('file',file);
         newItem.removeClass('droppable');
         this.list.grab(newItem);
@@ -148,7 +177,11 @@ Form.MultipleFile = new Class({
     },
 
     getFiles: function(){
+<<<<<<< HEAD
         return this._files;        
+=======
+        return this._files;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
 });

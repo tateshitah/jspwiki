@@ -389,10 +389,17 @@ public final class CommandResolver
         }
 
         // Find special page reference?
+<<<<<<< HEAD
         for( Iterator i = m_specialPages.entrySet().iterator(); i.hasNext(); )
         {
             Map.Entry entry = (Map.Entry) i.next();
             Command specialCommand = (Command) entry.getValue();
+=======
+        for( Iterator< Map.Entry< String, Command > > i = m_specialPages.entrySet().iterator(); i.hasNext(); )
+        {
+            Map.Entry< String, Command > entry = i.next();
+            Command specialCommand = entry.getValue();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             if ( specialCommand.getJSP().equals( jsp ) )
             {
                 return specialCommand;
@@ -459,7 +466,11 @@ public final class CommandResolver
         catch( IOException e )
         {
             m_log.error( "Unable to create context", e );
+<<<<<<< HEAD
             throw new InternalWikiException( "Big internal booboo, please check logs." );
+=======
+            throw new InternalWikiException( "Big internal booboo, please check logs." , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         // Didn't resolve; return null

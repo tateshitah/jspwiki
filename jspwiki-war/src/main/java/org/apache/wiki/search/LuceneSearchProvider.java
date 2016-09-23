@@ -67,6 +67,10 @@ import org.apache.lucene.util.Version;
 import org.apache.wiki.InternalWikiException;
 import org.apache.wiki.WatchDog;
 import org.apache.wiki.WikiBackgroundThread;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.WikiContext;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.WikiProvider;
@@ -74,6 +78,11 @@ import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.attachment.Attachment;
 import org.apache.wiki.attachment.AttachmentManager;
+<<<<<<< HEAD
+=======
+import org.apache.wiki.auth.AuthorizationManager;
+import org.apache.wiki.auth.permissions.PagePermission;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.parser.MarkupParser;
 import org.apache.wiki.providers.WikiPageProvider;
 import org.apache.wiki.util.ClassUtil;
@@ -590,10 +599,17 @@ public class LuceneSearchProvider implements SearchProvider {
     /**
      *  {@inheritDoc}
      */
+<<<<<<< HEAD
     public Collection findPages( String query )
         throws ProviderException
     {
         return findPages( query, FLAG_CONTEXTS );
+=======
+    public Collection findPages( String query, WikiContext wikiContext )
+        throws ProviderException
+    {
+        return findPages( query, FLAG_CONTEXTS, wikiContext );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -610,7 +626,11 @@ public class LuceneSearchProvider implements SearchProvider {
      *  @return A Collection of SearchResult instances
      *  @throws ProviderException if there is a problem with the backend
      */
+<<<<<<< HEAD
     public Collection findPages( String query, int flags )
+=======
+    public Collection findPages( String query, int flags, WikiContext wikiContext )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         throws ProviderException
     {
         IndexSearcher  searcher = null;
@@ -647,6 +667,11 @@ public class LuceneSearchProvider implements SearchProvider {
 
             ScoreDoc[] hits = searcher.search(luceneQuery, MAX_SEARCH_HITS).scoreDocs;
 
+<<<<<<< HEAD
+=======
+            AuthorizationManager mgr = m_engine.getAuthorizationManager();
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             list = new ArrayList<SearchResult>(hits.length);
             for ( int curr = 0; curr < hits.length; curr++ )
             {
@@ -663,6 +688,7 @@ public class LuceneSearchProvider implements SearchProvider {
                         // When the search-results are cleaned up this can be enabled again.
                     }
 
+<<<<<<< HEAD
                     int score = (int)(hits[curr].score * 100);
 
 
@@ -680,6 +706,27 @@ public class LuceneSearchProvider implements SearchProvider {
 
                     SearchResult result = new SearchResultImpl( page, score, fragments );     
                     list.add(result);
+=======
+                    PagePermission pp = new PagePermission( page, PagePermission.VIEW_ACTION );
+	                if( mgr.checkPermission( wikiContext.getWikiSession(), pp ) ) {
+	
+	                    int score = (int)(hits[curr].score * 100);
+	
+	
+	                    // Get highlighted search contexts
+	                    String text = doc.get(LUCENE_PAGE_CONTENTS);
+	
+	                    String[] fragments = new String[0];
+	                    if( text != null && highlighter != null ) {
+	                        TokenStream tokenStream = getLuceneAnalyzer()
+	                        .tokenStream(LUCENE_PAGE_CONTENTS, new StringReader(text));
+	                        fragments = highlighter.getBestFragments(tokenStream, text, MAX_FRAGMENTS);
+	                    }
+	
+	                    SearchResult result = new SearchResultImpl( page, score, fragments );     
+	                    list.add(result);
+	                }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 else
                 {
@@ -760,7 +807,11 @@ public class LuceneSearchProvider implements SearchProvider {
             }
             catch( InterruptedException e )
             {
+<<<<<<< HEAD
                 throw new InternalWikiException("Interrupted while waiting to start.");
+=======
+                throw new InternalWikiException("Interrupted while waiting to start.", e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
 
             m_watchdog.enterState("Full reindex");

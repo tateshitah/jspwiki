@@ -14,7 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.parser;
 
@@ -81,7 +85,11 @@ import org.jdom2.Verifier;
  *  @since  2.4
  */
 public class JSPWikiMarkupParser extends MarkupParser {
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /** Name of the outlink image; relative path to the JSPWiki directory. */
     private static final String OUTLINK_IMAGE = "images/out.png";
 
@@ -192,7 +200,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
     private int                    m_rowNum              = 1;
 
     private Heading                m_lastHeading         = null;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  This list contains all IANA registered URI protocol
      *  types as of September 2004 + a few well-known extra types.
@@ -247,7 +259,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
 
     /**
      *  Creates a markup parser.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param context The WikiContext which controls the parsing
      *  @param in Where the data is read from.
      */
@@ -308,7 +324,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
             catch( MalformedPatternException e )
             {
                 log.fatal("Internal error: Someone put in a faulty pattern.",e);
+<<<<<<< HEAD
                 throw new InternalWikiException("Faulty camelcasepattern in TranslatorReader");
+=======
+                throw new InternalWikiException("Faulty camelcasepattern in TranslatorReader", e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             m_engine.setAttribute( CAMELCASE_PATTERN, m_camelCasePattern );
         }
@@ -446,11 +466,19 @@ public class JSPWikiMarkupParser extends MarkupParser {
      */
     protected void callHeadingListenerChain( Heading param )
     {
+<<<<<<< HEAD
         List list = m_headingListenerChain;
 
         for( Iterator i = list.iterator(); i.hasNext(); )
         {
             HeadingListener h = (HeadingListener) i.next();
+=======
+        List< HeadingListener > list = m_headingListenerChain;
+
+        for( Iterator< HeadingListener > i = list.iterator(); i.hasNext(); )
+        {
+            HeadingListener h = i.next();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             h.headingAdded( m_context, param );
         }
@@ -506,6 +534,10 @@ public class JSPWikiMarkupParser extends MarkupParser {
             case EDIT:
                 el = createAnchor( EDIT, m_context.getURL(WikiContext.EDIT,link), text, "" );
                 el.setAttribute("title", MessageFormat.format( rb.getString( "markupparser.link.create" ), link ) );
+<<<<<<< HEAD
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 break;
 
             case EMPTY:
@@ -679,9 +711,15 @@ public class JSPWikiMarkupParser extends MarkupParser {
         {
             link = link.toLowerCase();
 
+<<<<<<< HEAD
             for( Iterator i = m_inlineImagePatterns.iterator(); i.hasNext(); )
             {
                 if( m_inlineMatcher.matches( link, (Pattern) i.next() ) )
+=======
+            for( Iterator< Pattern >  i = m_inlineImagePatterns.iterator(); i.hasNext(); )
+            {
+                if( m_inlineMatcher.matches( link, i.next() ) )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     return true;
             }
         }
@@ -740,6 +778,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
         return s;
     }
 
+<<<<<<< HEAD
 
     /**
      *  Writes HTML for error message.  Does not add it to the document, you
@@ -754,6 +793,8 @@ public class JSPWikiMarkupParser extends MarkupParser {
         return new Element("span").setAttribute("class","error").addContent(error);
     }
 
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     private int flushPlainText()
     {
         int numChars = m_plainTextBuf.length();
@@ -913,20 +954,35 @@ public class JSPWikiMarkupParser extends MarkupParser {
                 //  If the following is an XML entity reference (&#.*;) we'll
                 //  leave it as it is; otherwise we'll replace it with an &amp;
                 //
+<<<<<<< HEAD
                 
                 boolean isEntity = false;
                 StringBuilder entityBuf = new StringBuilder();
                 
+=======
+
+                boolean isEntity = false;
+                StringBuilder entityBuf = new StringBuilder();
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 if( i < buf.length() -1 )
                 {
                     for( int j = i; j < buf.length(); j++ )
                     {
                         char ch2 = buf.charAt(j);
+<<<<<<< HEAD
                         
                         if( Character.isLetterOrDigit( ch2 ) || (ch2 == '#' && j == i+1) || ch2 == ';' || ch2 == '&' )
                         {
                             entityBuf.append(ch2);
                             
+=======
+
+                        if( Character.isLetterOrDigit( ch2 ) || (ch2 == '#' && j == i+1) || ch2 == ';' || ch2 == '&' )
+                        {
+                            entityBuf.append(ch2);
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                             if( ch2 == ';' )
                             {
                                 isEntity = true;
@@ -939,17 +995,30 @@ public class JSPWikiMarkupParser extends MarkupParser {
                         }
                     }
                 }
+<<<<<<< HEAD
                 
                 if( isEntity ) 
+=======
+
+                if( isEntity )
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 {
                     tmpBuf.append( entityBuf );
                     i = i + entityBuf.length() - 1;
                 }
+<<<<<<< HEAD
                 else 
                 {
                     tmpBuf.append("&amp;");
                 }
                 
+=======
+                else
+                {
+                    tmpBuf.append("&amp;");
+                }
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
             else
             {
@@ -1124,7 +1193,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
         title = MarkupParser.wikifyLink( title );
 
         hd.m_titleSection = m_engine.encodeName(title);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( m_titleSectionCounter.containsKey( hd.m_titleSection ) )
         {
             Integer count = m_titleSectionCounter.get( hd.m_titleSection );
@@ -1141,7 +1214,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
                            "-"+hd.m_titleSection;
         hd.m_titleAnchor = hd.m_titleAnchor.replace( '%', '_' );
         hd.m_titleAnchor = hd.m_titleAnchor.replace( '/', '_' );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return hd.m_titleAnchor;
     }
 
@@ -1162,15 +1239,24 @@ public class JSPWikiMarkupParser extends MarkupParser {
         catch( IOException e )
         {
             log.fatal("CleanTranslator not working", e);
+<<<<<<< HEAD
             throw new InternalWikiException("CleanTranslator not working as expected, when cleaning title"+ e.getMessage() );
+=======
+            throw new InternalWikiException("CleanTranslator not working as expected, when cleaning title"+ e.getMessage() , e);
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         return outTitle;
     }
 
     /**
+<<<<<<< HEAD
      *  Returns XHTML for the heading. 
      *  
+=======
+     *  Returns XHTML for the heading.
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param level The level of the heading.  @see Heading
      *  @param title the title for the heading
      *  @param hd a List to which heading should be added
@@ -1204,7 +1290,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
             throw new InternalWikiException("Illegal heading type "+level);
         }
 
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return el;
     }
 
@@ -1426,14 +1516,22 @@ public class JSPWikiMarkupParser extends MarkupParser {
     {
         addElement( new ProcessingInstruction(Result.PI_DISABLE_OUTPUT_ESCAPING, "") );
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  Gobbles up all hyperlinks that are encased in square brackets.
      */
     private Element handleHyperlinks( String linktext, int pos )
     {
         ResourceBundle rb = Preferences.getBundle( m_context, InternationalizationManager.CORE_BUNDLE );
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         StringBuilder sb = new StringBuilder(linktext.length()+80);
 
         if( isAccessRule( linktext ) )
@@ -1464,12 +1562,23 @@ public class JSPWikiMarkupParser extends MarkupParser {
             }
             catch( PluginException e )
             {
+<<<<<<< HEAD
                 log.info( "Failed to insert plugin: "+e.getMessage() );
+=======
+                log.info( m_context.getRealPage().getWiki() + " : " + m_context.getRealPage().getName() + " - Failed to insert plugin: " + e.getMessage() );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 //log.info( "Root cause:",e.getRootThrowable() );
                 if( !m_wysiwygEditorMode )
                 {
                     ResourceBundle rbPlugin = Preferences.getBundle( m_context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE );
+<<<<<<< HEAD
                     return addElement( makeError( MessageFormat.format( rbPlugin.getString( "plugin.error.insertionfailed" ), e.getMessage() ) ) );
+=======
+                    return addElement( makeError( MessageFormat.format( rbPlugin.getString( "plugin.error.insertionfailed" ), 
+                    		                                            m_context.getRealPage().getWiki(), 
+                    		                                            m_context.getRealPage().getName(), 
+                    		                                            e.getMessage() ) ) );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
             }
 
@@ -1926,7 +2035,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
         callHeadingListenerChain( hd );
 
         m_lastHeading = hd;
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( el != null ) pushElement(el);
 
         return el;
@@ -2375,7 +2488,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
             //
             //  Check if there is an attempt to do something nasty
             //
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             try
             {
                 style = StringEscapeUtils.unescapeHtml(style);
@@ -2629,7 +2746,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
             }
 
             int skip = IGNORE;
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             //
             //  Do the actual parsing and catch any errors.
             //
@@ -2640,10 +2761,17 @@ public class JSPWikiMarkupParser extends MarkupParser {
             catch( IllegalDataException e )
             {
                 log.info("Page "+m_context.getPage().getName()+" contains data which cannot be added to DOM tree: "+e.getMessage());
+<<<<<<< HEAD
                 
                 makeError("Error: "+cleanupSuspectData(e.getMessage()) );
             }
             
+=======
+
+                makeError("Error: "+cleanupSuspectData(e.getMessage()) );
+            }
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             //
             //   The idea is as follows:  If the handler method returns
             //   an element (el != null), it is assumed that it has been
@@ -2678,6 +2806,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
     private String cleanupSuspectData( String s )
     {
         StringBuilder sb = new StringBuilder( s.length() );
+<<<<<<< HEAD
         
         for( int i = 0; i < s.length(); i++ )
         {
@@ -2696,6 +2825,26 @@ public class JSPWikiMarkupParser extends MarkupParser {
     /** The token is a wikimarkup element. */
     protected static final int ELEMENT   = 1;
     
+=======
+
+        for( int i = 0; i < s.length(); i++ )
+        {
+            char c = s.charAt(i);
+
+            if( Verifier.isXMLCharacter( c ) ) sb.append( c );
+            else sb.append( "0x"+Integer.toString(c,16).toUpperCase() );
+        }
+
+        return sb.toString();
+    }
+
+    /** The token is a plain character. */
+    protected static final int CHARACTER = 0;
+
+    /** The token is a wikimarkup element. */
+    protected static final int ELEMENT   = 1;
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /** The token is to be ignored. */
     protected static final int IGNORE    = 2;
 
@@ -2733,9 +2882,15 @@ public class JSPWikiMarkupParser extends MarkupParser {
             //
 
             // FIXME: This is not really very fast
+<<<<<<< HEAD
             
             closeHeadings();
               
+=======
+
+            closeHeadings();
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             popElement("dl"); // Close definition lists.
             if( m_istable )
             {
@@ -2894,7 +3049,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
     /**
      *  Parses the entire document from the Reader given in the constructor or
      *  set by {@link #setInputReader(Reader)}.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @return A WikiDocument, ready to be passed to the renderer.
      *  @throws IOException If parsing cannot be accomplished.
      */
@@ -2925,7 +3084,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
         //
         //  Add the paragraph tag to the first paragraph
         //
+<<<<<<< HEAD
         List kids = rootElement.getContent();
+=======
+        List< Content > kids = rootElement.getContent();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         if( rootElement.getChild("p") != null )
         {
@@ -2933,6 +3096,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
             int idxOfFirstContent = 0;
             int count = 0;
 
+<<<<<<< HEAD
             for( Iterator i = kids.iterator(); i.hasNext(); count++ )
             {
                 Content c = (Content) i.next();
@@ -2940,6 +3104,15 @@ public class JSPWikiMarkupParser extends MarkupParser {
                 {
                     String name = ((Element)c).getName();
                     if( isBlockLevel(name) ) break;
+=======
+            for( Iterator< Content > i = kids.iterator(); i.hasNext(); count++ )
+            {
+                Content c = i.next();
+                if( c instanceof Element )
+                {
+                    String name = ( ( Element )c ).getName();
+                    if( isBlockLevel( name ) ) break;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
 
                 if( !(c instanceof ProcessingInstruction) )
@@ -2957,9 +3130,15 @@ public class JSPWikiMarkupParser extends MarkupParser {
             {
                 Element newel = new Element("p");
 
+<<<<<<< HEAD
                 for( Iterator i = ls.iterator(); i.hasNext(); )
                 {
                     Content c = (Content) i.next();
+=======
+                for( Iterator< Content > i = ls.iterator(); i.hasNext(); )
+                {
+                    Content c = i.next();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
                     c.detach();
                     newel.addContent(c);

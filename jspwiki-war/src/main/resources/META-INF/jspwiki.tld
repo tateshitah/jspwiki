@@ -15,7 +15,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 -->
 <taglib xmlns="http://java.sun.com/xml/ns/javaee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -342,7 +346,11 @@
        <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
+<<<<<<< HEAD
        <name>class</name>
+=======
+       <name>cssClass</name>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
        <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
@@ -842,7 +850,11 @@
           <required>false</required>
           <rtexprvalue>false</rtexprvalue>
       </attribute>
+<<<<<<< HEAD
             <attribute>
+=======
+      <attribute>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
           <name>clear</name>
           <required>false</required>
           <rtexprvalue>true</rtexprvalue>

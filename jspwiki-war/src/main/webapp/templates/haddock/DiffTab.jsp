@@ -14,13 +14,18 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ page import="org.apache.wiki.tags.InsertDiffTag" %>
 <%@ page import="org.apache.wiki.*" %>
 <%@ page import="java.util.*" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
+<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -44,13 +49,43 @@
            <select id="r1" name="r1" onchange="this.form.submit();" >
            <c:forEach items="${history}" var="i">
              <option value="<c:out value='${i.version}'/>" <c:if test="${i.version == olddiff}">selected="selected"</c:if> ><c:out value="${i.version}"/></option>
+=======
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
+<fmt:setLocale value="${prefs.Language}" />
+<fmt:setBundle basename="templates.default"/>
+<%
+  WikiContext c = WikiContext.findContext( pageContext );
+%>
+<c:set var="history" value="<%= c.getEngine().getVersionHistory(c.getPage().getName()) %>" />
+<c:set var="diffprovider" value='<%= c.getEngine().getVariable(c,"jspwiki.diffProvider") %>' />
+<wiki:PageExists>
+<form action="<wiki:Link jsp='Diff.jsp' format='url' />"
+       class="diffbody form-inline"
+      method="get" accept-charset="UTF-8">
+  <input type="hidden" name="page" value="<wiki:PageName />" />
+
+  <p class="btn btn-lg btn-primary btn-block">
+       <fmt:message key="diff.difference">
+         <fmt:param>
+           <select class="form-control" id="r1" name="r1" onchange="this.form.submit();" >
+           <c:forEach items="${history}" var="i">
+             <option value="${i.version}" ${i.version == olddiff ? 'selected="selected"' : ''} >${i.version}</option>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
            </c:forEach>
            </select>
          </fmt:param>
          <fmt:param>
+<<<<<<< HEAD
            <select id="r2" name="r2" onchange="this.form.submit();" >
            <c:forEach items="${history}" var="i">
              <option value="<c:out value='${i.version}'/>" <c:if test="${i.version == newdiff}">selected="selected"</c:if> ><c:out value="${i.version}"/></option>
+=======
+           <select class="form-control" id="r2" name="r2" onchange="this.form.submit();" >
+           <c:forEach items="${history}" var="i">
+             <option value="${i.version}" ${i.version == newdiff ? 'selected="selected"' : ''} >${i.version}</option>
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
            </c:forEach>
            </select>
          </fmt:param>
@@ -64,10 +99,16 @@
       </a>
     </div>
   </c:if>
+<<<<<<< HEAD
     
   <wiki:InsertDiff><i><fmt:message key="diff.nodiff"/></i></wiki:InsertDiff> 
   
   </div>
   
+=======
+
+  <wiki:InsertDiff><i><fmt:message key="diff.nodiff"/></i></wiki:InsertDiff>
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </form>
 </wiki:PageExists>

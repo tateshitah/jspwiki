@@ -26,8 +26,11 @@
 <%@ page import="org.apache.wiki.filters.SpamFilter" %>
 <%@ page import="org.apache.wiki.ui.*" %>
 <%@ page import="org.apache.wiki.util.TextUtil" %>
+<<<<<<< HEAD
 <%@ page import="org.apache.wiki.rpc.*" %>
 <%@ page import="org.apache.wiki.rpc.json.*" %>
+=======
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <fmt:setLocale value="${prefs.Language}" />

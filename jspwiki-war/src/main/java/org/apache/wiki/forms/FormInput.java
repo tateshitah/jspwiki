@@ -43,6 +43,11 @@ public class FormInput extends FormElement
     /** Parameter name for setting the size of the input field.  Value is <tt>{@value}</tt>. */
     public static final String PARAM_SIZE  = "size";
 
+<<<<<<< HEAD
+=======
+    public static final String PARAM_CHECKED  = "checked";
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      * Generates a dynamic form element on the WikiPage.
      * 
@@ -55,6 +60,10 @@ public class FormInput extends FormElement
         String inputValue = params.get( PARAM_VALUE );
         String inputType  = params.get( PARAM_TYPE );
         String size       = params.get( PARAM_SIZE );
+<<<<<<< HEAD
+=======
+        String checked    = params.get( PARAM_CHECKED );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         ResourceBundle rb = Preferences.getBundle( ctx, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE );
 
         if ( inputName == null ) {
@@ -88,9 +97,14 @@ public class FormInput extends FormElement
         
         Element field = XhtmlUtil.input(inputType,HANDLERPARAM_PREFIX + inputName,inputValue);
         
+<<<<<<< HEAD
         String checked = params.get("checked");
         field.setAttribute(XHTML.ATTR_class,
                 String.valueOf(TextUtil.isPositive(checked) || checked.equalsIgnoreCase("checked")));
+=======
+        field.setAttribute(XHTML.ATTR_class,
+                String.valueOf(TextUtil.isPositive(checked) || "checked".equalsIgnoreCase(checked)));
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         String oldValue = previousValues.get( inputName );
         if ( oldValue != null )

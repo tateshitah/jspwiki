@@ -14,19 +14,45 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
+<<<<<<< HEAD
     under the License.  
+=======
+    under the License.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.plugin;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
+<<<<<<< HEAD
 import org.apache.wiki.*;
+=======
+import org.apache.wiki.PageManager;
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.WikiEngine;
+import org.apache.wiki.WikiPage;
+import org.apache.wiki.WikiProvider;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.api.plugin.ParserStagePlugin;
@@ -106,7 +132,11 @@ public class WeblogPlugin
 
     /**
      *  Create an entry name based on the blogname, a date, and an entry number.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param pageName Name of the blog
      *  @param date The date (in ddMMyy format)
      *  @param entryNum The entry number.
@@ -121,7 +151,11 @@ public class WeblogPlugin
 
     /**
      *  Return just the basename for entires without date and entry numebr.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param pageName The name of the blog.
      *  @return A formatted name.
      */
@@ -132,7 +166,11 @@ public class WeblogPlugin
 
     /**
      *  Returns the entry page without the entry number.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param pageName Blog name.
      *  @param date The date.
      *  @return A base name for the blog entries.
@@ -154,7 +192,11 @@ public class WeblogPlugin
         int        numDays = DEFAULT_DAYS;
         WikiEngine engine = context.getEngine();
         AuthorizationManager mgr = engine.getAuthorizationManager();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         //
         //  Parse parameters.
         //
@@ -250,7 +292,11 @@ public class WeblogPlugin
         stopTime.set( Calendar.MINUTE, 59 );
         stopTime.set( Calendar.SECOND, 59 );
 
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+        StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         try
         {
@@ -262,12 +308,20 @@ public class WeblogPlugin
             Collections.sort( blogEntries, new PageDateComparator() );
 
             sb.append("<div class=\"weblog\">\n");
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             for( Iterator< WikiPage > i = blogEntries.iterator(); i.hasNext() && maxEntries-- > 0 ; )
             {
                 WikiPage p = i.next();
 
+<<<<<<< HEAD
                 if( mgr.checkPermission( context.getWikiSession(), 
+=======
+                if( mgr.checkPermission( context.getWikiSession(),
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                                          new PagePermission(p, PagePermission.VIEW_ACTION) ) )
                 {
                     addEntryHTML(context, entryFormat, hasComments, sb, p);
@@ -287,7 +341,11 @@ public class WeblogPlugin
 
     /**
      *  Generates HTML for an entry.
+<<<<<<< HEAD
      *  
+=======
+     *
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param context
      *  @param entryFormat
      *  @param hasComments  True, if comments are enabled.
@@ -295,10 +353,19 @@ public class WeblogPlugin
      *  @param entry
      *  @throws ProviderException
      */
+<<<<<<< HEAD
     private void addEntryHTML(WikiContext context, DateFormat entryFormat, boolean hasComments, StringBuffer buffer, WikiPage entry) 
         throws ProviderException
     {
         WikiEngine engine = context.getEngine();
+=======
+    private void addEntryHTML(WikiContext context, DateFormat entryFormat, boolean hasComments, StringBuilder buffer, WikiPage entry)
+        throws ProviderException
+    {
+        WikiEngine engine = context.getEngine();
+        ResourceBundle rb = Preferences.getBundle(context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE);
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         buffer.append("<div class=\"weblogentry\">\n");
 
         //
@@ -344,7 +411,11 @@ public class WeblogPlugin
         //  Append footer
         //
         buffer.append("<div class=\"weblogentryfooter\">\n");
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String author = entry.getAuthor();
 
         if( author != null )
@@ -360,7 +431,11 @@ public class WeblogPlugin
         }
 
         buffer.append("By "+author+"&nbsp;&nbsp;");
+<<<<<<< HEAD
         buffer.append( "<a href=\""+entryCtx.getURL(WikiContext.VIEW, entry.getName())+"\">Permalink</a>" );
+=======
+        buffer.append( "<a href=\""+entryCtx.getURL(WikiContext.VIEW, entry.getName())+"\">"+rb.getString("weblogentryplugin.permalink")+"</a>" );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String commentPageName = TextUtil.replaceString( entry.getName(),
                                                          "blogentry",
                                                          "comments" );
@@ -375,6 +450,7 @@ public class WeblogPlugin
             //  has changed.
             //
             buffer.append( "&nbsp;&nbsp;" );
+<<<<<<< HEAD
             buffer.append( "<a target=\"_blank\" href=\""+
                        entryCtx.getURL(WikiContext.COMMENT,
                                        commentPageName,
@@ -382,6 +458,18 @@ public class WeblogPlugin
                        "\">Comments? ("+
                        numComments+
                        ")</a>" );
+=======
+
+            String addcomment = rb.getString("weblogentryplugin.addcomment");
+
+            buffer.append( "<a href=\""+
+                       entryCtx.getURL(WikiContext.COMMENT,
+                                       commentPageName,
+                                       "nc="+numComments)+
+                       "\">"+
+                       MessageFormat.format(addcomment, numComments)
+                       +"</a>" );
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         buffer.append("</div>\n");
@@ -437,7 +525,17 @@ public class WeblogPlugin
                 try
                 {
                     WikiPage firstVersion = mgr.getPageInfo( pageName, 1 );
+<<<<<<< HEAD
                     result.add( firstVersion );
+=======
+
+                    Date d = firstVersion.getLastModified();
+
+                    if( d.after(start) && d.before(end) )
+                    {
+                        result.add( firstVersion );
+                    }
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 catch( Exception e )
                 {
@@ -465,8 +563,13 @@ public class WeblogPlugin
         }
     }
 
+<<<<<<< HEAD
     /** 
      *  Mark us as being a real weblog. 
+=======
+    /**
+     *  Mark us as being a real weblog.
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  {@inheritDoc}
      */
     public void executeParser(PluginContent element, WikiContext context, Map<String, String> params)

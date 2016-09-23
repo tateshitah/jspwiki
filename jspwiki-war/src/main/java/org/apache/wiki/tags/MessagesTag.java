@@ -99,7 +99,11 @@ public class MessagesTag extends WikiTagBase
             String[] messages = ( m_topic == null ) ? session.getMessages() : session.getMessages( m_topic );
             if ( messages.length > 0 )
             {
+<<<<<<< HEAD
                 StringBuffer sb = new StringBuffer();
+=======
+            	StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 if ( messages.length == 1 )
                 {
                     sb.append( "<div class=\"" + m_div + "\">" + m_prefix + TextUtil.replaceEntities(messages[0]) + "</div>" );

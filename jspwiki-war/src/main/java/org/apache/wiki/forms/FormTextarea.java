@@ -26,6 +26,10 @@ import org.apache.wiki.preferences.Preferences;
 import org.apache.wiki.util.XHTML;
 import org.apache.wiki.util.XhtmlUtil;
 import org.jdom2.Element;
+<<<<<<< HEAD
+=======
+import org.jdom2.output.Format;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +71,11 @@ public class FormTextarea extends FormElement
         Element field = buildTextArea( params, previousValues, rb );
 
         // We should look for extra params, e.g. width, ..., here.
+<<<<<<< HEAD
         return XhtmlUtil.serialize(field); // ctx.getEngine().getContentEncoding()
+=======
+        return XhtmlUtil.serialize(field, XhtmlUtil.EXPAND_EMPTY_NODES ); // ctx.getEngine().getContentEncoding()
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     private Element buildTextArea(

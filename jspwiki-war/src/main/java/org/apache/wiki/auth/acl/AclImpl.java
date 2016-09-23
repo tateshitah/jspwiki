@@ -168,7 +168,11 @@ public class AclImpl implements Acl, Serializable
      */
     public String toString()
     {
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+    	StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         for( AclEntry entry : m_entries )
         {

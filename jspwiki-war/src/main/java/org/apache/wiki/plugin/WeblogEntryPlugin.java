@@ -19,10 +19,25 @@
 package org.apache.wiki.plugin;
 
 import java.text.SimpleDateFormat;
+<<<<<<< HEAD
 import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.apache.wiki.*;
+=======
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.apache.log4j.Logger;
+import org.apache.wiki.PageLock;
+import org.apache.wiki.PageManager;
+import org.apache.wiki.WikiContext;
+import org.apache.wiki.WikiEngine;
+import org.apache.wiki.WikiPage;
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.api.plugin.WikiPlugin;
@@ -98,7 +113,11 @@ public class WeblogEntryPlugin implements WikiPlugin {
         }
         WikiEngine engine = context.getEngine();
 
+<<<<<<< HEAD
         StringBuffer sb = new StringBuffer();
+=======
+        StringBuilder sb = new StringBuilder();
+>>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         String entryText = params.get(PARAM_ENTRYTEXT);
         if (entryText == null) {
