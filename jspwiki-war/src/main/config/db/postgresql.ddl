@@ -20,11 +20,7 @@ drop user jspwiki;
 
 create table users (
   uid varchar(100),
-<<<<<<< HEAD
-  email varchar(100),
-=======
   email varchar_ignorecase(100),
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   full_name varchar(100),
   login_name varchar(100) not null primary key,
   password varchar(100),

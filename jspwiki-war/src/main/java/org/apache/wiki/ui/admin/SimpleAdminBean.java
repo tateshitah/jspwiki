@@ -18,18 +18,11 @@
  */
 package org.apache.wiki.ui.admin;
 
-<<<<<<< HEAD
-import javax.management.*;
-
-import org.apache.commons.lang.StringUtils;
-
-=======
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
 import javax.management.NotCompliantMBeanException;
 
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.management.SimpleMBean;
@@ -78,11 +71,7 @@ public abstract class SimpleAdminBean extends SimpleMBean implements AdminBean
     {
         MBeanInfo info = getMBeanInfo();
         MBeanAttributeInfo[] attributes = info.getAttributes();
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
         StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         for( int i = 0; i < attributes.length; i++ )
         {

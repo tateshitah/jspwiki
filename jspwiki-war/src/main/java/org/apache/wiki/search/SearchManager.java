@@ -24,11 +24,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-<<<<<<< HEAD
-import java.util.Properties;
-import java.util.Set;
-
-=======
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -38,18 +33,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.commons.lang.time.StopWatch;
 import org.apache.log4j.Logger;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiPage;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.ajax.AjaxUtil;
 import org.apache.wiki.ajax.WikiAjaxDispatcherServlet;
 import org.apache.wiki.ajax.WikiAjaxServlet;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.FilterException;
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.ProviderException;
@@ -60,19 +51,10 @@ import org.apache.wiki.event.WikiEventUtils;
 import org.apache.wiki.event.WikiPageEvent;
 import org.apache.wiki.modules.InternalModule;
 import org.apache.wiki.parser.MarkupParser;
-<<<<<<< HEAD
-import org.apache.wiki.rpc.RPCCallable;
-import org.apache.wiki.rpc.json.JSONRPCManager;
-import org.apache.wiki.util.ClassUtil;
-import org.apache.wiki.util.TextUtil;
-
-
-=======
 import org.apache.wiki.tags.WikiTagBase;
 import org.apache.wiki.util.ClassUtil;
 import org.apache.wiki.util.TextUtil;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  *  Manages searching the Wiki.
  *
@@ -114,21 +96,13 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
         WikiEventUtils.addWikiEventListener(m_engine.getPageManager(),
                                             WikiPageEvent.PAGE_DELETE_REQUEST, this);
 
-<<<<<<< HEAD
-        JSONRPCManager.registerGlobalObject( JSON_SEARCH, new JSONSearch() );
-=======
         //TODO: Replace with custom annotations. See JSPWIKI-566
         WikiAjaxDispatcherServlet.registerServlet( JSON_SEARCH, new JSONSearch() );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
      *  Provides a JSON RPC API to the JSPWiki Search Engine.
      */
-<<<<<<< HEAD
-    public class JSONSearch implements RPCCallable
-    {
-=======
     public class JSONSearch implements WikiAjaxServlet
     {
 		public static final String AJAX_ACTION_SUGGESTIONS = "suggestions";
@@ -181,7 +155,6 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
     		resp.getWriter().write(result);
     	}
     	
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         /**
          *  Provides a list of suggestions to use for a page name.
          *  Currently the algorithm just looks into the value parameter,
@@ -191,11 +164,7 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
          *  @param maxLength maximum number of suggestions
          *  @return the suggestions
          */
-<<<<<<< HEAD
-        public List getSuggestions( String wikiName, int maxLength )
-=======
         public List<String> getSuggestions( String wikiName, int maxLength )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         {
             StopWatch sw = new StopWatch();
             sw.start();
@@ -244,20 +213,12 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
          *  @param maxLength How many hits to return
          *  @return the pages found
          */
-<<<<<<< HEAD
-        public List findPages( String searchString, int maxLength )
-=======
         public List<Map<String,Object>> findPages( String searchString, int maxLength, WikiContext wikiContext )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         {
             StopWatch sw = new StopWatch();
             sw.start();
 
-<<<<<<< HEAD
-            List<HashMap> list = new ArrayList<HashMap>(maxLength);
-=======
             List<Map<String,Object>> list = new ArrayList<Map<String,Object>>(maxLength);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             if( searchString.length() > 0 )
             {
@@ -265,20 +226,12 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
                 {
                     Collection c;
 
-<<<<<<< HEAD
-                    if( m_searchProvider instanceof LuceneSearchProvider )
-                        c = ((LuceneSearchProvider)m_searchProvider).findPages( searchString, 0 );
-                    else
-                        c = m_searchProvider.findPages( searchString );
-
-=======
                     if( m_searchProvider instanceof LuceneSearchProvider ) {
                         c = ((LuceneSearchProvider)m_searchProvider).findPages( searchString, 0, wikiContext );
                     } else {
                         c = m_searchProvider.findPages( searchString, wikiContext );
                     }
                     
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     int count = 0;
                     for( Iterator i = c.iterator(); i.hasNext() && count < maxLength; count++ )
                     {
@@ -301,10 +254,7 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
         }
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  This particular method starts off indexing and all sorts of various activities,
      *  so you need to run this last, after things are done.
@@ -403,27 +353,16 @@ public class SearchManager extends BasicPageFilter implements InternalModule, Wi
      *  the query engine wants to use.
      *
      * @param query The query.  Null is safe, and is interpreted as an empty query.
-<<<<<<< HEAD
-=======
      * @param wikiContext the context within which to run the search
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @return A collection of WikiPages that matched.
      * @throws ProviderException If the provider fails and a search cannot be completed.
      * @throws IOException If something else goes wrong.
      */
-<<<<<<< HEAD
-    public Collection findPages( String query )
-        throws ProviderException, IOException
-    {
-        if( query == null ) query = "";
-        Collection c = m_searchProvider.findPages( query );
-=======
     public Collection findPages( String query, WikiContext wikiContext )
         throws ProviderException, IOException
     {
         if( query == null ) query = "";
         Collection c = m_searchProvider.findPages( query, wikiContext );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         return c;
     }

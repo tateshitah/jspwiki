@@ -18,11 +18,8 @@
  */
 package org.apache.wiki.auth.user;
 
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang.StringUtils;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,27 +39,6 @@ public final class DefaultUserProfile implements UserProfile
 
     private static final String WHITESPACE = "\\s";
     
-<<<<<<< HEAD
-    private Map<String,Serializable> m_attributes = new HashMap<String,Serializable>();
-
-    private Date     m_created   = null;
-
-    private String   m_email     = null;
-
-    private String   m_fullname  = null;
-    
-    private Date m_lockExpiry = null;
-
-    private String   m_loginName = null;
-
-    private Date     m_modified  = null;
-
-    private String   m_password  = null;
-    
-    private String m_uid = null;
-
-    private String   m_wikiname  = null;
-=======
     private Map<String,Serializable> attributes = new HashMap<String,Serializable>();
 
     private Date     created   = null;
@@ -82,7 +58,6 @@ public final class DefaultUserProfile implements UserProfile
     private String uid = null;
 
     private String   wikiname  = null;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -111,15 +86,9 @@ public final class DefaultUserProfile implements UserProfile
         if ( ( o != null ) && ( o instanceof UserProfile ) )
         {
             DefaultUserProfile u = (DefaultUserProfile) o;
-<<<<<<< HEAD
-            return  same( m_fullname, u.m_fullname ) && same( m_password, u.m_password )
-                    && same( m_loginName, u.m_loginName ) && same( m_email, u.m_email ) && same( m_wikiname,
-                    u.m_wikiname );
-=======
             return  same( fullname, u.fullname ) && same( password, u.password )
                     && same( loginName, u.loginName ) && same(StringUtils.lowerCase( email ), StringUtils.lowerCase( u.email ) ) && same( wikiname,
                     u.wikiname );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
         return false;
@@ -127,19 +96,11 @@ public final class DefaultUserProfile implements UserProfile
 
     public int hashCode()
     {
-<<<<<<< HEAD
-        return (m_fullname  != null ? m_fullname.hashCode()  : 0) ^
-               (m_password  != null ? m_password.hashCode()  : 0) ^
-               (m_loginName != null ? m_loginName.hashCode() : 0) ^
-               (m_wikiname  != null ? m_wikiname.hashCode()  : 0) ^
-               (m_email     != null ? m_email.hashCode()     : 0);
-=======
         return (fullname  != null ? fullname.hashCode()  : 0) ^
                (password  != null ? password.hashCode()  : 0) ^
                (loginName != null ? loginName.hashCode() : 0) ^
                (wikiname  != null ? wikiname.hashCode()  : 0) ^
                (email     != null ? StringUtils.lowerCase( email ).hashCode()     : 0);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -149,11 +110,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public Date getCreated()
     {
-<<<<<<< HEAD
-        return m_created;
-=======
         return created;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -162,11 +119,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getEmail()
     {
-<<<<<<< HEAD
-        return m_email;
-=======
         return email;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -175,11 +128,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getFullname()
     {
-<<<<<<< HEAD
-        return m_fullname;
-=======
         return fullname;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -189,11 +138,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public Date getLastModified()
     {
-<<<<<<< HEAD
-        return m_modified;
-=======
         return modified;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -202,11 +147,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getLoginName()
     {
-<<<<<<< HEAD
-        return m_loginName;
-=======
         return loginName;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -220,11 +161,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getPassword()
     {
-<<<<<<< HEAD
-        return m_password;
-=======
         return password;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -233,11 +170,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getWikiName()
     {
-<<<<<<< HEAD
-        return m_wikiname;
-=======
         return wikiname;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -249,11 +182,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public boolean isNew()
     {
-<<<<<<< HEAD
-        return  m_modified == null;
-=======
         return  modified == null;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -262,11 +191,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setCreated(Date date)
     {
-<<<<<<< HEAD
-        m_created = date;
-=======
         created = date;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -275,11 +200,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setEmail( String email )
     {
-<<<<<<< HEAD
-        m_email = email;
-=======
     	this.email = email;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -288,21 +209,12 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setFullname( String arg )
     {
-<<<<<<< HEAD
-        m_fullname = arg;
-
-        // Compute wiki name
-        if ( m_fullname != null )
-        {
-            m_wikiname = m_fullname.replaceAll(WHITESPACE, EMPTY_STRING);
-=======
         fullname = arg;
 
         // Compute wiki name
         if ( fullname != null )
         {
             wikiname = fullname.replaceAll(WHITESPACE, EMPTY_STRING);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
 
@@ -313,11 +225,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setLastModified( Date date )
     {
-<<<<<<< HEAD
-        m_modified = date;
-=======
         modified = date;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -330,11 +238,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setLoginName( String name )
     {
-<<<<<<< HEAD
-        m_loginName = name;
-=======
         loginName = name;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -349,11 +253,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setPassword( String arg )
     {
-<<<<<<< HEAD
-        m_password = arg;
-=======
         password = arg;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -404,11 +304,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public Map<String,Serializable> getAttributes()
     {
-<<<<<<< HEAD
-        return m_attributes;
-=======
         return attributes;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -416,11 +312,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public Date getLockExpiry()
     {
-<<<<<<< HEAD
-        return isLocked() ? m_lockExpiry : null;
-=======
         return isLocked() ? lockExpiry : null;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
     
     /**
@@ -428,11 +320,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public String getUid()
     {
-<<<<<<< HEAD
-        return m_uid;
-=======
         return uid;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -440,21 +328,12 @@ public final class DefaultUserProfile implements UserProfile
      */
     public boolean isLocked()
     {
-<<<<<<< HEAD
-        boolean locked =  m_lockExpiry != null && System.currentTimeMillis() < m_lockExpiry.getTime();
-
-        // Clear the lock if it's expired already
-        if ( !locked && m_lockExpiry != null )
-        {
-            m_lockExpiry = null;
-=======
         boolean locked =  lockExpiry != null && System.currentTimeMillis() < lockExpiry.getTime();
 
         // Clear the lock if it's expired already
         if ( !locked && lockExpiry != null )
         {
             lockExpiry = null;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         return locked;
     }
@@ -464,11 +343,7 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setLockExpiry( Date expiry )
     {
-<<<<<<< HEAD
-        m_lockExpiry = expiry;
-=======
     	this.lockExpiry = expiry;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
     
     /**
@@ -476,10 +351,6 @@ public final class DefaultUserProfile implements UserProfile
      */
     public void setUid( String uid )
     {
-<<<<<<< HEAD
-        m_uid = uid;
-=======
         this.uid = uid;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 }

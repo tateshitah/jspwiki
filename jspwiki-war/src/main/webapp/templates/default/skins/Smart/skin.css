@@ -20,19 +20,11 @@
 */
 
 /* SMART skin
-<<<<<<< HEAD
- * Additional .css on top of jspwiki.css 
- * Dirk Frederickx, May 07
- */
-
-/* COLOR scheme   
-=======
  * Additional .css on top of jspwiki.css
  * Dirk Frederickx, May 07
  */
 
 /* COLOR scheme
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	#666 font-color
 	#eee code, comment, weblogentries, (light grey)
 	#d7d7d7 table header(darker grey)
@@ -77,11 +69,7 @@
 }
 #footer {
 	margin-top:1em;
-<<<<<<< HEAD
-	margin-bottom:2em;	
-=======
 	margin-bottom:2em;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }
 #favorites {
 	margin-top:0;
@@ -92,20 +80,12 @@
 }
 
 /* +++ 200 Generic stuff here +++ */
-<<<<<<< HEAD
-* { 
-=======
 * {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	color:#666;
 }
 
 /* +++ 210 Page titles, headings, and paragraphs +++ */
-<<<<<<< HEAD
-#header .pagename { 
-=======
 #header .pagename {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	color:white;
 }
 h2 {
@@ -117,11 +97,7 @@ h3 {
 h4 {
 	font-size:1.0em;
 }
-<<<<<<< HEAD
-h2,h3,h4 { 
-=======
 h2,h3,h4 {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	color:#c00;
 }
 .editsection a:link, .editsection a:active, .editsection a:visited {
@@ -150,11 +126,7 @@ legend, label {
 }
 
 /* +++ 240 Pre-formatted text blocks and code +++ */
-<<<<<<< HEAD
-pre { 
-=======
 pre {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border:1px dashed #b6b6b6;
 	background-color:#fff7c0; /*light yellow */
 }
@@ -169,21 +141,13 @@ a.createpage {
 	color:#666;
 	border-bottom:1px dashed #c00;
 }
-<<<<<<< HEAD
-a.createpage:hover { 
-=======
 a.createpage:hover {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border-bottom:1px solid #c00;
 }
 a.wikipage:hover {
 	border-bottom:1px solid #999;
 }
-<<<<<<< HEAD
-.calendar a, .breadcrumbs a, .applicationlogo a { 
-=======
 .calendar a, .breadcrumbs a, .applicationlogo a {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border-bottom:none !important;
 }
 
@@ -199,11 +163,7 @@ a.wikipage:hover {
 	background-image:url(images/smart-logo.gif);
 	background-position:top left;
 }
-<<<<<<< HEAD
-.applicationlogo a:hover { 
-=======
 .applicationlogo a:hover {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	background-position:top left;
 }
 
@@ -225,11 +185,7 @@ a.wikipage:hover {
 	color:#c00;
 	border:1px solid #ccc;
 }
-<<<<<<< HEAD
-.wikitable * td { 
-=======
 .wikitable * td {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	padding:4px;
 	border:1px solid #ccc;
 }
@@ -247,22 +203,14 @@ a.wikipage:hover {
 /* +++ 425 Edit/EditContent and CommentContent +++ */
 /* +++ 430 Edit/EditContent +++ */
 .textarea-resizer {
-<<<<<<< HEAD
-	background:#fad112; 
-=======
 	background:#fad112;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }
 #findSuggestionMenu {
 	color:#c30;
 	background-color:#fad112;
 	border:4px solid #fad112;
 }
-<<<<<<< HEAD
-#findSuggestionMenu .hover { 
-=======
 #findSuggestionMenu .hover {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	background-color:#fff7c0;
 }
 
@@ -281,24 +229,14 @@ a.wikipage:hover {
 	background:url(images/user_green.png)  2px 2px no-repeat;
 }
 /* +++ 450 FindContent / 450 Graph Bars +++ */
-<<<<<<< HEAD
-.breadcrumbs { 
-	padding:0;
-	height:1.5em; 
-=======
 .breadcrumbs {
 	padding:0;
 	height:1.5em;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	overflow:hidden;
 }
 .searchword, .cursor, .searchmatch {
 	background-color: #fad112;
-<<<<<<< HEAD
-} 
-=======
 }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 .graphBar {
 	border-color:#fad112;
 }
@@ -330,11 +268,7 @@ a.wikipage:hover {
 	font-weight:bold;
 	color:#666;
 }
-<<<<<<< HEAD
-#moremenu a:hover, a.action:hover, 
-=======
 #moremenu a:hover, a.action:hover,
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 .userbox a.action:hover, a.action.quick2bottom:hover, a.action.quick2top:hover {
 	background-color:#fad112 !important;
 	color:#c00;
@@ -364,33 +298,12 @@ a.tool:hover, .btn:hover {
 }
 #sneakpreviewheader {
 	background-color:#fff7c0;
-<<<<<<< HEAD
-}  
-=======
 }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /* +++ 475 PreviewContent - "This is a preview" comment +++ */
 /* +++ 480 PreferencesContent, LoginContent, GroupContent +++ */
 /* +++ 485 SearchBox +++ */
 #searchSubmit {
-<<<<<<< HEAD
-	background: url(../../images/search.png) no-repeat center;
-}
-#header a:link, #header a:visited, #recentSearches { 
-	color:#666;
-}
-#recentSearches div { 
-	color:#666;
-	text-decoration:none;
-}
-#searchboxMenu { 
-	border:1px solid #b6b6b6;
-	top:3em;
-	/*right:0;*/
-} 
-#searchTools a:hover, #searchboxMenu li:hover { 
-=======
 	background: url(../../images/search.gif) no-repeat center;
 }
 #header a:link, #header a:visited, #recentSearches {
@@ -406,7 +319,6 @@ a.tool:hover, .btn:hover {
 	/*right:0;*/
 }
 #searchTools a:hover, #searchboxMenu li:hover {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	background:#fad112;
 }
 
@@ -415,11 +327,7 @@ a.tool:hover, .btn:hover {
 /* +++ 610 Image plugin +++ */
 /* +++ 203 image plugin stuff +++ */
 /* +++ 620 Index plugin +++ */
-<<<<<<< HEAD
-.index .header { 
-=======
 .index .header {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	color:#c00;
 	background:#fad112;
 	font-weight:bold;
@@ -491,11 +399,7 @@ table.calendar td.weekdays {
 /* +++ 900 "Special-effects" JavaScript styles +++ */
 /* +++ 905 Search highlights +++ */
 /* +++ 910 Tabbed Pages +++ */
-<<<<<<< HEAD
-.tabs { 
-=======
 .tabs {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border:1px solid #b6b6b6;
 }
 .tabmenu a {
@@ -504,16 +408,6 @@ table.calendar td.weekdays {
 	margin:0 0 -1px 4px;
 	color:#666;
 }
-<<<<<<< HEAD
-.tabmenu a:hover, .tabmenu a:hover u, .tabmenu a:hover .accesskey { 
-	color:#c00;
-	background:#fff7c0;
-}
-.tabmenu a.activetab { 
-	border-bottom:1px solid white;
-}
-.tabmenu a.activetab, .tabmenu a.activetab u { 
-=======
 .tabmenu a:hover, .tabmenu a:hover u, .tabmenu a:hover .accesskey {
 	color:#c00;
 	background:#fff7c0;
@@ -522,34 +416,21 @@ table.calendar td.weekdays {
 	border-bottom:1px solid white;
 }
 .tabmenu a.activetab, .tabmenu a.activetab u {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	color:#666;
 }
 
 /* +++ 910 Accordion +++ */
-<<<<<<< HEAD
-.accordion .toggle { 
-=======
 .accordion .toggle {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border: 2px solid #fff7c0;
 	background:#fff7c0;
 	font-size:11px;
 }
-<<<<<<< HEAD
-.accordion, .tabbedAccordion { 
-=======
 .accordion, .tabbedAccordion {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border:1px solid #b6b6b6;
 }
 .accordion .toggle {
 }
-<<<<<<< HEAD
-.togglemenu .toggle { 
-=======
 .togglemenu .toggle {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	border:1px solid #b6b6b6;
 	margin-left:4px;
 }
@@ -569,13 +450,8 @@ table.calendar td.weekdays {
 	background:#fad112;
 }
 /* +++ 920 Collapsible lists +++ */
-<<<<<<< HEAD
-.collapseBullet, .collapseOpen, .collapseClose { 
-	color:#c00; 
-=======
 .collapseBullet, .collapseOpen, .collapseClose {
 	color:#c00;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }
 .collapseOpen:hover, .collapseClose:hover {
 	background:#fad112;
@@ -595,11 +471,7 @@ table.calendar td.weekdays {
 .quicklinks { font-size:12px;
 	padding:0 2px;
 }
-<<<<<<< HEAD
-.quicklinks, .quicklinks a { 
-=======
 .quicklinks, .quicklinks a {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	background:#fad112;
 	color:#c00;
 	border:none;
@@ -612,21 +484,12 @@ table.calendar td.weekdays {
 .categoryTitle, .categoryText {
 	background:#fad112;
 }
-<<<<<<< HEAD
-.categoryPopup .hover { 
-	background:#fff7c0;
-}
-.categoryLink:link, .categoryLink:active, .categoryLink:hover, .categoryLink:visited { 
-	border-bottom:2px solid #ffcc33 !important;
-} 
-=======
 .categoryPopup .hover {
 	background:#fff7c0;
 }
 .categoryLink:link, .categoryLink:active, .categoryLink:hover, .categoryLink:visited {
 	border-bottom:2px solid #ffcc33 !important;
 }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 .categoryPopup a:link, .categoryPopup a:active,.categoryPopup a:visited {
 	color:inherit;
 }

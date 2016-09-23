@@ -18,20 +18,12 @@
  */
 package org.apache.wiki.util;
 
-<<<<<<< HEAD
-import org.apache.wiki.PropertyReaderTest;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-<<<<<<< HEAD
-=======
 import org.apache.wiki.PropertyReaderTest;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 public class AllTests extends TestCase {
 
@@ -42,10 +34,7 @@ public class AllTests extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite("Utility suite tests");
 
-<<<<<<< HEAD
-=======
         suite.addTest( ByteUtilsTest.suite() );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         suite.addTest( ClassUtilTest.suite() );
         suite.addTest( CommentedPropertiesTest.suite() );
         suite.addTest( CryptoUtilTest.suite() );
@@ -57,10 +46,6 @@ public class AllTests extends TestCase {
         suite.addTest( SerializerTest.suite() );
         suite.addTest( TextUtilTest.suite() );
         suite.addTest( TimedCounterListTest.suite() );
-<<<<<<< HEAD
-        suite.addTest( UtilJ2eeCompatTest.suite() );
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         suite.addTest( XmlUtilTest.suite() );
         
         return suite;

@@ -26,20 +26,14 @@ import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.WikiContext;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.attachment.Attachment;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.auth.AuthorizationManager;
 import org.apache.wiki.auth.permissions.PagePermission;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.providers.WikiPageProvider;
 
 /**
@@ -139,11 +133,7 @@ public class BasicSearchProvider implements SearchProvider
                 return "";
             }
 
-<<<<<<< HEAD
-            StringBuffer attachmentNames = new StringBuffer();
-=======
             StringBuilder attachmentNames = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             for( Iterator it = attachments.iterator(); it.hasNext(); )
             {
                 Attachment att = (Attachment) it.next();
@@ -157,59 +147,19 @@ public class BasicSearchProvider implements SearchProvider
         return "";
     }
 
-<<<<<<< HEAD
-    private Collection findPages( QueryItem[] query )
-=======
     private Collection findPages( QueryItem[] query, WikiContext wikiContext )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     {
         TreeSet<SearchResult> res = new TreeSet<SearchResult>( new SearchResultComparator() );
         SearchMatcher matcher = new SearchMatcher( m_engine, query );
 
         Collection allPages = null;
-<<<<<<< HEAD
-        try
-        {
-            allPages = m_engine.getPageManager().getAllPages();
-        }
-        catch( ProviderException pe )
-        {
-=======
         try {
             allPages = m_engine.getPageManager().getAllPages();
         } catch( ProviderException pe ) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             log.error( "Unable to retrieve page list", pe );
             return null;
         }
 
-<<<<<<< HEAD
-        Iterator it = allPages.iterator();
-        while( it.hasNext() )
-        {
-            try
-            {
-                WikiPage page = (WikiPage) it.next();
-                if (page != null)
-                {
-                    String pageName = page.getName();
-                    String pageContent = m_engine.getPageManager().getPageText(pageName, WikiPageProvider.LATEST_VERSION) +
-                                         attachmentNames(page, " ");
-                    SearchResult comparison = matcher.matchPageContent( pageName, pageContent );
-
-                    if( comparison != null )
-                    {
-                        res.add( comparison );
-                    }
-                }
-            }
-            catch( ProviderException pe )
-            {
-                log.error( "Unable to retrieve page from cache", pe );
-            }
-            catch( IOException ioe )
-            {
-=======
         AuthorizationManager mgr = m_engine.getAuthorizationManager();
 
         Iterator it = allPages.iterator();
@@ -233,7 +183,6 @@ public class BasicSearchProvider implements SearchProvider
             } catch( ProviderException pe ) {
                 log.error( "Unable to retrieve page from cache", pe );
             } catch( IOException ioe ) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 log.error( "Failed to search page", ioe );
             }
         }
@@ -244,25 +193,14 @@ public class BasicSearchProvider implements SearchProvider
     /**
      *  {@inheritDoc}
      */
-<<<<<<< HEAD
-    public Collection findPages(String query)
-    {
-        return findPages(parseQuery(query));
-=======
     public Collection findPages(String query, WikiContext wikiContext) {
         return findPages(parseQuery(query), wikiContext);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
      *  {@inheritDoc}
      */
-<<<<<<< HEAD
-    public String getProviderInfo()
-    {
-=======
     public String getProviderInfo() {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return "BasicSearchProvider";
     }
 

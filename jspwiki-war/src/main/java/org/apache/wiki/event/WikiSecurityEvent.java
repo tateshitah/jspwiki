@@ -24,11 +24,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-<<<<<<< HEAD
-import org.apache.wiki.event.WikiEvent;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  * <p>Event class for security events: login/logout, wiki group adds/changes, and
  * authorization decisions. When a WikiSecurityEvent is constructed, the
@@ -210,11 +205,7 @@ public final class WikiSecurityEvent extends WikiEvent
      */
     public String toString()
     {
-<<<<<<< HEAD
-        StringBuffer msg = new StringBuffer();
-=======
     	StringBuilder msg = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         msg.append( "WikiSecurityEvent." );
         msg.append(  eventName( getType() ) );
         Object obj = getSrc(); // cfr. https://forums.oracle.com/forums/thread.jspa?threadID=1184115

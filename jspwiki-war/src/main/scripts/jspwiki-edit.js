@@ -456,23 +456,12 @@ var EditTools =
 			if(end!=-1) sel.end = sel.start+end;
 		}
 
-<<<<<<< HEAD
-		Wiki.jsonrpc('search.getSuggestions', [searchword,30], function(result,exception){
-			if(exception) {
-				alert(exception.message);
-			} else if(!result.list || (result.list.length == 0)) {
-				suggest.hide();
-			} else {
-				var ul = new Element('ul').inject( suggest.empty().show() );
-				result.list.each( function(rslt) {
-=======
 		Wiki.ajaxJsonCall('/search/suggestions',[searchword,'30'], function(result){
 			if(!result) {
 				suggest.hide();
 			} else {
 				var ul = new Element('ul').inject( suggest.empty().show() );
 				result.each( function(rslt) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 					new Element('li',{
 						'title':rslt,
 						'events': {

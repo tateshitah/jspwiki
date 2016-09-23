@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.htmltowiki;
 
@@ -33,13 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
-<<<<<<< HEAD
-import org.jdom2.Element;
-import org.jdom2.Attribute;
-=======
 import org.jdom2.Attribute;
 import org.jdom2.Element;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.jdom2.JDOMException;
 import org.jdom2.Text;
 import org.jdom2.xpath.XPath;
@@ -64,11 +55,7 @@ public class XHtmlElementToWikiTranslator
 
     /**
      *  Create a new translator using the default config.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param base The base element from which to start translating.
      *  @throws IOException If reading of the DOM tree fails.
      *  @throws JDOMException If the DOM tree is faulty.
@@ -80,11 +67,7 @@ public class XHtmlElementToWikiTranslator
 
     /**
      *  Create a new translator using the specified config.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param base The base element from which to start translating.
      *  @param config The config to use.
      *  @throws IOException If reading of the DOM tree fails.
@@ -100,11 +83,7 @@ public class XHtmlElementToWikiTranslator
 
     /**
      *  FIXME: I have no idea what this does...
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @return Something.
      */
     public String getWikiString()
@@ -236,19 +215,11 @@ public class XHtmlElementToWikiTranslator
                 {
                     if( n.equals( "div" ) )
                     {
-<<<<<<< HEAD
-                        m_out.print( "\n%%\n" );
-                    }
-                    else
-                    {
-                        m_out.print( "%%" );
-=======
                         m_out.print( "\n/%\n" );
                     }
                     else
                     {
                         m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     }
                 }
                 if( monospace )
@@ -268,19 +239,11 @@ public class XHtmlElementToWikiTranslator
                 {
                     if( n.equals( "div" ) )
                     {
-<<<<<<< HEAD
-                        m_out.print( "\n%%\n" );
-                    }
-                    else if( n.equals( "span" ) )
-                    {
-                        m_out.print( "%%" );
-=======
                         m_out.print( "\n/%\n" );
                     }
                     else if( n.equals( "span" ) )
                     {
                         m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     }
                 }
             }
@@ -345,11 +308,7 @@ public class XHtmlElementToWikiTranslator
                         // element is a table cell or list item, a newline character would break the markup.
                         // We also check that this isn't being done inside a plugin body.
                         //
-<<<<<<< HEAD
-                        if( parentElementName.matches( "p|div" ) 
-=======
                         if( parentElementName.matches( "p|div" )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                             && !base.getText().matches( "(?s).*\\[\\{.*\\}\\].*" ) )
                         {
                             m_out.print( " \\\\\n" );
@@ -432,15 +391,6 @@ public class XHtmlElementToWikiTranslator
                                     {
                                         // convert "#ref-PageName-1" to just "1"
                                         String href = ref.replaceFirst( "#ref-.+-(\\d+)", "$1" );
-<<<<<<< HEAD
-                                        
-                                        // remove the brackets around "[1]"
-                                        String textValue = e.getValue().substring( 1, (e.getValue().length() - 1) );
-                                        
-                                        if( href.equals( textValue ) ){ // handles the simplest case. Example: [1]
-                                            print( e );
-                                        }                                        
-=======
 
                                         // remove the brackets around "[1]"
                                         String textValue = e.getValue().substring( 1, (e.getValue().length() - 1) );
@@ -448,7 +398,6 @@ public class XHtmlElementToWikiTranslator
                                         if( href.equals( textValue ) ){ // handles the simplest case. Example: [1]
                                             print( e );
                                         }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                                         else{ // handles the case where the link text is different from the href. Example: [something|1]
                                             m_out.print( "[" + textValue + "|" + href + "]" );
                                         }
@@ -504,21 +453,13 @@ public class XHtmlElementToWikiTranslator
                 {
                     m_out.print( "%%( text-decoration:underline; )" );
                     print( e );
-<<<<<<< HEAD
-                    m_out.print( "%%" );
-=======
                     m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 else if( n.equals( "strike" ) )
                 {
                     m_out.print( "%%strike " );
                     print( e );
-<<<<<<< HEAD
-                    m_out.print( "%%" );
-=======
                     m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     // NOTE: don't print a space before or after the double percents because that can break words into two.
                     // For example: %%(color:red)ABC%%%%(color:green)DEF%% is different from %%(color:red)ABC%% %%(color:green)DEF%%
                 }
@@ -526,21 +467,13 @@ public class XHtmlElementToWikiTranslator
                 {
                     m_out.print( "%%sup " );
                     print( e );
-<<<<<<< HEAD
-                    m_out.print( "%%" );
-=======
                     m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 else if( n.equals( "sub" ) )
                 {
                     m_out.print( "%%sub " );
                     print( e );
-<<<<<<< HEAD
-                    m_out.print( "%%" );
-=======
                     m_out.print( "/%" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
                 else if( n.equals("dl") )
                 {
@@ -828,11 +761,7 @@ public class XHtmlElementToWikiTranslator
 
     private String propsToStyleString( Map styleProps )
     {
-<<<<<<< HEAD
-        StringBuffer style = new StringBuffer();
-=======
     	StringBuilder style = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( Iterator i = styleProps.entrySet().iterator(); i.hasNext(); )
         {
             Map.Entry entry = (Map.Entry)i.next();
@@ -959,11 +888,7 @@ public class XHtmlElementToWikiTranslator
      */
     private String augmentedWikiLinkMapToString( Map attributesMap )
     {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
     	StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         for ( Iterator itr = attributesMap.entrySet().iterator(); itr.hasNext(); )
         {

@@ -127,11 +127,7 @@ public class SetPaginationTag
     {
         if( m_total <= m_pagesize ) return SKIP_BODY;
 
-<<<<<<< HEAD
-        StringBuffer pagination = new StringBuffer();
-=======
         StringBuilder pagination = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         if( m_start > m_total ) m_start = m_total;
         if( m_start < ALLITEMS ) m_start = 0;
@@ -230,26 +226,11 @@ public class SetPaginationTag
      * Uses m_href and m_onclick as attribute patterns
      * '%s' in the patterns are replaced with page offset
      *
-<<<<<<< HEAD
-     * @param sb  : stringbuffer to write output to
-=======
      * @param sb  : stringbuilder to write output to
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @param page : start of page block
      * @param onclick : link text
      *
      **/
-<<<<<<< HEAD
-    private void appendLink( StringBuffer sb, int page, String fmttextkey )
-    {
-        appendLink2( sb, page, LocaleSupport.getLocalizedMessage( pageContext, fmttextkey ) );
-    }
-    private void appendLink( StringBuffer sb, int page, int paginationblock )
-    {
-        appendLink2( sb, page, Integer.toString( paginationblock ) );
-    }
-    private void appendLink2( StringBuffer sb, int page, String text )
-=======
     private void appendLink( StringBuilder sb, int page, String fmttextkey )
     {
         appendLink2( sb, page, LocaleSupport.getLocalizedMessage( pageContext, fmttextkey ) );
@@ -259,7 +240,6 @@ public class SetPaginationTag
         appendLink2( sb, page, Integer.toString( paginationblock ) );
     }
     private void appendLink2( StringBuilder sb, int page, String text )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     {
         sb.append( "<a title=\"" );
         if( page == ALLITEMS )

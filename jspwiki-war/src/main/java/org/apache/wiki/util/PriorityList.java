@@ -54,11 +54,7 @@ public class PriorityList<E>
 
         for( ; i < m_elements.size(); i++ )
         {
-<<<<<<< HEAD
-            Item item = m_elements.get(i);
-=======
             Item< E > item = m_elements.get(i);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             if( item.m_priority < priority )
             {

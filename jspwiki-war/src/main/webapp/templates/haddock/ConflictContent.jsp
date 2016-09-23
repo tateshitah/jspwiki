@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -26,23 +22,6 @@
 <%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
-<<<<<<< HEAD
-<div class="page-content">
-
-<h4><%=LocaleSupport.getLocalizedMessage(pageContext, "conflict.oops.title")%></h4>
-  <div class="error">
-    <fmt:message key="conflict.oops" />
-  </div>
-  <fmt:message key="conflict.goedit" >
-    <fmt:param><wiki:EditLink><wiki:PageName /></wiki:EditLink></fmt:param>
-  </fmt:message>
- 
-<h4><%=LocaleSupport.getLocalizedMessage(pageContext, "conflict.modified")%></h4>
-  <tt><%=pageContext.getAttribute("conflicttext",PageContext.REQUEST_SCOPE)%></tt>      
- 
-<h4><%=LocaleSupport.getLocalizedMessage(pageContext, "conflict.yourtext")%></h4>
-  <tt><%=pageContext.getAttribute("usertext",PageContext.REQUEST_SCOPE)%></tt>
-=======
 <div class="page-content prettify">
 
 <h4><fmt:message key="conflict.oops.title"/></h4>
@@ -62,6 +41,5 @@
 <h4><fmt:message key="conflict.yourtext"/></h4>
   <pre>${usertext}</pre>
 </div>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 </div>

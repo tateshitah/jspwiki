@@ -99,11 +99,7 @@ public final class WikiPermission extends Permission implements Serializable
         String[] pageActions = actions.toLowerCase().split( "," );
         Arrays.sort( pageActions, String.CASE_INSENSITIVE_ORDER );
         m_mask = createMask( actions );
-<<<<<<< HEAD
-        StringBuffer buffer = new StringBuffer();
-=======
         StringBuilder buffer = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( int i = 0; i < pageActions.length; i++ )
         {
             buffer.append( pageActions[i] );

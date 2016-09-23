@@ -29,14 +29,6 @@ import java.util.Vector;
 
 import javax.servlet.ServletException;
 
-<<<<<<< HEAD
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import net.sf.ehcache.CacheManager;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.LinkCollector;
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
@@ -50,14 +42,11 @@ import org.apache.wiki.render.XHTMLRenderer;
 import org.apache.wiki.stress.Benchmark;
 import org.apache.wiki.util.TextUtil;
 
-<<<<<<< HEAD
-=======
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.ehcache.CacheManager;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 public class JSPWikiMarkupParserTest extends TestCase
 {
     Properties props = TestEngine.getTestProperties();
@@ -76,11 +65,7 @@ public class JSPWikiMarkupParserTest extends TestCase
     public void setUp()
     throws Exception
     {
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         props.setProperty( "jspwiki.translatorReader.matchEnglishPlurals", "true" );
         testEngine = new TestEngine( props );
@@ -1851,8 +1836,6 @@ public class JSPWikiMarkupParserTest extends TestCase
 
         assertEquals( "Test {INSERT SamplePlugin\n\na+b{}\nGlob.\n}", translate(src) );
     }
-<<<<<<< HEAD
-=======
     
     public void testMissingPlugin() throws Exception {
     	String src="Test [{SamplePlugino foo='bar'}]";
@@ -1861,7 +1844,6 @@ public class JSPWikiMarkupParserTest extends TestCase
     			      "<span class=\"error\">JSPWiki : testpage - Plugin insertion failed: Could not find plugin SamplePlugino</span>", 
     			      translate( src ) );
     }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     public void testVariableInsert()
     throws Exception
@@ -2625,11 +2607,7 @@ public class JSPWikiMarkupParserTest extends TestCase
     {
         String deadlySpammerText = "zzz <a href=\"http://ring1.gmum.net/frog-ringtone.html\">frogringtone</a> zzz http://ring1.gmum.net/frog-ringtone.html[URL=http://ring1.gmum.net/frog-ringtone.html]frog ringtone[/URL] frogringtone<br>";
 
-<<<<<<< HEAD
-        StringBuffer death = new StringBuffer( 20000 );
-=======
         StringBuilder death = new StringBuilder( 20000 );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         for( int i = 0; i < 1000; i++ )
         {

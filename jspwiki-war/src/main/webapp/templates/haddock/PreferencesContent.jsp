@@ -17,54 +17,14 @@
     under the License.
 --%>
 
-<<<<<<< HEAD
-<%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
-<%@ page import="org.apache.wiki.*" %>
-<%@ page import="org.apache.wiki.ui.*" %>
-=======
 <%@ page import="org.apache.wiki.*" %>
 <%@ page import="org.apache.wiki.ui.*" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
-<<<<<<< HEAD
-<%
-  WikiContext context = WikiContext.findContext( pageContext );
-  TemplateManager.addResourceRequest( context, TemplateManager.RESOURCE_SCRIPT, "scripts/haddock-prefs.js" );
-  //TemplateManager.addResourceRequest( context, TemplateManager.RESOURCE_SCRIPT, "scripts-dev/src/main/scripts/wiki/Prefs.js" );
-%>
-
-<div class="page-content">
-<div class="rightAccordion">
-
-  <wiki:Include page="PreferencesTab.jsp" />
-
-  <wiki:UserCheck status="authenticated">
-  <wiki:Permission permission="editProfile">
-     <wiki:Include page="ProfileTab.jsp" />
-  <%--
-  <li><a>
-  <%=LocaleSupport.getLocalizedMessage(pageContext, "prefs.tab.profile")%>
-  </a></li>
-  --%>
-  </wiki:Permission>
-  </wiki:UserCheck>
-
-  <wiki:Permission permission="createGroups"> <%-- FIXME check right permissions --%>
-    <wiki:Include page="GroupTab.jsp" />
-  <%--
-  <li><a>
-  <%=LocaleSupport.getLocalizedMessage(pageContext, "group.tab")%>
-  </a></li>
-     --%>
-  </wiki:Permission>
-
-</div>
-=======
 
 <div class="page-content">
 
@@ -101,5 +61,4 @@
 </div>
 </wiki:UserCheck>
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </div>

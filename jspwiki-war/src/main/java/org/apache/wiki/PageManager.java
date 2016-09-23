@@ -48,10 +48,7 @@ import org.apache.wiki.event.WikiEventManager;
 import org.apache.wiki.event.WikiPageEvent;
 import org.apache.wiki.event.WikiSecurityEvent;
 import org.apache.wiki.modules.ModuleManager;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.modules.WikiModuleInfo;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.providers.RepositoryModifiedException;
 import org.apache.wiki.providers.WikiPageProvider;
 import org.apache.wiki.util.ClassUtil;
@@ -193,16 +190,6 @@ public class PageManager extends ModuleManager implements WikiEventListener {
             log.debug("Initializing page provider class " + m_provider);
             m_provider.initialize(m_engine, props);
         } catch (ClassNotFoundException e) {
-<<<<<<< HEAD
-            log.error("Unable to locate provider class '" + classname + "'", e);
-            throw new WikiException("No provider class.", e);
-        } catch (InstantiationException e) {
-            log.error("Unable to create provider class '" + classname + "'", e);
-            throw new WikiException("Faulty provider class.", e);
-        } catch (IllegalAccessException e) {
-            log.error("Illegal access to provider class '" + classname + "'", e);
-            throw new WikiException("Illegal provider class.", e);
-=======
             log.error("Unable to locate provider class '" + classname + "' (" + e.getMessage() + ")", e);
             throw new WikiException("No provider class. (" + e.getMessage() + ")", e);
         } catch (InstantiationException e) {
@@ -211,7 +198,6 @@ public class PageManager extends ModuleManager implements WikiEventListener {
         } catch (IllegalAccessException e) {
             log.error("Illegal access to provider class '" + classname + "' (" + e.getMessage() + ")", e);
             throw new WikiException("Illegal provider class. (" + e.getMessage() + ")", e);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         } catch (NoRequiredPropertyException e) {
             log.error("Provider did not found a property it was looking for: " + e.getMessage(), e);
             throw e;  // Same exception works.
@@ -722,11 +708,6 @@ public class PageManager extends ModuleManager implements WikiEventListener {
      */
     @Override
     public Collection modules() {
-<<<<<<< HEAD
-        // TODO Auto-generated method stub
-        return null;
-    }
-=======
         return null;
     }
     
@@ -738,7 +719,6 @@ public class PageManager extends ModuleManager implements WikiEventListener {
     public WikiModuleInfo getModuleInfo(String moduleName) {
     	return null;
     }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 
     /**

@@ -18,11 +18,8 @@
     specific language governing permissions and limitations
     under the License.
 */
-<<<<<<< HEAD
-=======
 /*global Class, Dialog  */
 /*exported Dialog.Font */
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /*
 Class: Dialog.Font
 	The Dialog.Font is a Dialog.Selection object, to selecting a font.
@@ -41,11 +38,7 @@ Inherits from:
 Example
 	(start code)
 	dialog= new Dialog.Font({
-<<<<<<< HEAD
-		fonts:{'Font name1':'font1', 'Font name2':'font2'},
-=======
 		fonts:{"Font name1":"font1", "Font name2":"font2"},
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		caption:"Select a Font",
 		onSelect:function(value){ alert( value ); }
 	});
@@ -54,37 +47,6 @@ Example
 Dialog.Font = new Class({
 
 	Extends:Dialog.Selection,
-<<<<<<< HEAD
-	
-	options: {
-		fonts: {
-			'arial':'Arial',
-			'comic sans ms':'Comic Sans',
-			'courier new':'Courier New',
-			'garamond':'Garamond',
-			'georgia':'Georgia',
-			'helvetica':'Helvetica',
-			'impact':'Impact',
-			'times new roman':'Times',
-			'tahoma':'Tahoma',
-			'trebuchet ms':'Trebuchet',
-			'verdana':'Verdana'
-		}
-	},
-
-	initialize:function(options){
-
-		var self = this, fonts = options.fonts;
-
-        //options.cssClass = '.font'+(options.cssClass||'')
-        this.setClass('.font',options);
-		options.body = fonts ? fonts : self.options.fonts;
-
-		self.parent(options);
-
-		self.getItems().each(function(li){
-			li.setStyle('font-family', li.get('title') );
-=======
 
 	options: {
 		fonts: {
@@ -119,7 +81,6 @@ Dialog.Font = new Class({
 
 		self.element.getElements(".item").each( function( item ){
 			item.setStyle("font-family", item.get("title") );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		});
 
 	}

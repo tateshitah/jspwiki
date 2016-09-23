@@ -77,11 +77,7 @@ public class ReferringPagesPlugin
         String pageName = params.get( PARAM_PAGE );
         ResourceBundle rb = Preferences.getBundle( context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE );
         
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer( 256 );
-=======
         StringBuilder result = new StringBuilder( 256 );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         if( pageName == null )
         {
@@ -139,11 +135,7 @@ public class ReferringPagesPlugin
             {
                 if( m_show.equals( PARAM_SHOW_VALUE_COUNT ) )
                 {
-<<<<<<< HEAD
-                    result = new StringBuffer();
-=======
                     result = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     result.append( links.size() );
                     if( m_lastModified )
                     {

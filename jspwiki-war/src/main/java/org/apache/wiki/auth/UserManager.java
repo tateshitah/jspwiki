@@ -18,10 +18,7 @@
  */
 package org.apache.wiki.auth;
 
-<<<<<<< HEAD
-=======
 import java.io.IOException;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.security.Permission;
 import java.security.Principal;
 import java.text.MessageFormat;
@@ -34,26 +31,18 @@ import java.util.WeakHashMap;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
-<<<<<<< HEAD
-import javax.servlet.http.HttpServletRequest;
-
-=======
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.log4j.Logger;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiSession;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.ajax.AjaxUtil;
 import org.apache.wiki.ajax.WikiAjaxDispatcherServlet;
 import org.apache.wiki.ajax.WikiAjaxServlet;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.engine.FilterManager;
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.WikiException;
@@ -70,11 +59,6 @@ import org.apache.wiki.event.WikiSecurityEvent;
 import org.apache.wiki.filters.SpamFilter;
 import org.apache.wiki.i18n.InternationalizationManager;
 import org.apache.wiki.preferences.Preferences;
-<<<<<<< HEAD
-import org.apache.wiki.rpc.RPCCallable;
-import org.apache.wiki.rpc.json.JSONRPCManager;
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.ui.InputValidator;
 import org.apache.wiki.util.ClassUtil;
 import org.apache.wiki.util.MailUtil;
@@ -117,11 +101,8 @@ public class UserManager {
     protected static final String PREFS_FULL_NAME           = "prefs.fullname";
     protected static final String PREFS_EMAIL               = "prefs.email";
 
-<<<<<<< HEAD
-=======
     public static final String JSON_USERS = "users";
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     // private static final String  PROP_ACLMANAGER     = "jspwiki.aclManager";
 
     /** Associates wiki sessions with profiles */
@@ -130,11 +111,6 @@ public class UserManager {
     /** The user database loads, manages and persists user identities */
     private UserDatabase     m_database;
 
-<<<<<<< HEAD
-    private boolean          m_useJAAS      = true;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      * Constructs a new UserManager instance.
      */
@@ -147,29 +123,16 @@ public class UserManager {
      * @param engine the current wiki engine
      * @param props the wiki engine initialization properties
      */
-<<<<<<< HEAD
-    @SuppressWarnings("deprecation")
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void initialize( WikiEngine engine, Properties props )
     {
         m_engine = engine;
 
-<<<<<<< HEAD
-        m_useJAAS = AuthenticationManager.SECURITY_JAAS.equals( props.getProperty(AuthenticationManager.PROP_SECURITY, AuthenticationManager.SECURITY_JAAS ) );
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Attach the PageManager as a listener
         // TODO: it would be better if we did this in PageManager directly
         addWikiEventListener( engine.getPageManager() );
 
-<<<<<<< HEAD
-        JSONRPCManager.registerGlobalObject( "users", new JSONUserModule(this), new AllPermission(null) );
-=======
         //TODO: Replace with custom annotations. See JSPWIKI-566
         WikiAjaxDispatcherServlet.registerServlet( JSON_USERS, new JSONUserModule(this), new AllPermission(null));
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /**
@@ -188,15 +151,6 @@ public class UserManager {
             return m_database;
         }
 
-<<<<<<< HEAD
-        if( !m_useJAAS )
-        {
-            m_database = new DummyUserDatabase();
-            return m_database;
-        }
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String dbClassName = UNKNOWN_CLASS;
 
         try
@@ -592,10 +546,7 @@ public class UserManager {
         UserProfile otherProfile;
         String fullName = profile.getFullname();
         String loginName = profile.getLoginName();
-<<<<<<< HEAD
-=======
         String email = profile.getEmail();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         // It's illegal to use as a full name someone else's login name
         try
@@ -619,9 +570,6 @@ public class UserManager {
             {
                 Object[] args = { loginName };
                 session.addMessage( SESSION_MESSAGES, MessageFormat.format( rb.getString("security.error.illegalloginname"),
-<<<<<<< HEAD
-                                                                            args ) );
-=======
                         args ) );
             }
         }
@@ -636,7 +584,6 @@ public class UserManager {
             {
                 Object[] args = { email };
                 session.addMessage( SESSION_MESSAGES, MessageFormat.format( rb.getString("security.error.email.taken"), args ) );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
         }
         catch ( NoSuchPrincipalException e)
@@ -903,11 +850,7 @@ public class UserManager {
             WikiEventManager.fireEvent(this,new WikiSecurityEvent(session,type,profile));
         }
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  Implements the JSON API for usermanager.
      *  <p>
@@ -915,15 +858,9 @@ public class UserManager {
      *  this gets reinstalled to the session when JSPWiki starts.  This means
      *  that it's not actually necessary to save anything.
      */
-<<<<<<< HEAD
-    public static final class JSONUserModule implements RPCCallable
-    {
-        private volatile UserManager m_manager;
-=======
     public static final class JSONUserModule implements WikiAjaxServlet
     {
 		private volatile UserManager m_manager;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         
         /**
          *  Create a new JSONUserModule.
@@ -934,8 +871,6 @@ public class UserManager {
             m_manager = mgr;
         }
         
-<<<<<<< HEAD
-=======
         @Override
         public String getServletMapping() {
         	return JSON_USERS;
@@ -958,7 +893,6 @@ public class UserManager {
         	}
         }
         
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         /**
          *  Directly returns the UserProfile object attached to an uid.
          *

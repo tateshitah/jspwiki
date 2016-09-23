@@ -21,43 +21,13 @@
 /*
 Function: Accesskey
     Highlight the available accesskeys to the user:
-<<<<<<< HEAD
-    - underline the accesskey ( wrap inside span.accesskey )
-=======
     - wrap the access key inside a span.accesskey to apply css style
       (eg. underlining the access key)
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     - add a suffix to the title attribute of the element with the accesskey
       in square brackets : "title [ key ]"
 
 Arguments:
     element - DOM element
-<<<<<<< HEAD
-    template - (string) html template replacement string, default <span class='accesskey'>$1</span>
-*/
-
-function Accesskey(element, template){
-
-    if( !element.getElement('span.accesskey') ){
-
-        var key = element.get('accesskey'),
-            title = element.get('title');
-
-        if( key ){
-
-            element.set({
-                html: element.get('html').replace(
-                    RegExp( '('+key+')', 'i'),
-                    template || "<span class='accesskey'>$1</span>" )
-            });
-            if( title ){ element.set('title', title + ' [ '+key+' ]'); }
-
-           //console.log("ACCESSKEY ::",key, element.get('text'), element.get('title') );
-
-        }
-    }
-}
-=======
 
 Example:
 (start code)
@@ -94,4 +64,3 @@ function Accesskey(element){
 
     }
 }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

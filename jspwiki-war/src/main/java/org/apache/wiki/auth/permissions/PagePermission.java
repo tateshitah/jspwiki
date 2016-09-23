@@ -24,10 +24,6 @@ import java.security.PermissionCollection;
 import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
-<<<<<<< HEAD
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiPage;
 
 /**
@@ -194,11 +190,7 @@ public final class PagePermission extends Permission implements Serializable
         String[] pageActions = StringUtils.split( actions.toLowerCase(), ACTION_SEPARATOR );
         Arrays.sort( pageActions, String.CASE_INSENSITIVE_ORDER );
         m_mask = createMask( actions );
-<<<<<<< HEAD
-        StringBuffer buffer = new StringBuffer();
-=======
         StringBuilder buffer = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( int i = 0; i < pageActions.length; i++ )
         {
             buffer.append( pageActions[i] );

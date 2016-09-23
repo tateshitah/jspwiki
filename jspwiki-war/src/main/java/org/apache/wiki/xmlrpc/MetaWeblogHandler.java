@@ -271,11 +271,7 @@ public class MetaWeblogHandler
 
             WikiContext context = new WikiContext( engine, entryPage );
 
-<<<<<<< HEAD
-            StringBuffer text = new StringBuffer();
-=======
             StringBuilder text = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             text.append( "!"+content.get("title") );
             text.append( "\n\n" );
             text.append( content.get("description") );
@@ -372,11 +368,7 @@ public class MetaWeblogHandler
 
             WikiContext context = new WikiContext( engine, entryPage );
 
-<<<<<<< HEAD
-            StringBuffer text = new StringBuffer();
-=======
             StringBuilder text = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             text.append( "!"+content.get("title") );
             text.append( "\n\n" );
             text.append( content.get("description") );

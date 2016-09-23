@@ -76,8 +76,6 @@ public abstract class ModuleManager
      * @return A Collection of WikiModuleInfo instances.
      */
     public abstract Collection modules();
-<<<<<<< HEAD
-=======
 
     /**
      * Returns the {@link WikiModuleInfo} information about the provided moduleName.
@@ -85,5 +83,4 @@ public abstract class ModuleManager
      * @return The wikiModuleInfo
      */
     public abstract WikiModuleInfo getModuleInfo(String moduleName);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }

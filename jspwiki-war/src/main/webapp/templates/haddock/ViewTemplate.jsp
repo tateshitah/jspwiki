@@ -14,27 +14,16 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
---%>
-
-<%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
-=======
     under the License.
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="org.apache.wiki.*" %>
 <fmt:setBundle basename="templates.default"/>
 <!doctype html>
-<<<<<<< HEAD
-<html lang="en">
-=======
 <html lang="${prefs.Language}" name="top">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <head>
 
   <title>
@@ -55,15 +44,6 @@
   </wiki:CheckRequestContext>
 </head>
 
-<<<<<<< HEAD
-<body class="context-<wiki:Variable var='requestcontext' />">
-
-<div class="container${prefs.Layout=='fluid' ? '-fluid' : ''} ${prefs.Orientation}">
- 
-  <wiki:Include page="Header.jsp" />
-  <wiki:Include page="Nav.jsp" />
-  <div class="content active" data-toggle="li#menu,.sidebar>.close">
-=======
 <body class="context-<wiki:Variable var='requestcontext' default='' />">
 
 <div class="container${prefs.Layout=='fixed' ? '' : '-fluid' } ${prefs.Orientation}">
@@ -77,7 +57,6 @@
     <c:set var="sidebar" value="" />
   </wiki:CheckRequestContext>
   <div class="content ${sidebar}" data-toggle="li#menu,.sidebar>.close" data-toggle-pref="Sidebar" >
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <div class="page">
       <wiki:Content/>
       <wiki:Include page="PageInfo.jsp"/>

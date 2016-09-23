@@ -18,11 +18,8 @@
     specific language governing permissions and limitations
     under the License.
 */
-<<<<<<< HEAD
-=======
 /*global Class, Dialog  */
 /*exported Dialog.Buttons */
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /*
 
 */
@@ -37,11 +34,7 @@ Dialog.Buttons = new Class({
 	initialize: function(options){
 
         this.setClass('.buttons',options);
-<<<<<<< HEAD
-        console.log("Dialog.Buttons",options);
-=======
         //console.log("Dialog.Buttons",options);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		this.parent(options);
 		this.setButtons( this.options.buttons );
 
@@ -55,11 +48,7 @@ Dialog.Buttons = new Class({
 	Example:
 		(start code)
 			myDialog.setButtons(['Ok','Cancel']);
-<<<<<<< HEAD
-			
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			//FIXME???
 			myDialog.setButtons({
 				Ok:function(){ callback( input.get('value') ); },
@@ -69,21 +58,12 @@ Dialog.Buttons = new Class({
 	*/
 	setButtons: function( buttons ){
 
-<<<<<<< HEAD
-		var self = this,
-		    btns = self.get('.btn-group') || 'div.btn-group'.slick().inject(self.element);
-
-		btns.empty().adopt( buttons.map(function(b){
-
-			return 'a.btn.btn-link.btn-sm'.slick({
-=======
         var self = this,
             btns = self.get('.btn-group') || 'div.btn-group'.slick().inject(self.element);
 
 		btns.empty().adopt( buttons.map(function(b){
 
 			return 'a.btn.btn-default.btn-sm'.slick({
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 				html: b.localize(),
 				events:{ click: self.action.bind(self,b) }
 			});

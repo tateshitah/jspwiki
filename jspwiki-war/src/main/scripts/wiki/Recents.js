@@ -42,17 +42,10 @@ DOM-structure:
 (end code)
 
 Examples:
-<<<<<<< HEAD
->    wiki.add('.searchbox-recents', function(element){
->       new Wiki.Recents(element, {
->           items: wiki.prefs.get('RecentSearch'),
->           onChange: function(recents){ wiki.set('RecentSearch',recents); }
-=======
 >    wiki.add(".searchbox-recents", function(element){
 >       new Wiki.Recents(element, {
 >           items: wiki.prefs.get("RecentSearch"),
 >           onChange: function(recents){ wiki.set("RecentSearch",recents); }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 >       });
 >   });
 
@@ -61,19 +54,6 @@ Wiki.Recents = new Class({
 
     Implements: [Events, Options],
 
-<<<<<<< HEAD
-    initialize:function(dropdown,options){
-
-        var self = this, 
-            items, i=0, len, 
-            list=[], li='li.recents';
-
-		self.setOptions( options );
-        //self.options.items = ['foo','bar']; //test
-
-        self.items = items = self.options.items || list;
-        self.form = dropdown.getParent('form').addEvent('submit', self.submit.bind(self) );
-=======
     initialize: function(dropdown, options){
 
         var self = this,
@@ -85,28 +65,17 @@ Wiki.Recents = new Class({
 
         self.items = items = self.options.items || list;
         self.form = dropdown.getParent("form").addEvent("submit", self.submit.bind(self) );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         //build li.recents dropdown items
         if( items[0] ){
 
             while(items[i]){
-<<<<<<< HEAD
-                list.push(li, ['a', { html:items[i++].stripScripts() }] );
-            }
-            //list.push(li+'.clear',['a',{html:'[Clear Recent Searches]' }]);
-            list.push(li+'.clear',['a', [ 'span.btn.btn-xs.btn-default',{text:'Clear Recent Searches' }]]);
-            dropdown.adopt( list.slick() );
-        }
-        dropdown.addEvent('click:relay('+li+')', function(ev){ ev.stop(); self.action(this); });
-=======
                 list.push(li, ["a", { html: items[i++].stripScripts() }] );
             }
             list.push(li + ".clear", ["a", [ "span.btn.btn-xs.btn-default", {text: "sbox.clearrecent".localize() }]]);
             dropdown.adopt( list.slick() );
         }
         dropdown.addEvent( "click:relay(" + li + ")", function(ev){ ev.stop(); self.action(this); });
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
@@ -114,19 +83,6 @@ Wiki.Recents = new Class({
 
         var self = this, form = self.form;
 
-<<<<<<< HEAD
-        if( element.match('.clear') ){
-
-            //element.getSiblings('li.recents').destroy();
-            //element.destroy();
-            element.getElements('!> > li.recents').destroy(); //!> == direct parent
-            self.items = [];
-            self.fireEvent('change'/*,null*/);
-
-        } else {
-
-            form.query.value = element.get('text');
-=======
         if( element.match(".clear") ){
 
             //element.getSiblings("li.recents").destroy();
@@ -138,18 +94,13 @@ Wiki.Recents = new Class({
         } else {
 
             form.query.value = element.get("text");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             form.submit();
 
         }
 
     },
 
-<<<<<<< HEAD
-    submit:function(){
-=======
     submit: function(){
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         var self = this,
             items = self.items,
@@ -158,13 +109,8 @@ Wiki.Recents = new Class({
         if( items.indexOf( value ) < 0 ){
 
             //insert new item at the start of the list, and cap list on max 10 items
-<<<<<<< HEAD
-            if( items.unshift(value) > 9){ items = items.slice(0,9); }
-            self.fireEvent('change', [self.items = items] );
-=======
             if( items.unshift(value) > 9){ items = items.slice(0, 9); }
             self.fireEvent("change", [self.items = items] );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         }
 

@@ -15,11 +15,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 -->
 
 <!--
@@ -39,9 +35,6 @@
       <minVersion>2.4</minVersion>
       <adminBean>org.apache.wiki.ui.admin.beans.PlainEditorAdminBean</adminBean>
    </editor>
-<<<<<<< HEAD
-<!-- 
-=======
    <!--
        Experimental wysiwyg editor, based on mooeditable
    -->
@@ -52,7 +45,6 @@
    </editor>
 
 <!--
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    <editor name="WikiWizard">
       <author>i3G Institut Hochschule Heilbronn</author>
       <path>editors/WikiWizard.jsp</path>
@@ -76,9 +68,5 @@
       <author>Janne Jalkanen</author>
       <minVersion>2.6</minVersion>
    </filter>
-<<<<<<< HEAD
-   
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </modules>

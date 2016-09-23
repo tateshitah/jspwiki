@@ -14,19 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ page import="java.util.*" %>
 <%@ page import="org.apache.wiki.*" %>
-<<<<<<< HEAD
-<%@ page import="org.apache.wiki.rpc.json.*" %>
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ page import="org.apache.wiki.ui.admin.*" %>
 <%@ page errorPage="/Error.jsp" %>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -48,15 +40,6 @@ function refreshUserInfo()
 
    if( userid == '--New--' ) return;
 
-<<<<<<< HEAD
-   Wiki.jsonrpc("users.getUserInfo", [userid], function(userprofile){
-      $('loginname').value = userprofile.loginName;
-      $('loginid').value = userprofile.loginName;
-      $('fullname').value = userprofile.fullname;
-      $('email').value = userprofile.email;
-      $('lastmodified').setHTML(constructdate(userprofile.lastModified));
-      $('creationdate').setHTML(constructdate(userprofile.created));
-=======
    Wiki.ajaxJsonCall("/users",[userid], function(userprofile) {
 	   $('loginname').value = userprofile.loginName;
 	   $('loginid').value = userprofile.loginName;
@@ -64,7 +47,6 @@ function refreshUserInfo()
 	   $('email').value = userprofile.email;
 	   $('lastmodified').setHTML(constructdate(userprofile.lastModified));
 	   $('creationdate').setHTML(constructdate(userprofile.created));
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    });
 }
 
@@ -76,11 +58,7 @@ function addNew()
   $('email').value = "";
   $('lastmodified').innerHTML = "";
   $('creationdate').innerHTML = "";
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   var idlist=$('userid');
   var len = idlist.options.length;
   idlist.options[len] = new Option('--New--','--New--');
@@ -100,16 +78,9 @@ function addNew()
       </select>
    </div>
    <div id="useredit">
-<<<<<<< HEAD
-   <form action="<wiki:Link jsp='admin/Admin.jsp' format='url'><wiki:Param name='tab-admin' value='users'/></wiki:Link>" 
-       class="wikiform"
-          id="adminuserform" 
-    onsubmit="return Wiki.submitOnce(this);"
-=======
    <form action="<wiki:Link jsp='admin/Admin.jsp' format='url'><wiki:Param name='tab-admin' value='users'/></wiki:Link>"
        class="wikiform"
           id="adminuserform"
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       method="post" accept-charset="<wiki:ContentEncoding/>"
      enctype="application/x-www-form-urlencoded" >
      <input type="hidden" name='bean' value='org.apache.wiki.ui.admin.beans.UserBean'/>
@@ -166,13 +137,9 @@ function addNew()
 
      </table>
    <div id="useractions">
-<<<<<<< HEAD
-     <input type="submit" name="action" value="Remove" onclick="return( confirm('Are you sure you wish to remove this user?') && Wiki.submitOnce(this) );"/>      <input type="button" value="Add" onclick="javascript:addNew()"/>
-=======
      <input type="submit" name="action" value="Remove" data-modal="+ .modal" />
      <div class="modal">"Are you sure you wish to remove this user?</div>
      <input type="button" value="Add" onclick="javascript:addNew()"/>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
    </div>
    </form>
    </div>

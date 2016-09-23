@@ -52,11 +52,7 @@ public final class Release {
      *  <p>
      *  If the POSTFIX is empty, it is not added to the version string.
      */
-<<<<<<< HEAD
-    private static final String    POSTFIX       = "";
-=======
     private static final String    POSTFIX       = "svn";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /** The JSPWiki major version. */
     public static final int        VERSION       = 2;
@@ -65,11 +61,7 @@ public final class Release {
     public static final int        REVISION      = 10;
 
     /** The minor revision.  */
-<<<<<<< HEAD
-    public static final int        MINORREVISION = 1;
-=======
     public static final int        MINORREVISION = 3;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /** The build number/identifier.  This is a String as opposed to an integer, just so that people can add 
      *  other identifiers to it.  The build number is incremented every time a committer checks in code, and reset 
@@ -80,13 +72,8 @@ public final class Release {
      *  <p>
      *  If the build identifier is empty, it is not added.
      */
-<<<<<<< HEAD
-    public static final String     BUILD         = "";
-    
-=======
     public static final String     BUILD         = "14";
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  This is the generic version string you should use when printing out the version.  It is of 
      *  the form "VERSION.REVISION.MINORREVISION[-POSTFIX][-BUILD]".

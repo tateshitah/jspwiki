@@ -22,11 +22,7 @@
   <parent>
     <groupId>org.apache.jspwiki</groupId>
     <artifactId>jspwiki-builder</artifactId>
-<<<<<<< HEAD
-    <version>2.10.1</version>
-=======
     <version>2.10.3-SNAPSHOT</version>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -74,14 +70,9 @@
 
     <dependency>
       <groupId>net.sf.ehcache</groupId>
-<<<<<<< HEAD
-      <artifactId>ehcache-core</artifactId>
-    </dependency>
-=======
       <artifactId>ehcache</artifactId>
     </dependency>
     
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <dependency>
       <groupId>oro</groupId>
       <artifactId>oro</artifactId>
@@ -97,16 +88,6 @@
       <artifactId>log4j</artifactId>
     </dependency>
 
-<<<<<<< HEAD
-      <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-      </dependency>
-
-    <dependency>
-      <groupId>com.metaparadigm</groupId>
-      <artifactId>json-rpc</artifactId>
-=======
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
@@ -115,7 +96,6 @@
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     </dependency>
 
     <dependency>
@@ -169,11 +149,7 @@
     </dependency>
 
     <dependency>
-<<<<<<< HEAD
-      <groupId>nekohtml</groupId>
-=======
       <groupId>net.sourceforge.nekohtml</groupId>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <artifactId>nekohtml</artifactId>
       <scope>runtime</scope>
     </dependency>
@@ -257,8 +233,6 @@
           </includes>
         </configuration>
       </plugin>
-<<<<<<< HEAD
-=======
       
       <plugin>
         <artifactId>maven-eclipse-plugin</artifactId>
@@ -281,7 +255,6 @@
           </additionalProjectnatures>
         </configuration>
       </plugin>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
       <!-- wro4j Web Resource Optimizer for Java (http://http://code.google.com/p/wro4j/)
         Merge and compress CSS and JS files using the WRO4J.
@@ -412,11 +385,7 @@
           <!-- Unpack the JSP Wiki Pages -->
           <execution>
             <id>unpack-wikipages-private</id>
-<<<<<<< HEAD
-            <phase>generate-resources</phase>
-=======
             <phase>package</phase>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             <goals>
               <goal>unpack</goal>
             </goals>

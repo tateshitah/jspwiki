@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* 
-=======
 /*
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -18,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.render;
 
@@ -50,32 +42,22 @@ public class WysiwygEditingRenderer
 {
 
     private static final String A_ELEMENT = "a";
-<<<<<<< HEAD
-=======
     private static final String IMG_ELEMENT = "img";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 //    private static final String PRE_ELEMENT = "pre";
     private static final String CLASS_ATTRIBUTE = "class";
     private static final String HREF_ATTRIBUTE = "href";
     private static final String TITLE_ATTRIBUTE = "title";
     private static final String EDITPAGE = "createpage";
     private static final String WIKIPAGE = "wikipage";
-<<<<<<< HEAD
-=======
     private static final String HASHLINK = "hashlink";
     private static final String OUTLINK = "outlink";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     private static final String LINEBREAK = "\n";
     private static final String LINKS_TRANSLATION = "$1#$2";
     private static final String LINKS_SOURCE = "(.+)#section-.+-(.+)";
 
     /**
      *  Creates a WYSIWYG editing renderer.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param context {@inheritDoc}
      *  @param doc {@inheritDoc}
      */
@@ -113,24 +95,16 @@ public class WysiwygEditingRenderer
                         String wikiPageLinkUrl = wikiConfig.getWikiJspPage();
                         String editPageLinkUrl = wikiConfig.getEditJspPage();
 
-<<<<<<< HEAD
-                        if( classValue.equals( WIKIPAGE )
-                            || ( hrefAttr != null && hrefAttr.getValue().startsWith( wikiPageLinkUrl ) ) )
-=======
                         //if( classValue.equals( WIKIPAGE )
                         //    || ( hrefAttr != null && hrefAttr.getValue().startsWith( wikiPageLinkUrl ) ) )
                         if( //classValue.equals( WIKIPAGE ) &&
                             ( hrefAttr != null )
                         &&  ( hrefAttr.getValue().startsWith( wikiPageLinkUrl ) ) )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                         {
                             // Remove the leading url string so that users will only see the
                             // wikipage's name when editing an existing wiki link.
                             // For example, change "Wiki.jsp?page=MyPage" to just "MyPage".
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                             String newHref = hrefAttr.getValue().substring( wikiPageLinkUrl.length() );
 
                             // Convert "This%20Pagename%20Has%20Spaces" to "This Pagename Has Spaces"
@@ -140,17 +114,6 @@ public class WysiwygEditingRenderer
                             // For example, we need to translate the html string "TargetPage#section-TargetPage-Heading2"
                             // to this wiki string: "TargetPage#Heading2".
                             hrefAttr.setValue( newHref.replaceFirst( LINKS_SOURCE, LINKS_TRANSLATION ) );
-<<<<<<< HEAD
-                        }
-                        else if( hrefAttr != null && (classValue.equals( EDITPAGE ) ||
-                                                      hrefAttr.getValue().startsWith( editPageLinkUrl ) ) )
-                        {
-                            Attribute titleAttr = element.getAttribute( TITLE_ATTRIBUTE );
-                            if( titleAttr != null )
-                            {
-                                // remove the title since we don't want to eventually save the default undefined page title.
-                                titleAttr.detach();
-=======
 
                         }
                         else if( //classValue.equals( EDITPAGE ) &&
@@ -163,7 +126,6 @@ public class WysiwygEditingRenderer
                             {
                                     // remove the title since we don't want to eventually save the default undefined page title.
                                     titleAttr.detach();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                             }
 
                             String newHref = hrefAttr.getValue().substring( editPageLinkUrl.length() );
@@ -171,11 +133,6 @@ public class WysiwygEditingRenderer
 
                             hrefAttr.setValue( newHref );
                         }
-<<<<<<< HEAD
-                    }
-                } // end of check for "a" element
-                
-=======
 
                         else if( classValue.equals( HASHLINK ) )
                         {
@@ -201,7 +158,6 @@ public class WysiwygEditingRenderer
 
                 }
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 processChildren( element );
             }
         }

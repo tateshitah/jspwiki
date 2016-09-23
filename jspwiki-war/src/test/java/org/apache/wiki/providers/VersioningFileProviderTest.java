@@ -19,15 +19,11 @@
 
 package org.apache.wiki.providers;
 
-<<<<<<< HEAD
-import java.io.*;
-=======
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -93,11 +89,7 @@ public class VersioningFileProviderTest extends TestCase
         // jspwiki always uses a singleton CacheManager, so
         // clear the cache at the end of every test case to avoid
         // polluting another test case
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     /*

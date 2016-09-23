@@ -19,29 +19,18 @@ under the License.
 
 package org.apache.wiki.plugin;
 
-<<<<<<< HEAD
-=======
 import java.util.Properties;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.ehcache.CacheManager;
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.api.engine.PluginManager;
 
-<<<<<<< HEAD
-import java.util.Properties;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 public class ReferringUndefinedPagesPluginTest extends TestCase {
     Properties props = TestEngine.getTestProperties();
 
@@ -52,11 +41,7 @@ public class ReferringUndefinedPagesPluginTest extends TestCase {
 	PluginManager manager;
 
 	public void setUp() throws Exception {
-<<<<<<< HEAD
-        CacheManager.getInstance().clearAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		testEngine = new TestEngine(props);
 
         testEngine.saveText("TestPage01", "Some Text for testing 01 which refers [NonExistingPageA] ");

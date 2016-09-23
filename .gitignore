@@ -1,17 +1,5 @@
-<<<<<<< HEAD
-jspwiki-war/target
-jspwiki-site/target
-jspwiki-it-tests/jspwiki-it-test-container/target
-jspwiki-it-tests/jspwiki-it-test-custom-jdbc/target
-jspwiki-it-tests/jspwiki-it-test-custom/target
-jspwiki-it-tests/jspwiki-selenium-tests/target
-target
-rss.rdf
-.project
-=======
 target
 .settings
 .classpath
 .project
 nb-configuration.xml
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

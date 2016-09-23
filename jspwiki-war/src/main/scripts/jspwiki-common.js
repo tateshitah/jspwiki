@@ -219,8 +219,6 @@ function getAncestorByTagName( node, tagName ) {
 	}
 }
 
-<<<<<<< HEAD
-=======
 /** AJAX Requests as per http://javapapers.com/ajax/getting-started-with-ajax-using-java/ **/
 /*
  * creates a new XMLHttpRequest object which is the backbone of AJAX,
@@ -287,7 +285,6 @@ function getReadyStateHandler(xmlHttpRequest,responseId,loading,callback) {
 }
 /** End AJAX Requests **/
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /** 100 Wiki functions **/
 var Wiki = {
@@ -366,12 +363,8 @@ var Wiki = {
 	//allow letters, digits and punctuation chars: ()&+,-=._$
 	cleanLink: function(p){
 		return p.trim().replace(/\s+/g,' ')
-<<<<<<< HEAD
-				.replace(/[^0-9A-Za-z\u00C0-\u1FFF\u2800-\uFFFD()&+,-=._$ ]/g, '');
-=======
                 .replace(/[^\w\u00C0-\u1FFF\u2800-\uFFFD\(\)&\+,\-=\.\$ ]/g, "");
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	},
 
 	changeOrientation: function(){
@@ -453,19 +446,11 @@ var Wiki = {
 	submitUpload: function(form, progress){
 		$('progressbar').setStyle('visibility','visible');
 		this.progressbar =
-<<<<<<< HEAD
-		Wiki.jsonrpc.periodical(1000, this, ["progressTracker.getProgress",[progress],function(result){
-			result = result.stripScripts(); //xss vulnerability
-			if(!result.code) $('progressbar').getFirst().setStyle('width',result+'%').setHTML(result+'%');
-		}]);
-
-=======
 			Wiki.ajaxJsonCall.periodical(500, this, ["/progressTracker",[progress],function(result){
 			if(result) {
 				$('progressbar').getFirst().setStyle('width',result+'%').setHTML(result+'%');
 			}
 		}]);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		return Wiki.submitOnce(form);
 	},
 
@@ -494,21 +479,6 @@ var Wiki = {
 		);
 	},
 
-<<<<<<< HEAD
-	$jsonid : 10000,
-	jsonrpc: function(method, params, fn) {
-		new Ajax( Wiki.JsonUrl, {
-			postBody: Json.toString({"id":Wiki.$jsonid++, "method":method, "params":params}),
-			method: 'post',
-			onComplete: function(result){
-				var r = Json.evaluate(result,true);
-				if(r){
-					if(r.result){ fn(r.result) }
-					else if(r.error){ fn(r.error) }
-				}
-			}
-		}).request();
-=======
 	/*
 	 * AJAX call starts with these functions which rely on the Mootools Request.HTML and Request.JSON
 	 * http://mootools.net/core/docs/1.5.1/Request/Request.JSON
@@ -568,7 +538,6 @@ var Wiki = {
 		xmlHttpRequest.open('post', url, true);
 		xmlHttpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xmlHttpRequest.send("params="+params);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	}
 }
 
@@ -1082,22 +1051,6 @@ var SearchBox = {
 		$('searchTarget').setHTML('('+qv+') :');
 		$('searchSpin').show();
 
-<<<<<<< HEAD
-		Wiki.jsonrpc('search.findPages', [qv,20], function(result){
-				$('searchSpin').hide();
-				if(!result.list) return;
-				var frag = new Element('ul');
-
-				result.list.each(function(el){
-					new Element('li').adopt(
-						new Element('a',{'href':Wiki.getUrl(el.map.page) }).setHTML(el.map.page),
-						new Element('span',{'class':'small'}).setHTML(" ("+el.map.score+")")
-					).inject(frag);
-				});
-				$('searchOutput').empty().adopt(frag);
-				Wiki.locatemenu( $('query'), $('searchboxMenu') );
-		});
-=======
 	   Wiki.ajaxJsonCall("/search/pages",[qv,'20'], function(result) {
 			$('searchSpin').hide();
 			if(!result) return;
@@ -1112,7 +1065,6 @@ var SearchBox = {
 			$('searchOutput').empty().adopt(frag);
 			Wiki.locatemenu( $('query'), $('searchboxMenu') );
 	   });
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	} ,
 
 	/* navigate to url, after smart pagename handling */
@@ -1563,11 +1515,7 @@ var Sortable =
 			/* chrome accepts numbers as valid Dates !! */
 			if(date) date = !isNaN(Date.parse(v)) && v.test(/[^\d]/);
 			if(ip4)  ip4  = v.test(/(?:\\d{1,3}\\.){3}\\d{1,3}/); //169.169.0.1
-<<<<<<< HEAD
-			if(euro) euro = v.test(/^[£$€][0-9.,]+/);
-=======
 			if(euro) euro = v.test(/^[Â£$â‚¬][0-9.,]+/);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			if(kmgt) kmgt = v.test(/(?:[0-9.,]+)\s*(?:[kmgt])b/);  //2 MB, 4GB, 1.2kb, 8Tb
 
 		});

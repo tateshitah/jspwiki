@@ -127,11 +127,7 @@ public class VariableManager
     public String expandVariables( WikiContext context,
                                    String      source )
     {
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer();
-=======
     	StringBuilder result = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         for( int i = 0; i < source.length(); i++ )
         {
@@ -430,11 +426,7 @@ public class VariableManager
 
         public String getInterwikilinks()
         {
-<<<<<<< HEAD
-            StringBuffer res = new StringBuffer();
-=======
         	StringBuilder res = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             for( Iterator< String > i = m_context.getEngine().getAllInterWikiLinks().iterator(); i.hasNext(); )
             {
@@ -449,11 +441,7 @@ public class VariableManager
 
         public String getInlinedimages()
         {
-<<<<<<< HEAD
-            StringBuffer res = new StringBuffer();
-=======
         	StringBuilder res = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             for( Iterator< String > i = m_context.getEngine().getAllInlinedImagePatterns().iterator(); i.hasNext(); )
             {
@@ -514,11 +502,7 @@ public class VariableManager
         {
             FilterManager fm = m_context.getEngine().getFilterManager();
             List<PageFilter> filters = fm.getFilterList();
-<<<<<<< HEAD
-            StringBuffer sb = new StringBuffer();
-=======
             StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             for (PageFilter pf : filters )
             {

@@ -49,11 +49,7 @@ public class SearchManagerTest extends TestCase {
         props.setProperty( "jspwiki.workDir", workDir + System.currentTimeMillis() );
         props.setProperty( "jspwiki.fileSystemProvider.pageDir", workRepo + System.currentTimeMillis() );
 
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine = new TestEngine( props );
         m_mgr = m_engine.getSearchManager();
     }
@@ -78,16 +74,11 @@ public class SearchManagerTest extends TestCase {
             } else {
                 break;
             }
-<<<<<<< HEAD
-            res = m_mgr.findPages( text );
-            
-=======
             MockHttpServletRequest request = m_engine.newHttpRequest();
             WikiContext ctx = m_engine.createContext( request, WikiContext.EDIT );
             
             res = m_mgr.findPages( text, ctx );
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 //            debugSearchResults( res );
         }
         return res;
@@ -151,20 +142,12 @@ public class SearchManagerTest extends TestCase {
         Thread.yield();
         Collection res = waitForIndex( "Babylon" , "testSimpleSearch3" ); // wait until 2nd m_engine.saveText() takes effect
 
-<<<<<<< HEAD
-        res = m_mgr.findPages( "mankind" ); // check for text present in 1st m_engine.saveText() but not in 2nd
-=======
         res = m_mgr.findPages( "mankind", ctx ); // check for text present in 1st m_engine.saveText() but not in 2nd
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         assertNotNull( "found results", res );
         assertEquals( "empty results", 0, res.size() );
         
-<<<<<<< HEAD
-        res = m_mgr.findPages( "Babylon" );
-=======
         res = m_mgr.findPages( "Babylon", ctx );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         assertNotNull( "null result", res );
         assertEquals( "no pages", 1, res.size() );
      
@@ -172,8 +155,6 @@ public class SearchManagerTest extends TestCase {
         m_engine.deleteTestPage("TestPage");
     }
 
-<<<<<<< HEAD
-=======
     public void testSimpleSearch4() throws Exception {
         String txt = "It was the dawn of the third age of mankind, ten years after the Earth-Minbari War.";
 
@@ -199,7 +180,6 @@ public class SearchManagerTest extends TestCase {
         m_engine.deleteTestPage("TestPage");
     }
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public void testTitleSearch() throws Exception {
         String txt = "Nonsensical content that should not match";
  

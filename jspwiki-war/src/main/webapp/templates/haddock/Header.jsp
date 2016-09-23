@@ -14,13 +14,6 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
---%>
-
-<%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-=======
     under the License.
 --%>
 
@@ -28,33 +21,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ page import="org.apache.wiki.*" %>
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
 <%
   WikiContext c = WikiContext.findContext(pageContext);
-<<<<<<< HEAD
-  String frontpage = c.getEngine().getFrontPage(); 
-%>
-<div class="titlebox"><wiki:InsertPage page="TitleBox"/></div>
-
-<div class="header">
-
-  <div class="watermark">jsp&#x03C9;iki</div>
-<%--  <div class="application-logo" > 
-    <a href="<wiki:LinkTo page='<%=frontpage%>' format='url' />"
-       title="<fmt:message key='actions.home.title' ><fmt:param><%=frontpage%></fmt:param></fmt:message> ">jsp&#x03C9;iki</a>
-  </div>
---%>
-
-  <wiki:Include page="SearchBox.jsp" />
-
-  <div class="pagename"><wiki:PageName /></div>
-
-  <div class="breadcrumb"><fmt:message key="header.yourtrail"/><wiki:Breadcrumbs /></div>
-  
-=======
 %>
 <c:set var="frontpage" value="<%= c.getEngine().getFrontPage() %>" />
 
@@ -97,5 +68,4 @@
     <fmt:message key="header.yourtrail"/><wiki:Breadcrumbs separator="<span class='divider'></span>" />
   </div>
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </div>

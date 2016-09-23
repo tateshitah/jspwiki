@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -43,17 +39,6 @@ String.I18N = LocalizedStrings;
 String.I18N.PREFIX = "javascript.";
 //]]></script>
 
-<<<<<<< HEAD
-  <wiki:CheckVersion mode="notlatest">
-    <meta name="robots" content="noindex,nofollow" />
-  </wiki:CheckVersion>
-  <wiki:CheckRequestContext context="diff|info">
-    <meta name="robots" content="noindex,nofollow" />
-  </wiki:CheckRequestContext>
-  <wiki:CheckRequestContext context="!view">
-    <meta name="robots" content="noindex,follow" />
-  </wiki:CheckRequestContext>
-=======
 <meta name="wikiContext" content='<wiki:Variable var="requestcontext" />' />
 <wiki:Permission permission="edit"><meta name="wikiEditPermission" content="true"/></wiki:Permission>
 <meta name="wikiBaseUrl" content='<wiki:BaseURL />' />
@@ -78,7 +63,6 @@ String.I18N.PREFIX = "javascript.";
 <%-- ie6 needs next line --%>
 <link rel="icon" type="image/x-icon" href="<wiki:Link format='url' jsp='images/favicon.ico'/>" />
 <meta name="robots" content="noindex,nofollow" />
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 <%-- FIXME: for now, reuse haddock's stylesheet --%>
 <link rel="stylesheet" media="screen, projection, print" type="text/css"
@@ -86,15 +70,6 @@ String.I18N.PREFIX = "javascript.";
 
 </head>
 
-<<<<<<< HEAD
-<body class="context-<wiki:Variable var='requestcontext' />">
-
-<div class="container ${prefs.Orientation}">
-
-  <div class="pagename"><wiki:PageName /></div>
-  <div class="page"><wiki:Include page="PageTab.jsp"/></div>
-  
-=======
 <body class="reader context-<wiki:Variable var='requestcontext' default='' />" >
 
 <div class="container ${prefs.Orientation}">
@@ -103,7 +78,6 @@ String.I18N.PREFIX = "javascript.";
   <div class="page"><wiki:Include page="PageTab.jsp"/></div>
   <div class="copyright center"><wiki:InsertPage page="CopyrightNotice"/></div>
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </div>
 
 <script type="text/javascript" src="<wiki:Link format='url' jsp='scripts/haddock.js'/>"></script>

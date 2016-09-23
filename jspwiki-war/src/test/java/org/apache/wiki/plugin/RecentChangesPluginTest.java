@@ -24,13 +24,8 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-<<<<<<< HEAD
-
-import net.sf.ehcache.CacheManager;
-=======
 import net.sf.ehcache.CacheManager;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
@@ -46,20 +41,13 @@ public class RecentChangesPluginTest extends TestCase {
     PluginManager manager;
 
     public void setUp() throws Exception {
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         testEngine = new TestEngine(props);
 
         testEngine.saveText("TestPage01", "Some Text for testing 01");
         testEngine.saveText("TestPage02", "Some Text for testing 02");
         testEngine.saveText("TestPage03", "Some Text for testing 03");
-<<<<<<< HEAD
-=======
         testEngine.saveText("TestPage04", "Some Text for testing 04");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         manager = new DefaultPluginManager(testEngine, props);
     }
@@ -68,10 +56,7 @@ public class RecentChangesPluginTest extends TestCase {
         testEngine.deleteTestPage("TestPage01");
         testEngine.deleteTestPage("TestPage02");
         testEngine.deleteTestPage("TestPage03");
-<<<<<<< HEAD
-=======
         testEngine.deleteTestPage("TestPage04");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         TestEngine.emptyWorkDir();
     }
@@ -128,10 +113,6 @@ public class RecentChangesPluginTest extends TestCase {
         assertFalse(res.contains("<a href=\"/Wiki.jsp?page=TestPage03\">Test Page 03</a>"));
     }
 
-<<<<<<< HEAD
-    public static Test suite() {
-        return new TestSuite(RecentChangesPluginTest.class);
-=======
     /**
      * Test an empty recent changes table
      * 
@@ -149,7 +130,6 @@ public class RecentChangesPluginTest extends TestCase {
 
     public static Test suite() {
         return new TestSuite( RecentChangesPluginTest.class );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
     
 }

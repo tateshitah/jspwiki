@@ -140,13 +140,10 @@ public class WikiEngine
 
     /** Define the used encoding.  Currently supported are ISO-8859-1 and UTF-8 */
     public static final String PROP_ENCODING     = "jspwiki.encoding";
-<<<<<<< HEAD
-=======
     
     /** Do not use encoding in WikiJSPFilter, default is false for most servers.
     Double negative, cause for most servers you don't need the property */
     public static final String PROP_NO_FILTER_ENCODING     = "jspwiki.nofilterencoding";    
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /** The name for the base URL to use in all references. */
     public static final String PROP_BASEURL      = "jspwiki.baseURL";
@@ -381,11 +378,7 @@ public class WikiEngine
             {
                 context.log( "ERROR: Failed to create a Wiki engine: "+e.getMessage() );
                 log.error( "ERROR: Failed to create a Wiki engine, stacktrace follows " , e);
-<<<<<<< HEAD
-                throw new InternalWikiException( "No wiki engine, check logs." );
-=======
                 throw new InternalWikiException( "No wiki engine, check logs." , e);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
 
         }
@@ -469,11 +462,7 @@ public class WikiEngine
         //
         if( !c_configured )
         {
-<<<<<<< HEAD
-            String useExternalLogConfig = props.getProperty("jspwiki.use.external.logconfig");
-=======
             String useExternalLogConfig = TextUtil.getStringProperty(props,"jspwiki.use.external.logconfig","false");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             if( useExternalLogConfig == null || useExternalLogConfig.equals("false"))
             {
                 PropertyConfigurator.configure( props );
@@ -648,49 +637,29 @@ public class WikiEngine
         {
             // RuntimeExceptions may occur here, even if they shouldn't.
             log.fatal( "Failed to start managers.", e );
-<<<<<<< HEAD
-            throw new WikiException( "Failed to start managers: "+e.getMessage(), e );
-        }
-        catch (ClassNotFoundException e)
-        {
-            log.fatal( "JSPWiki could not start, URLConstructor was not found: ",e );
-=======
             throw new WikiException( "Failed to start managers: " + e.getMessage(), e );
         }
         catch (ClassNotFoundException e)
         {
             log.fatal( "JSPWiki could not start, URLConstructor was not found: " + e.getMessage(), e );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             throw new WikiException(e.getMessage(), e );
         }
         catch (InstantiationException e)
         {
-<<<<<<< HEAD
-            log.fatal( "JSPWiki could not start, URLConstructor could not be instantiated: ",e );
-=======
             log.fatal( "JSPWiki could not start, URLConstructor could not be instantiated: " + e.getMessage(), e );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             throw new WikiException(e.getMessage(), e );
         }
         catch (IllegalAccessException e)
         {
-<<<<<<< HEAD
-            log.fatal( "JSPWiki could not start, URLConstructor cannot be accessed: ",e );
-=======
             log.fatal( "JSPWiki could not start, URLConstructor cannot be accessed: " + e.getMessage(), e );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             throw new WikiException(e.getMessage(), e );
         }
         catch( Exception e )
         {
             // Final catch-all for everything
             log.fatal( "JSPWiki could not start, due to an unknown exception when starting.",e );
-<<<<<<< HEAD
-            throw new WikiException("Failed to start; please check log files for better information.", e );
-=======
             throw new WikiException( "Failed to start. Caused by: " + e.getMessage() + 
                                      "; please check log files for better information.", e );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         
         //
@@ -1311,11 +1280,7 @@ public class WikiEngine
         }
         catch( UnsupportedEncodingException e )
         {
-<<<<<<< HEAD
-            throw new InternalWikiException( "ISO-8859-1 not a supported encoding!?!  Your platform is borked." );
-=======
             throw new InternalWikiException( "ISO-8859-1 not a supported encoding!?!  Your platform is borked." , e);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
 
@@ -1335,11 +1300,7 @@ public class WikiEngine
         }
         catch( UnsupportedEncodingException e )
         {
-<<<<<<< HEAD
-            throw new InternalWikiException("ISO-8859-1 not a supported encoding!?!  Your platform is borked.");
-=======
             throw new InternalWikiException("ISO-8859-1 not a supported encoding!?!  Your platform is borked.", e);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
 
@@ -1887,10 +1848,7 @@ public class WikiEngine
      *  a language of its own.
      *
      *  @param query The query string
-<<<<<<< HEAD
-=======
      *  @param wikiContext the context within which to run the search
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @return A Collection of SearchResult objects.
      *  @throws ProviderException If the searching failed
      *  @throws IOException       If the searching failed
@@ -1899,17 +1857,10 @@ public class WikiEngine
     //
     // FIXME: Should also have attributes attached.
     //
-<<<<<<< HEAD
-    public Collection findPages( String query )
-        throws ProviderException, IOException
-    {
-        Collection results = m_searchManager.findPages( query );
-=======
     public Collection findPages( String query, WikiContext wikiContext )
         throws ProviderException, IOException
     {
         Collection results = m_searchManager.findPages( query, wikiContext );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         return results;
     }
@@ -2235,24 +2186,17 @@ public class WikiEngine
             }
             else
             {
-<<<<<<< HEAD
-=======
                 Collection<String> refTo = m_referenceManager.findRefersTo(pageName);
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 if (m_attachmentManager.hasAttachments( p ))
                 {
                     Collection attachments = m_attachmentManager.listAttachments( p );
                     for( Iterator atti = attachments.iterator(); atti.hasNext(); )
                     {
-<<<<<<< HEAD
-                        m_attachmentManager.deleteAttachment( (Attachment)(atti.next()) );
-=======
                         Attachment attachment = (Attachment)atti.next();
                         refTo.remove(attachment.getName());
 
                         m_attachmentManager.deleteAttachment( attachment );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     }
                 }
                 m_pageManager.deletePage( p );
@@ -2421,11 +2365,7 @@ public class WikiEngine
             catch ( WikiException we )
             {
                 log.fatal( "unable to instantiate class for AclManager: " + we.getMessage() );
-<<<<<<< HEAD
-                throw new InternalWikiException("Cannot instantiate AclManager, please check logs.");
-=======
                 throw new InternalWikiException("Cannot instantiate AclManager, please check logs.", we);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
         }
         return m_aclManager;

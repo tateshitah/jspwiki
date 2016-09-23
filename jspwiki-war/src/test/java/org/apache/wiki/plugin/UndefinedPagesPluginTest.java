@@ -21,19 +21,11 @@ package org.apache.wiki.plugin;
 
 import java.util.Properties;
 
-<<<<<<< HEAD
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.framework.Test;
-
-import net.sf.ehcache.CacheManager;
-=======
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.ehcache.CacheManager;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
@@ -55,11 +47,7 @@ public class UndefinedPagesPluginTest extends TestCase
     public void setUp()
         throws Exception
     {
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         testEngine = new TestEngine(props);
 
         testEngine.saveText( "TestPage", "Reference to [Foobar]." );

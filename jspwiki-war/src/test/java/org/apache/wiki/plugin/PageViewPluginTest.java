@@ -23,13 +23,8 @@ import java.util.Properties;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-<<<<<<< HEAD
-
-import net.sf.ehcache.CacheManager;
-=======
 import net.sf.ehcache.CacheManager;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
@@ -53,11 +48,7 @@ public class PageViewPluginTest extends TestCase
 
     public void setUp() throws Exception
     {
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         testEngine = new TestEngine( props );
 
         // create pages that should be counted

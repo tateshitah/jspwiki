@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -28,18 +24,5 @@
 <fmt:setBundle basename="templates.default"/>
 
 <div class="page-content">
-<<<<<<< HEAD
-<%--
-  <wiki:Tab id="pagecontent" title='<%=LocaleSupport.getLocalizedMessage(pageContext,"comment.tab.discussionpage")%>'>
-    <wiki:InsertPage/>
-  </wiki:Tab>
-
-  <wiki:Tab id="commentcontent" title='<%=LocaleSupport.getLocalizedMessage(pageContext,"comment.tab.addcomment")%>'>
---%>
-
   <wiki:Editor />
-
-=======
-  <wiki:Editor />
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 </div>

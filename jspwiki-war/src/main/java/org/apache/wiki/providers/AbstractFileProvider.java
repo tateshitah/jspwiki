@@ -31,12 +31,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-<<<<<<< HEAD
-import java.util.List;
-import java.util.Properties;
-import java.util.TreeSet;
-
-=======
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +39,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.log4j.Logger;
 import org.apache.wiki.InternalWikiException;
 import org.apache.wiki.WikiEngine;
@@ -60,10 +53,7 @@ import org.apache.wiki.search.SearchResultComparator;
 import org.apache.wiki.util.FileUtil;
 import org.apache.wiki.util.TextUtil;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  *  Provides a simple directory based repository for Wiki pages.
  *  <P>
@@ -85,8 +75,6 @@ public abstract class AbstractFileProvider
     protected String m_encoding;
     
     protected WikiEngine m_engine;
-<<<<<<< HEAD
-=======
     
     public static final String PROP_CUSTOMPROP_MAXLIMIT = "custom.pageproperty.max.allowed";
     public static final String PROP_CUSTOMPROP_MAXKEYLENGTH = "custom.pageproperty.key.length";
@@ -110,7 +98,6 @@ public abstract class AbstractFileProvider
      * The default value here designed with future JDBC providers in mind.
      */
     public static int MAX_PROPVALUELENGTH = DEFAULT_MAX_PROPVALUELENGTH;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /**
      *  Name of the property that defines where page directories are.
@@ -166,12 +153,7 @@ public abstract class AbstractFileProvider
 
         m_engine = engine;
 
-<<<<<<< HEAD
-        m_encoding = properties.getProperty( WikiEngine.PROP_ENCODING, 
-                                             DEFAULT_ENCODING );
-=======
         m_encoding = properties.getProperty( WikiEngine.PROP_ENCODING, DEFAULT_ENCODING );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         String os = System.getProperty( "os.name" ).toLowerCase();
         
@@ -180,15 +162,12 @@ public abstract class AbstractFileProvider
             m_windowsHackNeeded = true;
         }
         
-<<<<<<< HEAD
-=======
     	if (properties != null) {
             MAX_PROPLIMIT = TextUtil.getIntegerProperty(properties,PROP_CUSTOMPROP_MAXLIMIT,DEFAULT_MAX_PROPLIMIT);
             MAX_PROPKEYLENGTH = TextUtil.getIntegerProperty(properties,PROP_CUSTOMPROP_MAXKEYLENGTH,DEFAULT_MAX_PROPKEYLENGTH);
             MAX_PROPVALUELENGTH = TextUtil.getIntegerProperty(properties,PROP_CUSTOMPROP_MAXVALUELENGTH,DEFAULT_MAX_PROPVALUELENGTH);
     	}
         
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         log.info( "Wikipages are read from '" + m_pageDirectory + "'" );
     }
 
@@ -262,11 +241,7 @@ public abstract class AbstractFileProvider
         }
         catch( UnsupportedEncodingException e ) 
         {
-<<<<<<< HEAD
-            throw new InternalWikiException("Faulty encoding; should never happen");
-=======
             throw new InternalWikiException("Faulty encoding; should never happen", e);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
     
@@ -338,18 +313,7 @@ public abstract class AbstractFileProvider
                 }
                 finally
                 {
-<<<<<<< HEAD
-                    try
-                    {
-                        if( in  != null ) in.close();
-                    }
-                    catch( Exception e ) 
-                    {
-                        log.fatal("Closing failed",e);
-                    }
-=======
                     IOUtils.closeQuietly( in );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 }
             }
             else
@@ -384,19 +348,11 @@ public abstract class AbstractFileProvider
         }
         catch( IOException e )
         {
-<<<<<<< HEAD
-            log.error( "Saving failed" );
-        }
-        finally
-        {
-            if( out != null ) out.close();
-=======
             log.error( "Saving failed", e );
         }
         finally
         {
             IOUtils.closeQuietly( out );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
     }
 
@@ -507,15 +463,7 @@ public abstract class AbstractFileProvider
             }
             finally
             {
-<<<<<<< HEAD
-                try
-                {
-                    if( input != null ) input.close();
-                }
-                catch( IOException e ) {} // It's fine to fail silently.
-=======
                 IOUtils.closeQuietly( input );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             }
         }
 
@@ -598,8 +546,6 @@ public abstract class AbstractFileProvider
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Set the custom properties provided into the given page.
      * 
      * @since 2.10.2
@@ -689,7 +635,6 @@ public abstract class AbstractFileProvider
     }
 
     /**
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  A simple filter which filters only those filenames which correspond to the
      *  file extension used.
      */

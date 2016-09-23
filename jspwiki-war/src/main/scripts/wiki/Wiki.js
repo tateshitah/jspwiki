@@ -20,82 +20,14 @@
 */
 
 
-<<<<<<< HEAD
-/*jshint forin:false, noarg:true, noempty:true, undef:true, unused:true, plusplus:false, immed:false, browser:true, mootools:true */
-/*global HighlightQuery, HighlightAccesskey, Behavior, FileUpload, TabbedSection */
-/*exported  Wiki */
-
-
-=======
 /*eslint-env browser*/
 /*global $, $$, Form, Hash, Behavior, HighlightQuery, Accesskey */
 /*exported  Wiki */
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /*
 Script: wiki.js
     Javascript routines to support JSPWiki, a JSP-based WikiWiki clone.
 
-<<<<<<< HEAD
-License:
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Since:
-    v.2.9.0
-
-Dependencies:
-    Based on http://mootools.net/ v1.4.5
-    * mootools-core.js : v1.4.5 excluding the Compatibility module
-    * mootools-more.js : v1.4.0.1 including...
-        Class.Binds, Element.Shortcuts, Fx.Accordion, Drag, Drag.Move, Hash.Cookie, Tips
-
-
-Core Wiki Routines:
-    *    [Wiki] object (page parms, UserPrefs and setting focus)
-    *    [WikiSlimbox]
-    *    [SearchBox]: remember 10 most recent search topics
-
-Depends on :
-
-    mooxtend.js
-    behavior.js
-    color.js
-    localize.js
-
-    cookie.flag.js
-    collapsible.js
-
-    file-upload.js
-    graph-bar.js
-    Highlight.Query.js
-    Highlight.Accesskey.js
-    observer.js
-    placeholder.js
-    reflect.js
-    viewer.js
-    viewer.slimbox.js
-    viewer.carousel.js
-    tablextend.js  => TableStuff  (sortable, filters, zebra-stripes,  ?select&calculate)
-    tabs.js => TabbedSection => Tabs
-
-
-    wiki.js
-    wiki.category.js
-    wiki.d-styles
-    wiki.navigate.js
-    wiki.recent-search.js
-    wiki.search-box.js
-    wiki.search.js
-
-    wiki.prefs.js
-    wiki.admin.js
-
-    wiki.edit
-        dialog.js
-        snip-editor.js
-        textarea.js
-        undoable.js
-=======
 Dependencies:
     Based on http://mootools.net/
     * mootools-core.js : v1.5.1 excluding the Compatibility module
@@ -118,7 +50,6 @@ Depends on :
     wiki/FindPages.js
     wiki/Search.js
     wiki/Prefs.js
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 */
 
 //"use strict";
@@ -126,17 +57,6 @@ Depends on :
 /*
 Class: Wiki
     Javascript support functions for jspwiki.  (singleton)
-<<<<<<< HEAD
-
-*/
-var Wiki = {
-
-    initialize: function(){
-
-        var behavior = new Behavior(),
-            wiki = this,
-            prefs = new Hash.Cookie('JSPWikiUserPrefs', {path:wiki.BasePath, duration:20});
-=======
 */
 var Wiki = {
 
@@ -146,66 +66,11 @@ var Wiki = {
 
         var wiki = this,
             behavior = new Behavior();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         wiki.add = behavior.add.bind(behavior);
         wiki.once = behavior.once.bind(behavior);
         wiki.update = behavior.update.bind(behavior);
 
-<<<<<<< HEAD
-        //wiki.get = function(name){ return wiki.prefs.get(name); };
-        wiki.get = prefs.get.bind(prefs);
-        //wiki.set = function(name,value){ return wiki.prefs.set(name,value); };
-        wiki.set = prefs.set.bind(prefs);
-        wiki.erase = prefs.erase.bind(prefs);
-
-        //FIXME : link dom elements with behaviors
-        //wiki.add('input[placeholder]', function(element){ element.placeholderX(); })
-
-            //.add('input[autofocus],textarea[autofocus]', function(element){ element.focus(); })
-            //wiki.add('input:autofocus,textarea:autofocus', function(element){
-            //    console.log('autofocus', element);
-            //    element.focus();
-            //})
-
-        if( !('autofocus' in document.createElement('input') ) ){
-            wiki.add('input[autofocus=autofocus], textarea[autofocus=autofocus]', function(element){
-                console.log('autofocus', element);
-                //CHECKME
-                //    plain.jsp            'wikiText' OK 
-                //    login.jsp            'j_username' OK
-                //    prefs/profile        'loginname' 
-                //    prefs/prefs        'assertedName' OK
-                //    find                 'query2'  OK
-                return this.isVisible() && element.focus();
-            });
-        }
-
-
-        wiki.add( '*[accesskey]', Accesskey )
-
-            .add('*[data-toggle]', function(element){
-
-                element.onToggle( element.get('data-toggle') /*, 'active'*/ );
-
-            })
-
-            .add('*[data-hover-parent]', function(element){
-
-                element.onHover( element.get('data-hover-parent') /*, 'active'*/ );
-
-            })
-
-            .add('.searchbox .dropdown-menu', function(element){
-
-                var recentsCookie = 'RecentSearch';
-                
-                //activate Recent Searches functionality
-                new wiki.Recents( element, {
-                    items: wiki.get(recentsCookie),
-                    onChange: function( items ){
-                        items ? wiki.set(recentsCookie, items) : wiki.erase(recentsCookie);
-=======
 
         // add core jspwiki behaviors; needed to support the default template jsp's
         wiki.add( "body", wiki.caniuse )
@@ -266,43 +131,10 @@ var Wiki = {
                     items: prefs.get(recentSearch),
                     onChange: function( items ){
                         items ? prefs.set(recentSearch, items) : prefs.erase(recentSearch);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     }
                 });
 
                 //activate Quick Navigation functionality
-<<<<<<< HEAD
-                new wiki.Findpages(element,{
-                    rpc: function(value, callback){
-                        wiki.jsonrpc('search.findPages', [value,16], callback); 
-                    },
-                    toUrl: wiki.toUrl.bind(wiki)
-                });
-
-            })
-
-            .add('#searchform2', function( form ){
-
-                wiki.search = new wiki.Search( form, {
-                    xhrURL: wiki.XHRSearch,
-                    onComplete: function(){ 
-                        //console.log(form.query.get('value')); 
-                        wiki.set('PrevQuery', form.query.get('value')); 
-                    }
-                });
-
-            })
-
-            //.add('#uploadForm input[type=file]', Form.Upload, { 
-            .add('#files', Form.File, { 
-                max:1,  //CHECK: jspwiki v.2.10.x seems to only support 1 upload-file at a time ?? 
-                rpc: function(progressid, callback){
-                    wiki.jsonrpc('progressTracker.getProgress', [progressid], callback); 
-                },
-            });
-
-        window.addEvent('domready', wiki.domready.bind(wiki) );
-=======
                 new wiki.Findpages(element, {
                     rpc: function(value, callback){
                         wiki.jsonrpc("/search/pages", [value, 16], callback);
@@ -353,65 +185,21 @@ var Wiki = {
         if(!!hasNativeFlex.style.length){
             body.addClass("can-flex");
         };
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
     /*
     Function: domready
-<<<<<<< HEAD
-        After the DOM is fully loaded,
-        - initialize the main wiki properties (meta data, prefs cookie, ...)
-        - once all behavior's are defined, call the update() to initiate them all
-          (activation of all dynamic styles)
-        - final actions:
-            - HighLight words in case the referrer page was a search query
-            - when the 'referrer' url (previous page) contains a "section=" parameter,
-              scroll the wiki page to the right section
-            - invoke periodical url hash parser
-
-=======
         After the DOM is fully loaded:
         - initialize the meta data wiki properties
         - initialize the section Links
         - when the "referrer" url (previous page) contains a "section=" parameter,
           scroll the wiki page to the right section
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     */
     domready: function(){
 
         var wiki = this;
 
-<<<<<<< HEAD
-        wiki.getMeta();
-
-        wiki.url = null;  //??check why this is needed
-
-        if ( wiki.Context!='preview' && wiki.EditPermission && (wiki.get('SectionEditing')) ){
-
-            wiki.addEditLinks( wiki.toUrl(wiki.PageName,true) );
-
-        }
-
-        wiki.scrollToSection( (document.referrer.match( /\&section=(\d+)$/ )||[-1])[0] );
-
-        // Highlight previous search-query (in cookie) or referrer page's search query
-        HighlightQuery( $('pagecontent'), wiki.get('PrevQuery') );
-        wiki.erase('PrevQuery');
-
-        // initialize all the element behaviors
-        wiki.update();
-
-        //todo -- check bootstrap router concept
-        //wiki.parseHash.periodical(500);
-
-        /*
-        wiki.jsonrpc("system.listMethods",[],function(result){
-            wiki.rpcRegister = result;
-            console.log("rpcRegister",result);
-        });
-        */
-=======
         wiki.dropdowns();
 
         wiki.meta();
@@ -446,18 +234,10 @@ var Wiki = {
         wiki.popstate();
 
         wiki.autofocus();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
     /*
-<<<<<<< HEAD
-    Function: getMeta
-        Read all the "meta" dom elements, prefixed with "wiki",
-        and add them as properties to the wiki object.
-        EG  <meta name="wikiContext">  becomes  wiki.Context
- 
-=======
     Function: popstate
         When pressing the back-button, the "popstate" event is fired.
         This popstate function will fire a internal 'popstate' event
@@ -525,45 +305,23 @@ var Wiki = {
         Read all the "meta" dom elements, prefixed with "wiki",
         and add them as properties to the wiki object.
         EG  <meta name="wikiContext">  becomes  wiki.Context
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         * wikiContext : jspwiki requestcontext variable (view, edit, info, ...)
         * wikiBaseUrl
         * wikiPageUrl: page url template with dummy pagename "%23%24%25"
         * wikiEditUrl : edit page url
-<<<<<<< HEAD
-        * wikiJsonUrl : JSON-RPC url
-=======
         * wikiJsonUrl : JSON-RPC / AJAX url
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         * wikiPageName : pagename without blanks
         * wikiUserName
         * wikiTemplateUrl : path of the jsp template
         * wikiApplicationName
         * wikiEditPermission
-<<<<<<< HEAD
-
-    */
-    getMeta: function(){
-=======
     */
     meta: function(){
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         var url,
             wiki = this,
             host = location.host;
 
-<<<<<<< HEAD
-        $$('meta[name^=wiki]').each( function(el){
-            wiki[el.get('name').slice(4)] = el.get('content')||'';
-        });
-        
-        // BasePath: if JSPWiki is installed in the root, then we have to make sure that
-        // the cookie-cutter works properly here.
-        url = wiki.BaseUrl;
-        url = url ? url.slice( url.indexOf(host) + host.length, -1 ) : '';
-        wiki.BasePath = ( url /*===''*/ ) ? url : '/';
-=======
         $$("meta[name^=wiki]").each( function(el){
             wiki[el.get("name").slice(4)] = el.get("content") || "";
         });
@@ -573,21 +331,11 @@ var Wiki = {
         url = wiki.BaseUrl;
         url = url ? url.slice( url.indexOf(host) + host.length, -1 ) : "";
         wiki.BasePath = ( url /*===""*/ ) ? url : "/";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         //console.log("basepath: " + wiki.BasePath);
 
     },
 
     /*
-<<<<<<< HEAD
-    Function: getSections
-        Returns a list of all section headers, excluding the header of the Table Of Contents.
-
-    */
-    getSections: function(){
-
-        return $$('.page-content *[id^=section]:not(#section-TOC)');
-=======
     Function: dropdowns
         Parse wikipages such ase MoreMenu, HomeMenu to act as bootstrap
         compatible dropdown menu items.
@@ -634,28 +382,10 @@ var Wiki = {
             element.dispose();
 
         });
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
     /*
-<<<<<<< HEAD
-    Function: scrollToSection
-        Scrolls the page to the section previously being edited - if any
-        Section counting starts at 1??
-    */
-    scrollToSection:function( index ){
-
-        //console.log("SCROLL to section", index, ", Number of sections:",this.getSections().length );
-
-        var element = this.getSections()[index], pos;
-
-        if( element ){
-
-            pos = element.getPosition();
-            window.scrollTo(pos.x, pos.y);
-
-=======
     Function: getSections
         Returns the list of all section headers, excluding the header of the Table Of Contents.
     */
@@ -675,22 +405,12 @@ var Wiki = {
 
         if( element ){
             location.replace( "#" + element.get("id") );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
 
     },
 
     /*
     Property: toUrl
-<<<<<<< HEAD
-        Turn a wiki pagename into a full wiki-url
-    */
-    toUrl: function(pagename, isEdit, isClone){
-
-        var url = isClone ? this.CloneUrl : isEdit ? this.EditUrl : this.PageUrl;
-
-        return url.replace(/%23%24%25/, this.cleanPageName(pagename) );
-=======
         Convert a wiki pagename to a full wiki-url.
         Use the correct url template: view(default), edit-url or clone-url
     */
@@ -698,7 +418,6 @@ var Wiki = {
 
         var urlTemplate = isClone ? this.CloneUrl : isEdit ? this.EditUrl : this.PageUrl;
         return urlTemplate.replace(/%23%24%25/, this.cleanPageName(pagename) );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
@@ -708,29 +427,13 @@ var Wiki = {
     */
     toPageName: function(url){
 
-<<<<<<< HEAD
-        var s = this.PageUrl.escapeRegExp().replace(/%23%24%25/, '(.+)');
-        return ( url.match( RegExp(s) ) || [,false] )[1];
-=======
         var s = this.PageUrl.escapeRegExp().replace(/%23%24%25/, "(.+)");
         return ( url.match( RegExp(s) ) || [0, false] )[1];
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
     /*
     Property: cleanPageName
-<<<<<<< HEAD
-        Remove all not-allowed chars from a *candidate* pagename.
-        Trim repeated whitespace, allow letters, digits and punctuation chars: ()&+,-=._$
-        Ref. org.apache.wiki.parser.MarkupParser.cleanPageName()
-    */
-    cleanPageName: function(p){
-
-        //return p.clean().replace(/[^0-9A-Za-z\u00C0-\u1FFF\u2800-\uFFFD()&+,-=._$ ]/g, '');
-        //\w is short for [A-Z_a-z0-9_]
-        return p.clean().replace(/[^\w\u00C0-\u1FFF\u2800-\uFFFD()&+,=.$ ]/g, '');
-=======
         Remove all not-allowed chars from a pagename.
         Trim all whitespace, allow letters, digits and punctuation chars: ()&+, -=._$
         Mirror of org.apache.wiki.parser.MarkupParser.cleanPageName()
@@ -739,71 +442,10 @@ var Wiki = {
 
         //\w is short for [A-Z_a-z0-9_]
         return pagename.clean().replace(/[^\w\u00C0-\u1FFF\u2800-\uFFFD\(\)&\+,\-=\.\$ ]/g, "");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
     /*
-<<<<<<< HEAD
-    Function: parseHash
-        Periodic validation of #hash to ensure hidden screen sections are displayed.
-        (eg tabs, accordions, ...)
-
-    FIXME:
-        Add handling of BACK button for tabs ??
-        Use concept of ROUTER from backbone ??
-    */
-    parseHash: function(){
-
-        var h = location.hash;
-
-        if(this.url && this.url == location.href ){ return; }
-        this.url = location.href;
-
-        if( !h /*|| h===''*/ ){ return; }
-        h = $( h.slice(1) );
-
-
-        while( typeOf( h ) == 'element' ){
-
-            if( h.hasClass('hidetab') ){
-
-                TabbedSection.click.apply($('menu-' + h.id));
-
-            } else if( h.hasClass('tab') ){
-
-                /* accordion -- need to find accordion toggle object */
-                h.fireEvent('onShow');
-
-/*            } else if( !h.isVisible() ){
-                //alert('not visible'+el.id);
-                //fixme need to find the correct toggler
-                el.show(); //eg collapsedBoxes: fixme
-*/
-            }
-            h = h.getParent();
-        }
-
-        location = location.href; /* now jump to the #hash */
-    },
-
-
-  /*
-    Function: addEditLinks
-        Inject Section Edit links.
-        Todo: should better move server side
-    */
-    addEditLinks: function( url ){
-
-        var description = 'quick.edit'.localize();
-
-        url = url + (url.contains('?') ? '&' : '?') + 'section=';
-
-        this.getSections().each( function(element, index){
-
-            element.grab('a.edit-section'.slick({ html:description, href:url+index }));
-
-=======
     Function: addEditLinks
         Add to each Section title (h2/h3/h4) a quick edit link.
         FFS: should better move server side
@@ -975,7 +617,6 @@ var Wiki = {
             onBeforeStart: helpdragging.pass(true),
             onComplete: helpdragging.pass(false),
             onCancel: helpdragging.pass(false)
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         });
 
     },
@@ -984,57 +625,13 @@ var Wiki = {
     /*
     Function: jsonrpc
         Generic json-rpc routines to talk to the backend jspwiki-engine.
-<<<<<<< HEAD
-
-    Note:
-        Uses the JsonUrl which is read from the meta element "WikiJsonUrl"
-        {{{ <meta name="wikiJsonUrl" content='/JSPWiki-pipo/JSON-RPC' /> }}}
-
-=======
     Note:
         Uses the JsonUrl which is read from the meta element "WikiJsonUrl"
         {{{ <meta name="wikiJsonUrl" content="/JSPWiki-pipo/JSON-RPC" /> }}}
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Supported rpc calls:
         - {{search.findPages}} gets the list of pagenames with partial match
         - {{progressTracker.getProgress}} get a progress indicator of attachment upload
         - {{search.getSuggestions}} gets the list of pagenames with partial match
-<<<<<<< HEAD
-
-    Example:
-        (start code)
-        Wiki.jsonrpc('search.findPages', ['Janne',20], function(result){
-            //do something with the resulting json object
-        });
-        (end)
-        
-    */
-    jsonid : 1e4, //seed
-    jsonrpc: function(method, params, callback){
-
-        if(this.JsonUrl){
-
-            new Request.JSON({
-                url: this.JsonUrl,
-                data: JSON.encode({ 
-                    //jsonrpc:'2.0', //CHECK
-                    id: this.jsonid++, 
-                    method: method, 
-                    params: params 
-                }),
-                method: 'post',
-                onSuccess: function(r){ 
-                    if(r.error) console.log(r.error);
-                    callback(r.result); 
-                },
-                onError: function(e){
-                    console.log(e); 
-                    callback(null);
-                }
-            }).send();
-
-        }
-=======
     Example:
         (start code)
         //Wiki.ajaxJsonCall('/search/pages,[Janne,20]', function(result){
@@ -1100,7 +697,6 @@ var Wiki = {
 
         }
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
 };

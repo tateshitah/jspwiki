@@ -18,13 +18,6 @@
  */
 package org.apache.wiki.auth.user;
 
-<<<<<<< HEAD
-import java.io.*;
-import java.security.Principal;
-import java.sql.*;
-import java.util.*;
-import java.util.Date;
-=======
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -39,17 +32,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.auth.NoSuchPrincipalException;
@@ -721,11 +710,7 @@ public class JDBCUserDatabase extends AbstractUserDatabase
         }
 
         // If password changed, hash it before we save
-<<<<<<< HEAD
-        if( !password.equals( existingPassword ) )
-=======
         if( !StringUtils.equals( password, existingPassword ) )
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         {
             password = getHash( password );
         }

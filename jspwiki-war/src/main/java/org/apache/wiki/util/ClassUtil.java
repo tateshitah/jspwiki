@@ -427,8 +427,6 @@ public final class ClassUtil {
             throw new WikiException("Failed to instantiate class "+requestedClass, e );
         }
     }
-<<<<<<< HEAD
-=======
     
     /**
      * checks if {@code srcClassName} is a subclass of {@code parentClassname}.
@@ -448,5 +446,4 @@ public final class ClassUtil {
     	return false;
     }
     
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }

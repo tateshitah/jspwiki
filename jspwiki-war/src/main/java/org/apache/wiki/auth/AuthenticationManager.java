@@ -100,16 +100,6 @@ public class AuthenticationManager {
      *  <p>
      *  Setting this is now deprecated - we do not guarantee that it works.
      *  
-<<<<<<< HEAD
-     *  @deprecated
-     */
-    public  static final String                PROP_SECURITY       = "jspwiki.security";
-
-    /** Value specifying that the user wants to use the container-managed security, just like in JSPWiki 2.2. */
-    public static final String                SECURITY_OFF      = "off";
-
-    /** Value specifying that the user wants to use the built-in JAAS-based system */
-=======
      * @deprecated - to be removed on 2.11.0
      */
     @Deprecated
@@ -125,7 +115,6 @@ public class AuthenticationManager {
      * @deprecated - to be removed on 2.11.0
      */
     @Deprecated
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public static final String                SECURITY_JAAS     = "jaas";
 
     /** Whether logins should be throttled to limit brute-forcing attempts. Defaults to true. */
@@ -155,14 +144,9 @@ public class AuthenticationManager {
     /** Just to provide compatibility with the old versions.  The same
      *  as SECURITY_OFF.
      *
-<<<<<<< HEAD
-     *  @deprecated use {@link #SECURITY_OFF} instead
-     */
-=======
      *  @deprecated use {@link #SECURITY_OFF} instead - to be removed on 2.11.0
      */
     @Deprecated
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     protected static final String             SECURITY_CONTAINER = "container";
 
     /** The default {@link javax.security.auth.spi.LoginModule} class name to use for custom authentication. */
@@ -184,14 +168,7 @@ public class AuthenticationManager {
     /** If true, logs the IP address of the editor */
     private boolean                            m_storeIPAddress    = true;
 
-<<<<<<< HEAD
-    private boolean               m_useJAAS = true;
-
     /** Keeps a list of the usernames who have attempted a login recently. */
-    
-=======
-    /** Keeps a list of the usernames who have attempted a login recently. */
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     private TimedCounterList<String> m_lastLoginAttempts = new TimedCounterList<String>();
     
     /**
@@ -208,12 +185,6 @@ public class AuthenticationManager {
         m_engine = engine;
         m_storeIPAddress = TextUtil.getBooleanProperty( props, PROP_STOREIPADDRESS, m_storeIPAddress );
 
-<<<<<<< HEAD
-        // Should J2SE policies be used for authorization?
-        m_useJAAS = SECURITY_JAAS.equals(props.getProperty( PROP_SECURITY, SECURITY_JAAS ));
-        
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Should we allow cookies for assertions? (default: yes)
         m_allowsCookieAssertions = TextUtil.getBooleanProperty( props,
                                                               PROP_ALLOW_COOKIE_ASSERTIONS,
@@ -256,11 +227,6 @@ public class AuthenticationManager {
      */
     public boolean isContainerAuthenticated()
     {
-<<<<<<< HEAD
-        if( !m_useJAAS ) return true;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         try
         {
             Authorizer authorizer = m_engine.getAuthorizationManager().getAuthorizer();
@@ -662,10 +628,7 @@ public class AuthenticationManager {
 
         }
 
-<<<<<<< HEAD
-=======
         
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         // Ok, the absolute path didn't work; try other methods
 
         URL path = null;
@@ -676,15 +639,12 @@ public class AuthenticationManager {
         	InputStream is = null;
             try
             {
-<<<<<<< HEAD
-=======
             	URL url = engine.getServletContext().getResource("/WEB-INF/" + name);
             	if (url != null)
             	{
             		return url;
             	}
             	
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                 log.info( "looking for /" + name + " on classpath" );
                 //  create a tmp file of the policy loaded as an InputStream and return the URL to it
                 //  

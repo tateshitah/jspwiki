@@ -18,17 +18,6 @@
  */
 package org.apache.wiki.providers;
 
-<<<<<<< HEAD
-import java.io.IOException;
-import java.util.*;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.CacheManager;
-
-import org.apache.log4j.Logger;
-import org.apache.wiki.*;
-=======
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -37,7 +26,6 @@ import org.apache.wiki.PageManager;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.WikiPage;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.parser.MarkupParser;
@@ -46,8 +34,6 @@ import org.apache.wiki.search.QueryItem;
 import org.apache.wiki.util.ClassUtil;
 import org.apache.wiki.util.TextUtil;
 
-<<<<<<< HEAD
-=======
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
@@ -56,7 +42,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  *  Provides a caching page provider.  This class rests on top of a
@@ -109,16 +94,11 @@ public class CachingProvider implements WikiPageProvider {
 
     private boolean          m_gotall = false;
 
-<<<<<<< HEAD
-    /** The capacity of the caches, if you want something else, tweak ehcache.xml. */
-    public static final int   DEFAULT_CACHECAPACITY   = 1000; // Good most wikis
-=======
     // The default settings of the caches, if you want something else, provide an "ehcache.xml" file
     // Please note that JSPWiki ships with a default "ehcache.xml" in the classpath
     public static final int   DEFAULT_CACHECAPACITY   = 1000; // Good most wikis
     public static final int   DEFAULT_CACHETIMETOLIVESECONDS = 24*3600;
     public static final int   DEFAULT_CACHETIMETOIDLESECONDS = 24*3600;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     /**
      *  {@inheritDoc}
@@ -135,11 +115,7 @@ public class CachingProvider implements WikiPageProvider {
             m_cache = m_cacheManager.getCache(cacheName);
         } else {
             log.info("cache with name " + cacheName +  " not found in ehcache.xml, creating it with defaults.");
-<<<<<<< HEAD
-            m_cache = new Cache(cacheName, DEFAULT_CACHECAPACITY, false, false, 0, 0);
-=======
             m_cache = new Cache(cacheName, DEFAULT_CACHECAPACITY, false, false, DEFAULT_CACHETIMETOLIVESECONDS, DEFAULT_CACHETIMETOIDLESECONDS);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             m_cacheManager.addCache(m_cache);
         }
 
@@ -148,11 +124,7 @@ public class CachingProvider implements WikiPageProvider {
             m_textCache= m_cacheManager.getCache(textCacheName);
         } else {
             log.info("cache with name " + textCacheName +  " not found in ehcache.xml, creating it with defaults.");
-<<<<<<< HEAD
-            m_textCache = new Cache(textCacheName, DEFAULT_CACHECAPACITY, false, false, 0, 0);
-=======
             m_textCache = new Cache(textCacheName, DEFAULT_CACHECAPACITY, false, false, DEFAULT_CACHETIMETOLIVESECONDS, DEFAULT_CACHETIMETOIDLESECONDS);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             m_cacheManager.addCache(m_textCache);
         }
 
@@ -161,11 +133,7 @@ public class CachingProvider implements WikiPageProvider {
             m_historyCache= m_cacheManager.getCache(historyCacheName);
         } else {
             log.info("cache with name " + historyCacheName +  " not found in ehcache.xml, creating it with defaults.");
-<<<<<<< HEAD
-            m_historyCache = new Cache(historyCacheName, DEFAULT_CACHECAPACITY, false, false, 0, 0);
-=======
             m_historyCache = new Cache(historyCacheName, DEFAULT_CACHECAPACITY, false, false, DEFAULT_CACHETIMETOLIVESECONDS, DEFAULT_CACHETIMETOIDLESECONDS);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             m_cacheManager.addCache(m_historyCache);
         }
 

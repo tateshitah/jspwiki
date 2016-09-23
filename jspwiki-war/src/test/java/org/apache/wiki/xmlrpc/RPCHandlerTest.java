@@ -19,15 +19,6 @@
 
 package org.apache.wiki.xmlrpc;
 
-<<<<<<< HEAD
-import net.sf.ehcache.CacheManager;
-import org.apache.wiki.*;
-import org.apache.wiki.attachment.Attachment;
-import junit.framework.*;
-import java.util.*;
-import org.apache.xmlrpc.*;
-import org.apache.wiki.xmlrpc.RPCHandler;
-=======
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -44,7 +35,6 @@ import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
 import org.apache.wiki.attachment.Attachment;
 import org.apache.xmlrpc.XmlRpcException;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 public class RPCHandlerTest extends TestCase
 {
@@ -62,11 +52,7 @@ public class RPCHandlerTest extends TestCase
     public void setUp()
         throws Exception
     {
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_engine = new TestEngine( m_props );
 
         m_handler = new RPCHandler();

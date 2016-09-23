@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
@@ -44,32 +40,19 @@
   <h4><fmt:message key="find.input" /></h4>
   <p>
     <input type="text"
-<<<<<<< HEAD
-           name="query" id="query2" 
-          value="<c:out value='${query}'/>" 
-=======
            name="query" id="query2"
           value="<c:out value='${query}'/>"
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
            size="32" />
 
     <input type="checkbox" name="details" id="details" <c:if test='${param.details == "on"}'>checked='checked'</c:if> />
     <fmt:message key="find.details" />
 
-<<<<<<< HEAD
-    <select name="scope" id="scope" > 
-=======
     <select name="scope" id="scope" >
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <option value="" <c:if test="${empty param.scope}">selected="selected"</c:if> ><fmt:message key='find.scope.all' /></option>
       <option value="author:" <c:if test='${param.scope eq "author:"}'>selected="selected"</c:if> ><fmt:message key='find.scope.authors' /></option>
       <option value="name:" <c:if test='${param.scope eq "name:"}'>selected="selected"</c:if> ><fmt:message key='find.scope.pagename' /></option>
       <option value="contents:" <c:if test='${param.scope eq "contents:"}'>selected="selected"</c:if> ><fmt:message key='find.scope.content' /></option>
-<<<<<<< HEAD
-      <option value="attachment:" <c:if test='${param.scope eq "attachment:"}'>selected="selected"</c:if> ><fmt:message key='find.scope.attach' /></option>       
-=======
       <option value="attachment:" <c:if test='${param.scope eq "attachment:"}'>selected="selected"</c:if> ><fmt:message key='find.scope.attach' /></option>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     </select>
 
 	<input type="submit" name="ok" id="ok" value="<fmt:message key="find.submit.find"/>" />

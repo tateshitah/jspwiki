@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* 
-=======
 /*
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -18,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.tags;
 
@@ -58,20 +50,12 @@ import org.apache.wiki.util.TextUtil;
  *  @since 2.3.50
  */
 public class LinkTag extends WikiLinkTag implements ParamHandler, BodyTag {
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 	static final long serialVersionUID = 0L;
     private static final Logger log = Logger.getLogger( LinkTag.class );
 
     private String m_version = null;
-<<<<<<< HEAD
-    private String m_class   = null;
-=======
     private String m_cssClass= null;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     private String m_style   = null;
     private String m_title   = null;
     private String m_target  = null;
@@ -93,14 +77,9 @@ public class LinkTag extends WikiLinkTag implements ParamHandler, BodyTag {
     public void initTag()
     {
         super.initTag();
-<<<<<<< HEAD
-        m_version = m_class = m_style = m_title = m_target = m_compareToVersion = m_rel = m_jsp = m_ref = m_accesskey = m_templatefile = null;
-        m_context = WikiContext.VIEW;
-=======
         m_version = m_cssClass = m_style = m_title = m_target = m_compareToVersion = m_rel = m_jsp = m_ref = m_accesskey = m_templatefile = null;
         m_context = WikiContext.VIEW;
         m_containedParams = new HashMap<String, String>();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_absolute = false;
     }
 
@@ -130,15 +109,9 @@ public class LinkTag extends WikiLinkTag implements ParamHandler, BodyTag {
         m_version = arg;
     }
 
-<<<<<<< HEAD
-    public void setClass( String arg )
-    {
-        m_class = arg;
-=======
     public void setCssClass( String arg )
     {
         m_cssClass = arg;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     public void setStyle( String style )
@@ -450,15 +423,9 @@ public class LinkTag extends WikiLinkTag implements ParamHandler, BodyTag {
             JspWriter out = pageContext.getOut();
             String url = figureOutURL();
 
-<<<<<<< HEAD
-            StringBuffer sb = new StringBuffer( 20 );
-
-            sb.append( (m_class != null)   ? "class=\""+m_class+"\" " : "" );
-=======
             StringBuilder sb = new StringBuilder( 20 );
 
             sb.append( (m_cssClass != null)   ? "class=\""+m_cssClass+"\" " : "" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             sb.append( (m_style != null)   ? "style=\""+m_style+"\" " : "" );
             sb.append( (m_target != null ) ? "target=\""+m_target+"\" " : "" );
             sb.append( (m_title != null )  ? "title=\""+m_title+"\" " : "" );

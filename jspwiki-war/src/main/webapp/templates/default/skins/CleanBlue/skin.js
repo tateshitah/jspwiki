@@ -23,24 +23,14 @@
  *  SkinQute javascript extensions
  *  needed to initialise RoundedCorner elements.
  */
-<<<<<<< HEAD
-if ( RoundedCorners ) {  
-=======
 if ( RoundedCorners ) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   var r = RoundedCorners;
 //  r.register( "header",    ['yyyy', 'lime', 'lime' ] );
 //  r.register( "footer",    ['yyyy', 'lime', 'lime' ] );
 }
-<<<<<<< HEAD
- 
-/**
- *  Preload logo images. 
-=======
 
 /**
  *  Preload logo images.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 function preloadImages() {
   var imageList = [

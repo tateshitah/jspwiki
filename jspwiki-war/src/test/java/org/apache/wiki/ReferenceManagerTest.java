@@ -13,25 +13,11 @@
  */
 package org.apache.wiki;
 
-<<<<<<< HEAD
-import java.io.File;
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-<<<<<<< HEAD
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import net.sf.ehcache.CacheManager;
-
-import org.apache.wiki.api.exceptions.WikiException;
-
-=======
 import org.apache.wiki.api.exceptions.WikiException;
 
 import junit.framework.Test;
@@ -39,7 +25,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import net.sf.ehcache.CacheManager;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  * The ReferenceManager maintains all hyperlinks between wiki pages.
  */
@@ -83,11 +68,7 @@ public class ReferenceManagerTest extends TestCase
         // jspwiki always uses a singleton CacheManager, so
         // clear the cache at the end of every test case to avoid
         // polluting another test case
-<<<<<<< HEAD
-        CacheManager.getInstance().removalAll();
-=======
         CacheManager.getInstance().removeAllCaches();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     }
 
     public void testNonExistant1()
@@ -397,11 +378,7 @@ public class ReferenceManagerTest extends TestCase
      */
     public static String dumpReferenceManager( ReferenceManager rm )
     {
-<<<<<<< HEAD
-        StringBuffer buf = new StringBuffer();
-=======
     	StringBuilder buf = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         try
         {
             buf.append( "================================================================\n" );

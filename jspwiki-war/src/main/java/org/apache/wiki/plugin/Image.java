@@ -136,11 +136,7 @@ public class Image
             throw new PluginException( "Attachment info failed: "+e.getMessage() );
         }
 
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer();
-=======
         StringBuilder result = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         result.append( "<table border=\"0\" class=\""+cssclass+"\"" );
         //if( align != null ) result.append(" align=\""+align+"\"");

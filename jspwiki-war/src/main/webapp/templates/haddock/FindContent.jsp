@@ -36,17 +36,10 @@
 
     <input type="text"
            name="query" id="query2"
-<<<<<<< HEAD
-           class="form-group form-control"
-          value="<c:out value='${query}'/>"
-          placeholder="<fmt:message key="find.input" />"
-          autofocus="autofocus"
-=======
           class="form-group form-control"
           value="${query}"
     placeholder="<fmt:message key="find.input" />"
       autofocus="autofocus"
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
            size="32" />
 
     <div class="form-inline form-group">
@@ -58,32 +51,13 @@
 
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-default btn-xs" >
-<<<<<<< HEAD
-        <input type="checkbox" name="details" id="details" <c:if test='${param.details == "on"}'>checked='checked'</c:if> />
-=======
         <input type="checkbox" name="details" id="details" ${param.details == "on" ? "checked='checked'" : ""} />
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         <fmt:message key="find.details" />
     </label>
     </div>
 
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-default btn-xs">
-<<<<<<< HEAD
-        <input type="radio" name="scope" <c:if test='${empty param.scope}'>checked='checked'</c:if> value=""><fmt:message key='find.scope.all' />
-      </label>
-      <label class="btn btn-default btn-xs" >
-        <input type="radio" name="scope" id="x" <c:if test='${param.scope eq "author:"}'>checked='checked'</c:if> value="author:"><fmt:message key='find.scope.authors' />
-      </label>
-      <label class="btn btn-default btn-xs">
-        <input type="radio" name="scope" <c:if test='${param.scope eq "name:"}'>checked='checked'</c:if> value="name:"><fmt:message key='find.scope.pagename' />
-      </label>
-      <label class="btn btn-default btn-xs">
-        <input type="radio" name="scope" <c:if test='${param.scope eq "contents:"}'>checked='checked'</c:if> value="contents:" ><fmt:message key='find.scope.content' />
-      </label>
-      <label class="btn btn-default btn-xs">
-        <input type="radio" name="scope" <c:if test='${param.scope eq "attachment:"}'>checked='checked'</c:if> value="attachment:" ><fmt:message key='find.scope.attach' />
-=======
         <input type="radio" name="scope" ${empty param.scope ? "checked='checked'" : ""} value=""><fmt:message key='find.scope.all' />
       </label>
       <label class="btn btn-default btn-xs">
@@ -97,17 +71,10 @@
       </label>
       <label class="btn btn-default btn-xs">
         <input type="radio" name="scope" ${param.scope eq "attachment:" ? "checked='checked'" : ""} value="attachment:" ><fmt:message key='find.scope.attach' />
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       </label>
     </div>
 
     </div>
-<<<<<<< HEAD
-    
-    <%-- loading progress bar / toggle .active class --%>
-    <span id="spin" class="spin" style="position:absolute;display:none;"></span>
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 </form>
 

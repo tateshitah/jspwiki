@@ -19,10 +19,7 @@
 package org.apache.wiki.tags;
 
 import java.io.IOException;
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import javax.servlet.jsp.JspWriter;
 
 import org.apache.wiki.WikiContext;
@@ -114,11 +111,7 @@ public class LinkToTag
         }
         else
         {
-<<<<<<< HEAD
-            StringBuffer params = new StringBuffer();
-=======
         	StringBuilder params = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             if( getVersion() != null ) params.append( "version="+getVersion() );
             if( getTemplate() != null ) params.append( (params.length()>0?"&amp;":"") + "skin="+getTemplate() );
 

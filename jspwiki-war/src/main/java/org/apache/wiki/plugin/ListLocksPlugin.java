@@ -47,11 +47,7 @@ public class ListLocksPlugin
     public String execute( WikiContext context, Map<String, String> params )
         throws PluginException
     {
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer();
-=======
     	StringBuilder result = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         PageManager mgr = context.getEngine().getPageManager();
         List<PageLock> locks = mgr.getActiveLocks();

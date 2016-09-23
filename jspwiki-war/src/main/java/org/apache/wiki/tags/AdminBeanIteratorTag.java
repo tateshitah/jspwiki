@@ -22,10 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-<<<<<<< HEAD
-=======
 import org.apache.wiki.WikiContext;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.engine.AdminBeanManager;
 import org.apache.wiki.ui.admin.AdminBean;
 
@@ -45,12 +42,9 @@ public class AdminBeanIteratorTag extends IteratorTag {
      *  @param type Type to set
      */
     public void setType( String type ) {
-<<<<<<< HEAD
-=======
     	if (m_wikiContext == null) {
     		m_wikiContext = WikiContext.findContext(pageContext);
     	}
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         m_type = m_wikiContext.getEngine().getAdminBeanManager().getTypeFromString( type );
     }
 

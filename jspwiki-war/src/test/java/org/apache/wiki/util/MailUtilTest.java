@@ -34,10 +34,6 @@ import org.apache.log4j.PropertyConfigurator;
 import org.apache.wiki.TestEngine;
 import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiPage;
-<<<<<<< HEAD
-import org.apache.wiki.util.MailUtil;
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 /**
  * This test is not integrated into any TestSuite yet, because I don't know how
@@ -126,10 +122,6 @@ public class MailUtilTest extends TestCase
                 System.out.println("Reason: "+e.getMessage());
                 return;
             }
-<<<<<<< HEAD
-            e.printStackTrace();
-            fail( "Unknown problem (check the console for error report)" );
-=======
             if( e.getCause() == null )
             {
                 System.out.println("Reason: "+e.getMessage());
@@ -138,7 +130,6 @@ public class MailUtilTest extends TestCase
             }
             e.printStackTrace();
             fail( "Unknown problem, cause=" + e.getCause() + " (check the console for error report)" );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         catch (Exception e)
         {

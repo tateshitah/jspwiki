@@ -63,10 +63,6 @@ public class WikiPage
     /** A special variable name for storing a redirect note */
     public static final String REDIRECT = "redirect";
 
-<<<<<<< HEAD
-    /** A special variable name for storing a changenote. */
-    public static final String CHANGENOTE = "changenote";
-=======
     /** A special variable name for storing the author. */
     public static final String AUTHOR = "author";
     
@@ -75,7 +71,6 @@ public class WikiPage
 
     /** A special variable name for storing a viewcount. */
     public static final String VIEWCOUNT = "viewcount";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     
     private Acl m_accessList = null;
     
@@ -264,11 +259,7 @@ public class WikiPage
     }
     
     /**
-<<<<<<< HEAD
-     *  Returns the wiki nanme for this page
-=======
      *  Returns the wiki name for this page
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  
      *  @return The name of the wiki.
      */

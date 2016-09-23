@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 2016-09-16  David Vittor (dvittor@apache.org)
        * Test commit to our new git repo.
 
@@ -690,7 +688,6 @@
 
        * Fixed JSPWIKI-396 - by making the server signature comparison case insensitive (reported by Jürgen Weber)
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 2014-05-23  Harry Metske (metskem@apache.org)
 
        * 2.10.1-svn-17

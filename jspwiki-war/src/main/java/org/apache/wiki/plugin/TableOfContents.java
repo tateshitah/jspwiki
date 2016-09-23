@@ -19,10 +19,6 @@
 package org.apache.wiki.plugin;
 
 import java.io.IOException;
-<<<<<<< HEAD
-import java.io.StringReader;
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -36,11 +32,7 @@ import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.plugin.WikiPlugin;
 import org.apache.wiki.parser.Heading;
 import org.apache.wiki.parser.HeadingListener;
-<<<<<<< HEAD
-import org.apache.wiki.parser.JSPWikiMarkupParser;
-=======
 import org.apache.wiki.parser.MarkupParser;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.preferences.Preferences;
 import org.apache.wiki.util.TextUtil;
 
@@ -169,11 +161,7 @@ public class TableOfContents
             return "<a href=\"#section-TOC\" class=\"toc\">"+rb.getString("tableofcontents.title")+"</a>";
         }
 
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
         StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         sb.append("<div class=\"toc\">\n");
         sb.append("<div class=\"collapsebox\">\n");
@@ -231,30 +219,6 @@ public class TableOfContents
         try
         {
             String wikiText = engine.getPureText( page );
-<<<<<<< HEAD
-            boolean runFilters = 
-                "true".equals(engine.getVariableManager().getValue(context,WikiEngine.PROP_RUNFILTERS,"true"));
-            
-            try
-            {
-                if( runFilters ) 
-                {
-                    FilterManager fm = engine.getFilterManager();
-                    wikiText = fm.doPreTranslateFiltering( context, wikiText );
-                }
-            }
-            catch(Exception e) 
-            {
-                log.error("Could not construct table of contents: Filter Error", e);
-                throw new PluginException("Unable to construct table of contents (see logs)");
-            }
-            
-            context.setVariable( VAR_ALREADY_PROCESSING, "x" );
-            JSPWikiMarkupParser parser = new JSPWikiMarkupParser( context,
-                                                                  new StringReader(wikiText) );
-            parser.addHeadingListener( this );
-
-=======
             boolean runFilters = "true".equals( engine.getVariableManager().getValue( context, WikiEngine.PROP_RUNFILTERS, "true" ) );
             
             if( runFilters ) {
@@ -272,7 +236,6 @@ public class TableOfContents
             
             MarkupParser parser = engine.getRenderingManager().getParser( context, wikiText );
             parser.addHeadingListener( this );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             parser.parse();
 
             sb.append( "<ul>\n"+m_buf.toString()+"</ul>\n" );

@@ -51,11 +51,7 @@ var Behavior = new Class({
 
     add: function(selector, behavior, options, once){
 
-<<<<<<< HEAD
-        this.behaviors.push({s: selector, b: behavior, o: options, once:once});
-=======
         this.behaviors.push({s: selector, b: behavior, o: options, once: once});
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return this;
 
     },
@@ -68,40 +64,6 @@ var Behavior = new Class({
 
     update: function(){
 
-<<<<<<< HEAD
-        //console.log(this.behaviors);
-        var cache = "_bhvr", updated, type, nodes;
-
-        this.behaviors.each( function( behavior ){
-
-            nodes = $$(behavior.s);
-            type = typeOf(behavior.b);
-            //console.log("BEHAVIOR ", behavior.once?"ONCE ":"", nodes.length, behavior.s, typeOf(behavior.b) );
-
-            if( behavior.once && nodes[0] ){
-
-                if( type == 'class'){ new behavior.b(nodes, behavior.o); }
-                else if( type == 'function'){ behavior.b(nodes, behavior.o); }
-
-            } else {
-
-                nodes.each( function(node){
-
-                    updated = node[cache] || (node[cache] = []);
-
-                    if ( updated.indexOf(behavior) == -1 ){
-
-                        //if( type == 'string' ) node[behavior.b](behavior.o);
-                        if( type == 'class'){ new behavior.b(node, behavior.o); }
-                        else if( type == 'function'){ behavior.b.call(node, node, behavior.o); }
-
-                        updated.push( behavior );
-                    }
-                });
-            }
-
-        })
-=======
         var cache = "_bhvr", updated, type, isClass, isFunction,
             nodes, node, i = 0, j, item, behavior, options;
 
@@ -141,7 +103,6 @@ var Behavior = new Class({
                 }
             }
         }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         return this;
     }

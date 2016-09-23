@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki"  %>
@@ -32,52 +28,29 @@
 <%--
   WikiContext c = WikiContext.findContext( pageContext );
 --%>
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%-- Main Content Section --%>
 <%-- This has been source ordered to come first in the markup (and on small devices)
      but to be to the right of the nav on larger screens --%>
 <div class="page-content">
-<<<<<<< HEAD
-  
-  <wiki:CheckLock mode="locked" id="lock">
-    <div class="error">
-=======
 
   <wiki:CheckLock mode="locked" id="lock">
     <div class="alert alert-danger">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <fmt:message key="edit.locked">
         <fmt:param><c:out value="${lock.locker}"/></fmt:param>
         <fmt:param><c:out value="${lock.timeLeft}"/></fmt:param>
       </fmt:message>
     </div>
   </wiki:CheckLock>
-<<<<<<< HEAD
-  
-  <wiki:CheckVersion mode="notlatest">
-    <div class="warning">
-=======
 
   <wiki:CheckVersion mode="notlatest">
     <div class="alert alert-danger">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <fmt:message key="edit.restoring">
         <fmt:param><wiki:PageVersion/></fmt:param>
       </fmt:message>
     </div>
   </wiki:CheckVersion>
-<<<<<<< HEAD
-    
-  <wiki:Editor />
-        
-</div> 
-=======
 
   <wiki:Editor />
 
 </div>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094

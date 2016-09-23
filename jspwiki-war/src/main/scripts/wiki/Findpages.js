@@ -21,25 +21,11 @@
 /*
 Class: Wiki.SearchBox
     ...
-<<<<<<< HEAD
-    Adds/Removes 'li.findpages' elements to the dropdown menu.
-=======
     Adds/Removes "li.findpages" elements to the dropdown menu.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     These elements are the results of the wiki rpc call, based on the query.
 
 
 Example:
-<<<<<<< HEAD
->    wiki.add('query', Wiki.SearchBox, {
->        rpc: function(value, callback){ wiki.jsonrpc('search.findPages', [value,20], callback },
->        toUrl: wiki.toUrl
->    });
-*/
-Wiki.Findpages = new Class({
-
-    Binds:['search','action'],
-=======
 >    wiki.add("query", Wiki.Findpages, {
 >        rpc: function(value, callback){ Wiki.ajaxJsonCall("/search/findPages",[value,"20"], callback },
 >        rpc: function(value, callback){ wiki.jsonrpc("search.findPages", [value,20], callback },
@@ -63,17 +49,10 @@ DOM Structure:
 Wiki.Findpages = new Class({
 
     Binds: ["search", "action"],
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Implements: Events,
 
     initialize: function(element, options){
 
-<<<<<<< HEAD
-        this.rpc = options.rpc;
-        this.toUrl = options.toUrl;
-        this.query = element.getParent('form').query.observe( this.search );
-        this.element = element; //ul.dropdown menu
-=======
         var self = this;
 
         self.rpc = options.rpc;
@@ -87,7 +66,6 @@ Wiki.Findpages = new Class({
             this.getParent("a").href = self.toUrl(self.getValue(), true, this.checked);
 
         });
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
     },
 
@@ -96,37 +74,25 @@ Wiki.Findpages = new Class({
     },
 
     empty: function(){
-<<<<<<< HEAD
-        this.element.getElements('li.findpages').destroy();
-=======
         this.element.getElements("li.findpages").destroy();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     },
 
     search: function(){
 
         var value = this.getValue();
 
-<<<<<<< HEAD
-        if( (value == null) || (value.trim()=="") ){
-=======
         if( (value == null) || (value.trim() == "") ){
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             this.empty();
 
         } else {
 
-<<<<<<< HEAD
-            this.rpc( 'name:'+value, this.action );
-=======
             //this.rpc( "name:" + value, this.action );
             this.rpc( value, this.action );
             //for testing ...
             //this.action([{"score":91,"page":"Collapsible List"},{"score":78,"page":"BrushedTemplateEditor"},{"score":78,"page":"BrushedTemplate"},{"score":78,"page":"BrushedTemplateScreenshots"},{"score":76,"page":"BrushedWikiPlugin"},{"score":76,"page":"BrushedTemplateTypography"},{"score":76,"page":"BrushedTemplateDiscussion"},{"score":74,"page":"BrushedTemplateIdeas"},{"score":71,"page":"BrushedTemplateTOC"},{"score":70,"page":"BrushedTemplateDiscussion2006"},{"score":68,"page":"BrushedTemplateMetadataEditor"},{"score":66,"page":"BrushedTemplateEval"},{"score":66,"page":"BrushedTemplateForms"},{"score":66,"page":"BrushedTemplateJSP"},{"score":66,"page":"BrushedTemplateToolbar"},{"score":65,"page":"BrushedTemplateListTable"}]);
 
             //obsolete:
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
             //for testing ...
             //this.action({"id":10000,"result":{"javaClass":"java.util.ArrayList","list":[{"map":{"page":"BrushedTemplateCollapse","score":99},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplate","score":95},"javaClass":"java.util.HashMap"},{"map":{"page":"CollapsibleList","score":61},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateInGerman","score":55},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateDiscussion","score":50},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateScreenshots","score":50},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateTypography","score":50},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedConditionalPlugin","score":48},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateDiscussion2006","score":45},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateMetadataEditor","score":44},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTablePlugin","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateColumns","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateCategories","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateToolbar","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateTOC","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateAccordion","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateTip","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateSlimbox","score":43},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedTemplateRoundedCorners","score":40},"javaClass":"java.util.HashMap"},{"map":{"page":"BrushedEditPageHelp","score":37},"javaClass":"java.util.HashMap"}]}});
 
@@ -138,45 +104,6 @@ Wiki.Findpages = new Class({
 
         var self = this,
             value = self.getValue(),
-<<<<<<< HEAD
-            elements = [], content, btn = 'span.btn.btn-xs.btn-danger';
-
-        //helper function
-        function addLI( page, score, isEdit, isClone ){
-
-            content = [];
-            if( isClone ){
-                content.push(btn, {text: "Clone this page and Create".localize() });
-            } else if( isEdit ){
-                content.push(btn, {text: "Create".localize() });
-            }
-            content.push( 'span', {text:page});
-            if( score ) content.push('span.badge.pull-right', {text:score});
-
-            elements.push( "li.findpages", [
-                ( isEdit ? "a.createpage" : "a" ), { href: self.toUrl(page, isEdit, isClone) }, 
-                content     
-            ]);
-
-        }
-
-        if( result.list ){
-
-            item = result.list[0];
-            if( !item || item.map.page!=value ){
-                addLI(value, 0, true);  //create new page
-                addLI(value, 0, true, true);  //clone current page into a new page
-            }
-
-            while(result.list[0]){
-                item = result.list.shift().map; 
-                addLI(item.page, item.score);                
-            }
-
-			self.empty();
-			if(elements[0]) elements.slick().inject( self.element.getFirst('.divider'), 'before' );
-            //self.fireEvent('complete');
-=======
             elements = [], item;
 
         if( result ){
@@ -211,7 +138,6 @@ Wiki.Findpages = new Class({
 			self.empty();
 			if( elements[0] ){ elements.slick().inject( self.element.getFirst(".divider"), "before" ); }
             //self.fireEvent("complete");
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         }
     }

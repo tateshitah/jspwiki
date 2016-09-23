@@ -39,10 +39,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.util.TextUtil;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -196,11 +193,7 @@ public class XMLGroupDatabase implements GroupDatabase
         }
 
         // Get database file location
-<<<<<<< HEAD
-        String file = props.getProperty( PROP_DATABASE );
-=======
         String file = TextUtil.getStringProperty(props, PROP_DATABASE , defaultFile.getAbsolutePath());
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if ( file == null )
         {
             log.warn( "XML group database property " + PROP_DATABASE + " not found; trying " + defaultFile );

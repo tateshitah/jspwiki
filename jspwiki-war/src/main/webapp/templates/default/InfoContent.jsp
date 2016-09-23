@@ -37,12 +37,9 @@
   int attCount = c.getEngine().getAttachmentManager().listAttachments( c.getPage() ).size();
   String attTitle = LocaleSupport.getLocalizedMessage(pageContext, "attach.tab");
   if( attCount != 0 ) attTitle += " (" + attCount + ")";
-<<<<<<< HEAD
-=======
   
   String tabParam = (String)request.getParameter( "tab" );
   if ( tabParam == null ) tabParam = "info";
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
   String parm_renameto = (String)request.getParameter( "renameto" );
   if( parm_renameto == null ) parm_renameto = wikiPage.getName();
@@ -89,11 +86,7 @@
 <%-- part 1 : normal wiki pages --%>
 <wiki:PageType type="page">
 
-<<<<<<< HEAD
-  <wiki:TabbedSection defaultTab="info">
-=======
   <wiki:TabbedSection defaultTab="<%=tabParam%>">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
   <wiki:Tab id="pagecontent"
          title='<%=LocaleSupport.getLocalizedMessage(pageContext, "actions.view")%>'
@@ -277,11 +270,7 @@
   String progressId = c.getEngine().getProgressManager().getNewProgressIdentifier();
 %>
 
-<<<<<<< HEAD
-  <wiki:TabbedSection defaultTab="info">
-=======
   <wiki:TabbedSection defaultTab="<%=tabParam%>">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
   <wiki:Tab id="pagecontent"
          title='<%=LocaleSupport.getLocalizedMessage(pageContext, "info.parent")%>'
      accesskey="v"

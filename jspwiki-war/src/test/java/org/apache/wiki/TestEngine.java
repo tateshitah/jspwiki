@@ -30,13 +30,6 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-<<<<<<< HEAD
-import net.sourceforge.stripes.mock.MockHttpServletRequest;
-import net.sourceforge.stripes.mock.MockHttpSession;
-import net.sourceforge.stripes.mock.MockServletContext;
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.wiki.api.exceptions.ProviderException;
@@ -54,13 +47,10 @@ import org.apache.wiki.util.FileUtil;
 import org.apache.wiki.util.PropertyReader;
 import org.apache.wiki.util.TextUtil;
 
-<<<<<<< HEAD
-=======
 import net.sourceforge.stripes.mock.MockHttpServletRequest;
 import net.sourceforge.stripes.mock.MockHttpSession;
 import net.sourceforge.stripes.mock.MockServletContext;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /**
  *  Simple test engine that always assumes pages are found.
  */
@@ -244,16 +234,6 @@ public class TestEngine extends WikiEngine
 
                 if( files != null )
                 {
-<<<<<<< HEAD
-                    for( int i = 0; i < files.length; i++ )
-                    {
-                        if( files[i].isDirectory() )
-                        {
-                            deleteAll(files[i]);
-                        }
-
-                        files[i].delete();
-=======
                     for (File file2 : files) {
                         if( file2.isDirectory() )
                         {
@@ -261,7 +241,6 @@ public class TestEngine extends WikiEngine
                         }
 
                         file2.delete();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
                     }
                 }
             }
@@ -304,14 +283,9 @@ public class TestEngine extends WikiEngine
             // Remove the property file, too
             f = new File( files, mangleName(name)+".properties" );
 
-<<<<<<< HEAD
-            if( f.exists() )
-                f.delete();
-=======
             if( f.exists() ) {
 				f.delete();
 			}
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
             deleteAttachments( name );
             firePageEvent( WikiPageEvent.PAGE_DELETED, name );
@@ -437,18 +411,11 @@ public class TestEngine extends WikiEngine
     private static Properties cleanTestProps( Properties props )
     {
         String pageDir = props.getProperty( "jspwiki.fileSystemProvider.pageDir" );
-<<<<<<< HEAD
-        props.put( AuthenticationManager.PROP_LOGIN_THROTTLING, "false" );
-        props.setProperty( "jspwiki.fileSystemProvider.pageDir",
-                           pageDir.replaceAll( "\\d", StringUtils.EMPTY )
-                           + System.currentTimeMillis() );
-=======
         String stripNumbers = pageDir.substring( pageDir.lastIndexOf( '/' ) );
         props.put( AuthenticationManager.PROP_LOGIN_THROTTLING, "false" );
         props.setProperty( "jspwiki.fileSystemProvider.pageDir",
         		           pageDir.substring( 0, pageDir.lastIndexOf( '/' ) ) +
         		           stripNumbers.replaceAll( "\\d", StringUtils.EMPTY ) + System.currentTimeMillis() );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return props;
     }
 

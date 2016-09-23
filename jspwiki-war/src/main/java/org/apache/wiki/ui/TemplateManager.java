@@ -50,10 +50,7 @@ import org.apache.wiki.WikiContext;
 import org.apache.wiki.WikiEngine;
 import org.apache.wiki.i18n.InternationalizationManager;
 import org.apache.wiki.modules.ModuleManager;
-<<<<<<< HEAD
-=======
 import org.apache.wiki.modules.WikiModuleInfo;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.preferences.Preferences;
 import org.apache.wiki.preferences.Preferences.TimeFormat;
 import org.apache.wiki.util.ClassUtil;
@@ -275,11 +272,7 @@ public class TemplateManager extends ModuleManager {
             }
         }
 
-<<<<<<< HEAD
-        log.info( "Final name = "+name );
-=======
         if( log.isDebugEnabled() ) log.debug( "Final name = "+name );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return name;
     }
 
@@ -683,11 +676,7 @@ public class TemplateManager extends ModuleManager {
      */
     private static String getJSLocalizedStrings( WikiContext context )
     {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
     	StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         sb.append( "var LocalizedStrings = {\n");
 
@@ -850,16 +839,11 @@ public class TemplateManager extends ModuleManager {
      *
      *  @return {@inheritDoc}
      */
-<<<<<<< HEAD
-=======
     @Override
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     public Collection modules()
     {
         return new ArrayList();
     }
-<<<<<<< HEAD
-=======
     
     /**
      *  Returns null!
@@ -869,5 +853,4 @@ public class TemplateManager extends ModuleManager {
     public WikiModuleInfo getModuleInfo(String moduleName) {
     	return null;
     }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }

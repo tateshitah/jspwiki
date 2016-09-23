@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* 
-=======
 /*
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -18,28 +14,11 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 
 /*
  * jspwiki-commonstyles.js
-<<<<<<< HEAD
- * Contains additional Dynmic Styles 
- *
- *	114 Reflection (adds reflection to images): dynamic style 
- *	132 Accordion object: dynamic style
- *	220 RoundedCorners: dynamic style
- *	260 WikiTips: dynamic style 
- *	270 WikiColumns: dynamic style
- *	300 Prettify: dynamic style
- */
- 
- 
-=======
  * Contains additional Dynmic Styles
  *
  *	114 Reflection (adds reflection to images): dynamic style
@@ -51,17 +30,12 @@
  */
 
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 /*
 Dynamic Style: Reflection  (114)
 
 Inspired by Reflection.js at http://cow.neondragon.net/stuff/reflection/
 Freely distributable under MIT-style license.
-<<<<<<< HEAD
-Adapted for JSPWiki/BrushedTemplate, D.Frederickx, Sep 06
-=======
 Adapted for JSPWiki/BrushedTemplate, Sep 06
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 Use:
  	%%reflection-height-opacity  [some-image.jpg] %%
@@ -73,11 +47,7 @@ var WikiReflection = {
 			var parms = w.className.split('-');
 			$ES('img',w).each(function(img){
 				Reflection.add(img, parms[1], parms[2]);
-<<<<<<< HEAD
-			}); 
-=======
 			});
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		});
 	}
 }
@@ -105,11 +75,7 @@ var Reflection = {
 		img.style.cssText = 'vertical-align: bottom';
 		//img.className = 'inline reflected';  //FIXME: is this still needed ??
 
-<<<<<<< HEAD
-		if( window.ie ){ 
-=======
 		if( window.ie ){
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			new Element('img', {'src': img.src, 'styles': {
 				'width': imgW,
 				'marginBottom': "-" + (imgH - rH) + 'px',
@@ -132,11 +98,7 @@ var Reflection = {
 			g.addColorStop( 1, "rgba(255, 255, 255, 1.0)" );
 			ctx.fillStyle = g;
 			ctx.rect( 0, 0, imgW, rH );
-<<<<<<< HEAD
-			ctx.fill(); 
-=======
 			ctx.fill();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		}
 	}
 }
@@ -166,11 +128,7 @@ var WikiAccordion = {
 			bullet = new Element('div',{'class':'collapseBullet'});
 
 		$ES('.accordion, .tabbedAccordion, .leftAccordion, .rightAccordion',page).each( function(tt){
-<<<<<<< HEAD
-			
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			var toggles=[], contents=[], menu=false;
 			if(tt.hasClass('tabbedAccordion')){
 				menu = new Element('div',{'class':'menu top'}).injectBefore(tt);
@@ -181,19 +139,11 @@ var WikiAccordion = {
 			else if(tt.hasClass('rightAccordion')){
 				menu = new Element('div',{'class':'menu right'}).injectBefore(tt);
 			}
-<<<<<<< HEAD
-			
-			tt.getChildren().each(function(tab) {
-				if( !tab.className.test('^tab-') ) return;
-
-				//FIXME use class to make tabs visible during printing 
-=======
 
 			tt.getChildren().each(function(tab) {
 				if( !tab.className.test('^tab-') ) return;
 
 				//FIXME use class to make tabs visible during printing
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 				//(i==0) ? tab.removeClass('hidetab'): tab.addClass('hidetab');
 
 				var title = tab.className.substr(4).deCamelize(),
@@ -203,34 +153,12 @@ var WikiAccordion = {
 				toggles.push(t);
 				contents.push(tab.addClass('tab'));
 			});
-<<<<<<< HEAD
-			
-			new Accordion(toggles, contents, {     
-=======
 
 			new Accordion(toggles, contents, {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 				height: true,
 				alwaysHide: !menu,
 				onComplete: function(){
 					var el = $(this.elements[this.previous]);
-<<<<<<< HEAD
-					if (el.offsetHeight > 0) el.setStyle('height', 'auto');  
-				},
-				onActive: function(toggle,content){                          
-					toggle.addClass('active'); 
-					var b = toggle.getFirst();/*bullet*/
-					if(b) b.setProperties({'title':'collapse'.localize(), 'class':'collapseOpen'}).setHTML('-'); /* &raquo; */
-					content.addClass('active');//.removeClass('xhidetab'); 
-				},
-				onBackground: function(toggle,content){ 
-					content.setStyle('height', content['offsetHeight']);
-					toggle.removeClass('active'); 
-					var b = toggle.getFirst();/*bullet*/
-					if(b) b.setProperties({'title':'expand'.localize(), 'class':'collapseClose'}).setHTML('+'); /* &laquo; */
-					content.removeClass('active');//.addClass('xhidetab');
-				} 
-=======
 					if (el.offsetHeight > 0) el.setStyle('height', 'auto');
 				},
 				onActive: function(toggle,content){
@@ -246,7 +174,6 @@ var WikiAccordion = {
 					if(b) b.setProperties({'title':'expand'.localize(), 'class':'collapseClose'}).setHTML('+'); /* &laquo; */
 					content.removeClass('active');//.addClass('xhidetab');
 				}
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 			});
 		});
 		bullet=toggle=null; //avoid memory leaks
@@ -255,215 +182,6 @@ var WikiAccordion = {
 Wiki.addPageRender(WikiAccordion);
 
 
-<<<<<<< HEAD
-/** 220 RoundedCorners --experimental
- ** based on Nifty corners by Allesandro Fulciniti
- ** www.pro.html.it
- ** Refactored for JSPWiki
- **
- ** JSPWiki syntax:
- **
- **  %%roundedCorners-<corners>-<color>-<borderColor>
- **  %%
- **
- **  roundedCorners-yyyy-ffc5ff-c0c0c0
- **
- **  corners: "yyyy" where first y: top-left,    2nd y: top-right,
- **                           3rd y: bottom-left; 4th y: bottom-right
- **     value can be: "y": Normal rounded corner (lowercase y)
- **                    "s": Small rounded corner (lowercase s)
- **                    "n": Normal square corner
- **
- **/
-var RoundedCorners =
-{
-	/** Definition of CORNER dimensions
-	 ** Normal    Normal+Border  Small  Small+Border   Big
-	 ** .....+++  .....BBB       ..+++  ..BBB          ........+++
-	 ** ...+++++  ...BB+++       .++++  .B+++          .....++++++
-	 ** ..++++++  ..B+++++       +++++  B++++          ...++++++++
-	 ** .+++++++  .B++++++                             ..+++++++++
-	 ** .+++++++  .B++++++                             .++++++++++
-	 ** ++++++++  B+++++++                             .++++++++++
-	 **                                                .++++++++++
-	 **                                                +++++++++++
-	 **
-	 ** legend: . background, B border, + forground color
-	 **/
-	$Top: {
-		'y' : /* normal */
-		 [ { margin: "5px", height: "1px", borderSide: "0", borderTop: "1px" }
-		 , { margin: "3px", height: "1px", borderSide: "2px" }
-		 , { margin: "2px", height: "1px", borderSide: "1px" }
-		 , { margin: "1px", height: "2px", borderSide: "1px" }
-		 ] ,
-		's' : /* small */
-		 [ { margin: "2px", height: "1px", borderSide: "0", borderTop: "1px" }
-		 , { margin: "1px", height: "1px", borderSide: "1px" }
-		 ] ,
-		'b' : /* big */ 
-		 [ { margin: "8px", height: "1px", borderSide: "0", borderTop: "1px" }
-		 , { margin: "6px", height: "1px", borderSide: "2px" }
-		 , { margin: "4px", height: "1px", borderSide: "1px" }
-		 , { margin: "3px", height: "1px", borderSide: "1px" }
-		 , { margin: "2px", height: "1px", borderSide: "1px" }
-		 , { margin: "1px", height: "3px", borderSide: "1px" }
-		 ] 
-	},
-
-	/**
-	 ** Usage:
-	 ** RoundedCorners.register( "#header", ['yyyy', '00f000', '32cd32'] );
-	 **/
-	$registry: {},
-	register: function(selector, parms){
-		this.$registry[selector] = parms;
-		return this;
-	},
-
-	render: function(page,name){
-		/* make reverse copies for bottom definitions */
-
-		this.$Bottom = {};
-		for(var i in this.$Top){
-			this.$Bottom[i] = this.$Top[i].slice(0).reverse();
-		}
-
-		for(var selector in this.$registry){  // CHECK NEEDED
-			var n = $$(selector), 
-				p = this.$registry[selector];
-			this.exec(n, p[0], p[1], p[2], p[3]);
-		}
-
-		$ES('*[class^=roundedCorners]',page).each(function(el){ 
-			var p = el.className.split('-');
-			if(p.length >= 2) this.exec([el], p[1], p[2], p[3], p[4] );
-		},this);
-	},
-
-	exec: function(nodes, corners, color, borderColor, background){
-		corners = (corners || "yyyy") + 'nnnn';
-		color = new Color(color) || 'transparent';
-		borderColor = new Color(borderColor);
-		background  = new Color(background);
-
-		var c = corners.split('');
-		/* c[0]=top-left; c[1]=top-right; c[2]=bottom-left; c[3]=bottom-right; */
-
-		nodes.each(function(n){
-			if( n.$passed ) return;
-						
-			var top = this.addCorner(this.$Top, c[0], c[1], color, borderColor, n),
-				bottom = this.addCorner(this.$Bottom, c[2], c[3], color, borderColor, n);
-
-			if(top || bottom) {
-				this.addBody(n, color, borderColor);
-
-				if(top){
-					var p = n.getStyle('padding-top').toInt();
-					top.setStyle('margin-top', p-top.getChildren().length);
-					n.setStyle('padding-top',0);
-					top.injectTop(n);
-				}
-
-				if(bottom){
-					var p = n.getStyle('padding-bottom').toInt();
-					bottom.setStyle('margin-bottom', p-bottom.getChildren().length);
-					n.setStyle('padding-bottom',0);
-					n.adopt(bottom);
-				}
-			}
-			if(borderColor) n.setStyle('border','none');
-			n.$passed=true;
-		},this);
-		top=bottom=null;
-	},
-
-	getTemplate: function(template, corners){
-		var t = false;
-		if(corners != 'nn') for(var item in template){
-			if(corners.contains(item)){
-				t = template[item];
-				break;
-			}
-		}
-		return t;
-	},
-
-	addCorner: function(corner, left, right, color, border, n){
-
-		corner = this.getTemplate(corner, left+right);
-		if(!corner) return false;
-
-		var padl = n.getStyle('padding-left').toInt(), 
-			padr = n.getStyle('padding-right').toInt();
-		var node = new Element('b',{'class':'roundedCorners','styles':{
-			'display':'block',
-			'margin-left':-1*padl,
-			'margin-right':-1*padr
-		} });
-
-		corner.each(function(line){
-			var el = new Element('div', {'styles': {
-				'height':line.height,
-				'overflow':'hidden',
-				'border-width':'0',
-				'background-color':color.hex
-			} });
-
-			if(border.hex){
-				el.setStyles({'border-color':border.hex,'border-style':'solid'});
-				
-				if(line.borderTop){ 
-					el.setStyles({'border-top-width':line.borderTop,'height':'0'});				
-				}
-			}
-			if(left != 'n') el.setStyle('margin-left', line.margin);
-			if(right != 'n') el.setStyle('margin-right', line.margin);
-
-			if(border.hex){
-				el.setStyles({
-					'border-left-width': (left  == 'n') ? '1px': line.borderSide,
-					'border-right-width': (right == 'n') ? '1px': line.borderSide
-				});
-			}
-			node.adopt(el);
-		});
-		return node;
-	},
-
-	// move all children of the node inside a DIV and set color and bordercolor
-	addBody: function(n, color, border){
-
-		var padl = n.getStyle('padding-left').toInt(),
-			padr = n.getStyle('padding-right').toInt();	
-			
-		var container = new Element('div',{'styles':{
-			'overflow':'hidden',
-			'margin-left':-1*padl,
-			'margin-right':-1*padr,
-			'padding-left':(padl==0) ? 4 : padl,
-			'padding-right':(padr==0) ? 4 : padr,
-			'background-color':color.hex
-		} }).wrapChildren(n);
-
-		if(border.hex){
-			//n.setStyles('border','');
-			var st = "1px solid " + border.hex
-			container.setStyles({'border-left':st, 'border-right': st });
-		}
-	}
-}
-Wiki.addPageRender(RoundedCorners);
-
-
-/**
- ** 260 Wiki Tips: 
- **/
-var WikiTips =
-{
-	render: function(page,name) {    
-=======
 
 /**
  ** 260 Wiki Tips:
@@ -471,7 +189,6 @@ var WikiTips =
 var WikiTips =
 {
 	render: function(page,name) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		var tips = [];
 		$ES('*[class^=tip]',page).each( function(t){
 			var parms = t.className.split('-');
@@ -481,11 +198,7 @@ var WikiTips =
 			var body = new Element('span').wrapChildren(t).hide(),
 				caption = (parms[1]) ? parms[1].deCamelize(): "tip.default.title".localize();
 
-<<<<<<< HEAD
-			tips.push( 
-=======
 			tips.push(
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 				new Element('span',{
 					'class': 'tip-anchor',
 					'title': caption + '::' + body.innerHTML
@@ -500,19 +213,11 @@ Wiki.addPageRender(WikiTips);
 
 /**
  ** 270 Wiki Columns
-<<<<<<< HEAD
- ** Dirk Frederickx, Mar 07
- **/
-var WikiColumns =
-{
-	render: function(page,name) {    
-=======
  ** Mar 07
  **/
 var WikiColumns =
 {
 	render: function(page,name) {
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		var tips = [];
 		$ES('*[class^=columns]',page).each( function(t){
 			var parms = t.className.split('-');
@@ -550,19 +255,11 @@ Wiki.addPageRender(WikiColumns);
  */
 var WikiPrettify = {
 	render: function(page,name){
-<<<<<<< HEAD
-		var els = $ES('.prettify pre, .prettify code',page); 
-		if(!els || els.length==0) return;
-		els.addClass('prettyprint');		
-
-		//TODO: load assets .css and .js 
-=======
 		var els = $ES('.prettify pre, .prettify code',page);
 		if(!els || els.length==0) return;
 		els.addClass('prettyprint');
 
 		//TODO: load assets .css and .js
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 		//PRETTIFY: patch added to avoid processing of the same element
 		prettyPrint(page);
 	}

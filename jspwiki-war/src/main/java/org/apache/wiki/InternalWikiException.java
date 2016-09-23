@@ -38,8 +38,6 @@ public class InternalWikiException extends RuntimeException
     {
         super( msg );
     }
-<<<<<<< HEAD
-=======
 
 	public InternalWikiException(String message, Throwable cause)
 	{
@@ -52,5 +50,4 @@ public class InternalWikiException extends RuntimeException
 	}
     
     
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 }

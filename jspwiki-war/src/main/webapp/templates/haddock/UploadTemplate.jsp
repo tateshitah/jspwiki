@@ -14,19 +14,12 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.  
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 --%>
 
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 <%@ page import="org.apache.wiki.*" %>
-<<<<<<< HEAD
-=======
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="javax.servlet.jsp.jstl.fmt.*" %>
 <fmt:setLocale value="${prefs.Language}" />
@@ -42,13 +35,6 @@
 
 <body class="context-<wiki:Variable var='requestcontext' />">
 
-<<<<<<< HEAD
-<div class="container ${prefs.Orientation}">
-
-  <wiki:Include page="Header.jsp" />
-  <wiki:Include page="Nav.jsp" />
-  <div class="content active" data-toggle="li#menu,.sidebar>.close" >
-=======
 <div class="container${prefs.Layout=='fluid' ? '-fluid' : ''}  ${prefs.Orientation}">
 
   <wiki:Include page="Header.jsp" />
@@ -61,14 +47,11 @@
   </wiki:CheckRequestContext>
 
   <div class="content <c:if test='${sidebar != "off"}'>active</c:if>" data-toggle="li#menu,.sidebar>.close">
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     <div class="page">
       <wiki:PageExists>
         <wiki:Include page="AttachmentTab.jsp"/>
       </wiki:PageExists>
 
-<<<<<<< HEAD
-=======
       <wiki:NoSuchPage>
         <div class="danger">
         <fmt:message key="common.nopage">
@@ -77,16 +60,11 @@
         </div>
       </wiki:NoSuchPage>
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
       <wiki:Include page="PageInfo.jsp"/>
     </div>
     <wiki:Include page="Sidebar.jsp"/>
   </div>
-<<<<<<< HEAD
-  <wiki:Include page="Footer.jsp" />     
-=======
   <wiki:Include page="Footer.jsp" />
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
 </div>
 </body>

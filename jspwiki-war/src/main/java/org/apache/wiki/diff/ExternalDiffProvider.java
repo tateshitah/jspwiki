@@ -164,11 +164,7 @@ public class ExternalDiffProvider implements DiffProvider
         String stop = null;
 
         BufferedReader in = new BufferedReader( new StringReader( diffText ) );
-<<<<<<< HEAD
-        StringBuffer out = new StringBuffer();
-=======
         StringBuilder out = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         out.append("<table class=\"diff\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n");
         while( (line = in.readLine()) != null )

@@ -14,11 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-<<<<<<< HEAD
-    under the License.    
-=======
     under the License.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
  */
 package org.apache.wiki.util;
 
@@ -29,10 +25,7 @@ import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.Random;
 
-<<<<<<< HEAD
-=======
 import org.apache.commons.lang.StringUtils;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
 
 
@@ -40,22 +33,14 @@ import org.apache.wiki.api.exceptions.NoRequiredPropertyException;
  *  Contains a number of static utility methods.
  */
 public final class TextUtil {
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     static final String   HEX_DIGITS = "0123456789ABCDEF";
 
     /**
      *  Private constructor prevents instantiation.
      */
     private TextUtil() {}
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  java.net.URLEncoder.encode() method in JDK < 1.4 is buggy.  This duplicates
      *  its functionality.
@@ -63,11 +48,7 @@ public final class TextUtil {
      *  @return the URL-encoded string
      */
     protected static String urlEncode( byte[] rs ) {
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer(rs.length*2);
-=======
     	StringBuilder result = new StringBuilder(rs.length*2);
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         // Does the URLEncoding.  We could use the java.net one, but
         // it does not eat byte[]s.
@@ -111,19 +92,11 @@ public final class TextUtil {
      *  Bug parade, bug #4257115</A> for more information.
      *  <P>
      *  Thanks to CJB for this fix.
-<<<<<<< HEAD
-     *  
-     *  @param bytes The byte array containing the bytes of the string
-     *  @param encoding The encoding in which the string should be interpreted
-     *  @return A decoded String
-     *  
-=======
      *
      *  @param bytes The byte array containing the bytes of the string
      *  @param encoding The encoding in which the string should be interpreted
      *  @return A decoded String
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @throws UnsupportedEncodingException If the encoding is unknown.
      *  @throws IllegalArgumentException If the byte array is not a valid string.
      */
@@ -170,11 +143,7 @@ public final class TextUtil {
 
     /**
      *  As java.net.URLEncoder class, but this does it in UTF8 character set.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param text The text to decode
      *  @return An URLEncoded string.
      */
@@ -196,11 +165,7 @@ public final class TextUtil {
 
     /**
      *  As java.net.URLDecoder class, but for UTF-8 strings.  null is a safe value and returns null.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param utf8 The UTF-8 encoded string
      *  @return A plain, normal string.
      */
@@ -222,11 +187,7 @@ public final class TextUtil {
      * Provides encoded version of string depending on encoding. Encoding may be UTF-8 or ISO-8859-1 (default).
      *
      * <p>This implementation is the same as in FileSystemProvider.mangleName().
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @param data A string to encode
      * @param encoding The encoding in which to encode
      * @return An URL encoded string.
@@ -249,11 +210,7 @@ public final class TextUtil {
      * Provides decoded version of string depending on encoding. Encoding may be UTF-8 or ISO-8859-1 (default).
      *
      * <p>This implementation is the same as in FileSystemProvider.unmangleName().
-<<<<<<< HEAD
-     * 
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      * @param data The URL-encoded string to decode
      * @param encoding The encoding to use
      * @return A decoded string.
@@ -306,11 +263,7 @@ public final class TextUtil {
         if ( src == null || dest == null ) throw new NullPointerException();
         if ( src.length() == 0 ) return orig;
 
-<<<<<<< HEAD
-        StringBuffer res = new StringBuffer( orig.length() + 20 ); // Pure guesswork
-=======
         StringBuilder res = new StringBuilder( orig.length() + 20 ); // Pure guesswork
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         int start = 0;
         int end = 0;
         int last = 0;
@@ -339,19 +292,11 @@ public final class TextUtil {
     public static String replaceString( String orig, int start, int end, String text ) {
         if( orig == null ) return null;
 
-<<<<<<< HEAD
-        StringBuffer buf = new StringBuffer(orig);
-        buf.replace( start, end, text );
-        return buf.toString();
-    }
-    
-=======
         StringBuilder buf = new StringBuilder(orig);
         buf.replace( start, end, text );
         return buf.toString();
     }
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      *  Replaces a string with an other string. Case insensitive matching is used
      *
@@ -363,19 +308,11 @@ public final class TextUtil {
     public static String replaceStringCaseUnsensitive( String orig, String src, String dest ) {
         if( orig == null ) return null;
 
-<<<<<<< HEAD
-        StringBuffer res = new StringBuffer();
-        int start        = 0;
-        int end          = 0;
-        int last         = 0;
-        
-=======
         StringBuilder res = new StringBuilder();
         int start        = 0;
         int end          = 0;
         int last         = 0;
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         String origCaseUnsn = orig.toLowerCase();
         String srcCaseUnsn = src.toLowerCase();
 
@@ -393,11 +330,7 @@ public final class TextUtil {
 
     /**
      *  Parses an integer parameter, returning a default value if the value is null or a non-number.
-<<<<<<< HEAD
-     *  
-=======
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param value The value to parse
      *  @param defvalue A default value in case the value is not a number
      *  @return The parsed value (or defvalue).
@@ -413,9 +346,6 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Gets an integer-valued property from a standard Properties list.  If the value does not exist, or is a 
-=======
      *  Gets an integer-valued property from a standard Properties list.
      *
      *  Before inspecting the props, we first check if there is a Java System Property with the same name, if it exists
@@ -423,7 +353,6 @@ public final class TextUtil {
      *  dots with underscores.
      *
      *  If the value does not exist, or is a
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  non-integer, returns defVal.
      *
      *  @since 2.1.48.
@@ -433,24 +362,14 @@ public final class TextUtil {
      *  @return The property value as an integer (or defVal).
      */
     public static int getIntegerProperty( Properties props,  String key, int defVal ) {
-<<<<<<< HEAD
-        String val = System.getProperties().getProperty( key, props.getProperty( key ) );
-=======
         String val = System.getProperties().getProperty(key, System.getenv(StringUtils.replace(key,".","_")));
         if (val == null) {
             val = props.getProperty(key);
         }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         return parseIntParameter( val, defVal );
     }
 
     /**
-<<<<<<< HEAD
-     *  Gets a boolean property from a standard Properties list. Returns the default value, in case the key has not 
-     *  been set.
-     *  <P>
-     *  The possible values for the property are "true"/"false", "yes"/"no", or "on"/"off".  Any value not 
-=======
      *  Gets a boolean property from a standard Properties list. Returns the default value, in case the key has not
      *  been set.
      *  Before inspecting the props, we first check if there is a Java System Property with the same name, if it exists
@@ -458,7 +377,6 @@ public final class TextUtil {
      *  dots with underscores.
      *  <P>
      *  The possible values for the property are "true"/"false", "yes"/"no", or "on"/"off".  Any value not
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  recognized is always defined as "false".
      *
      *  @param props   A list of properties to search.
@@ -470,14 +388,10 @@ public final class TextUtil {
      *  @since 2.0.11
      */
     public static boolean getBooleanProperty( Properties props, String key, boolean defval ) {
-<<<<<<< HEAD
-        String val = System.getProperties().getProperty( key, props.getProperty( key ) );
-=======
         String val = System.getProperties().getProperty(key, System.getenv(StringUtils.replace(key,".","_")));
         if (val == null) {
             val = props.getProperty(key);
         }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( val == null ) {
             return defval;
         }
@@ -486,18 +400,12 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Fetches a String property from the set of Properties.  This differs from Properties.getProperty() in a 
-     *  couple of key respects: First, property value is trim()med (so no extra whitespace back and front), and 
-     *  well, that's it.
-=======
      *  Fetches a String property from the set of Properties.  This differs from Properties.getProperty() in a
      *  couple of key respects: First, property value is trim()med (so no extra whitespace back and front).
      *
      *  Before inspecting the props, we first check if there is a Java System Property with the same name, if it exists
      *  we use that value, if not we check an environment variable with that (almost) same name, almost meaning we replace
      *  dots with underscores.
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *
      *  @param props The Properties to search through
      *  @param key   The property key
@@ -505,12 +413,6 @@ public final class TextUtil {
      *  @return The property value.
      *  @since 2.1.151
      */
-<<<<<<< HEAD
-    public static String getStringProperty( Properties props, String key, String defval ) {
-        String val = System.getProperties().getProperty( key, props.getProperty( key ) );
-        if( val == null ) {
-        	return defval;
-=======
     public static String getStringProperty(Properties props, String key, String defval) {
         String val = System.getProperties().getProperty(key, System.getenv(StringUtils.replace(key,".","_")));
         if (val == null) {
@@ -518,16 +420,11 @@ public final class TextUtil {
         }
         if (val == null) {
             return defval;
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         }
         return val.trim();
     }
 
     /**
-<<<<<<< HEAD
-     *  Fetches a file path property from the set of Properties. If the
-     *  implementation fails to create the canonical path it just returns
-=======
      *  Fetches a file path property from the set of Properties.
      *
      *  Before inspecting the props, we first check if there is a Java System Property with the same name, if it exists
@@ -535,7 +432,6 @@ public final class TextUtil {
      *  dots with underscores.
      *
      *  If the implementation fails to create the canonical path it just returns
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  the original value of the property which is a bit doggy.
      *
      *  @param props The Properties to search through
@@ -547,14 +443,10 @@ public final class TextUtil {
     public static String getCanonicalFilePathProperty(Properties props, String key, String defval) {
 
         String result;
-<<<<<<< HEAD
-        String val = System.getProperties().getProperty( key, props.getProperty( key ) );
-=======
         String val = System.getProperties().getProperty(key, System.getenv(StringUtils.replace(key,".","_")));
         if (val == null) {
             val = props.getProperty(key);
         }
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         if( val == null ) {
             val = defval;
@@ -587,11 +479,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Returns true, if the string "val" denotes a positive string.  Allowed values are "yes", "on", and "true".  
-=======
      *  Returns true, if the string "val" denotes a positive string.  Allowed values are "yes", "on", and "true".
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  Comparison is case-insignificant. Null values are safe.
      *
      *  @param val Value to check.
@@ -610,33 +498,19 @@ public final class TextUtil {
     /**
      *  Makes sure that the POSTed data is conforms to certain rules.  These rules are:
      *  <UL>
-<<<<<<< HEAD
-     *  <LI>The data always ends with a newline (some browsers, such as NS4.x series, does not send a newline at 
-=======
      *  <LI>The data always ends with a newline (some browsers, such as NS4.x series, does not send a newline at
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *      the end, which makes the diffs a bit strange sometimes.
      *  <LI>The CR/LF/CRLF mess is normalized to plain CRLF.
      *  </UL>
      *
-<<<<<<< HEAD
-     *  The reason why we're using CRLF is that most browser already return CRLF since that is the closest thing to 
-     *  a HTTP standard.
-     *  
-=======
      *  The reason why we're using CRLF is that most browser already return CRLF since that is the closest thing to
      *  a HTTP standard.
      *
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  @param postData The data to normalize
      *  @return Normalized data
      */
     public static String normalizePostData( String postData ) {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
         StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
 
         for( int i = 0; i < postData.length(); i++ ) {
             switch( postData.charAt(i) ) {
@@ -691,11 +565,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Adds spaces in suitable locations of the input string.  This is used to transform a WikiName into a more 
-=======
      *  Adds spaces in suitable locations of the input string.  This is used to transform a WikiName into a more
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  readable format.
      *
      *  @param s String to be beautified.
@@ -706,11 +576,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Adds spaces in suitable locations of the input string.  This is used to transform a WikiName into a more 
-=======
      *  Adds spaces in suitable locations of the input string.  This is used to transform a WikiName into a more
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  readable format.
      *
      *  @param s String to be beautified.
@@ -719,20 +585,12 @@ public final class TextUtil {
      *  @since 2.1.127
      */
     public static String beautifyString( String s, String space ) {
-<<<<<<< HEAD
-        StringBuffer result = new StringBuffer();
-
-=======
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         if( s == null || s.length() == 0 ) {
         	return "";
         }
 
-<<<<<<< HEAD
-=======
         StringBuilder result = new StringBuilder();
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         int cur     = s.charAt( 0 );
         int curKind = getCharKind( cur );
 
@@ -766,11 +624,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Creates a Properties object based on an array which contains alternatively a key and a value.  It is useful 
-=======
      *  Creates a Properties object based on an array which contains alternatively a key and a value.  It is useful
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  for generating default mappings. For example:
      *  <pre>
      *     String[] properties = { "jspwiki.property1", "value1",
@@ -861,11 +715,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  A simple routine which just repeates the arguments.  This is useful for creating something like a line or 
-=======
      *  A simple routine which just repeates the arguments.  This is useful for creating something like a line or
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  something.
      *
      *  @param what String to repeat
@@ -874,11 +724,7 @@ public final class TextUtil {
      *  @since 2.1.98.
      */
     public static String repeatString( String what, int times ) {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
     	StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( int i = 0; i < times; i++ ) {
             sb.append( what );
         }
@@ -887,22 +733,14 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Converts a string from the Unicode representation into something that can be embedded in a java 
-=======
      *  Converts a string from the Unicode representation into something that can be embedded in a java
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  properties file.  All references outside the ASCII range are replaced with \\uXXXX.
      *
      *  @param s The string to convert
      *  @return the ASCII string
      */
     public static String native2Ascii( String s ) {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer();
-=======
     	StringBuilder sb = new StringBuilder();
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( int i = 0; i < s.length(); i++ ) {
             char aChar = s.charAt(i);
             if( ( aChar < 0x0020 ) || ( aChar > 0x007e ) ) {
@@ -927,11 +765,7 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Generates a hexadecimal string from an array of bytes.  For example, if the array contains 
-=======
      *  Generates a hexadecimal string from an array of bytes.  For example, if the array contains
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  { 0x01, 0x02, 0x3E }, the resulting string will be "01023E".
      *
      * @param bytes A Byte array
@@ -939,11 +773,7 @@ public final class TextUtil {
      * @since 2.3.87
      */
     public static String toHexString( byte[] bytes ) {
-<<<<<<< HEAD
-        StringBuffer sb = new StringBuffer( bytes.length * 2 );
-=======
     	StringBuilder sb = new StringBuilder( bytes.length * 2 );
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
         for( int i = 0; i < bytes.length; i++ ) {
             sb.append( toHex( bytes[i] >> 4 ) );
             sb.append( toHex( bytes[i] ) );
@@ -953,13 +783,8 @@ public final class TextUtil {
     }
 
     /**
-<<<<<<< HEAD
-     *  Returns true, if the argument contains a number, otherwise false. In a quick test this is roughly the same 
-     *  speed as Integer.parseInt() if the argument is a number, and roughly ten times the speed, if the argument 
-=======
      *  Returns true, if the argument contains a number, otherwise false. In a quick test this is roughly the same
      *  speed as Integer.parseInt() if the argument is a number, and roughly ten times the speed, if the argument
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
      *  is NOT a number.
      *
      *  @since 2.4
@@ -986,11 +811,7 @@ public final class TextUtil {
 
     /** Length of password. @see #generateRandomPassword() */
     public static final int PASSWORD_LENGTH = 8;
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> fbf0008a47db5d7946a86d8aa5ba7af192c61094
     /**
      * Generate a random String suitable for use as a temporary password.
      *
