@@ -37,7 +37,7 @@ Viewer object
             "src" - to be rendered as IFRAME
             other-parameters with additional details
 */
-!function(){
+!(function(){
 
 this.Viewer = {
 
@@ -48,7 +48,6 @@ this.Viewer = {
         var result = {};
 
         if( typeOf(url) == "element" ){ url = url.src || url.href; }
-
         this.LIB.some( function(item){
 
             return url.test( item[0], "i" )
@@ -61,7 +60,6 @@ this.Viewer = {
         //options.type = "img";
         //console.log(options.type);
         if( options.type && !result[options.type] ){ return false; }
-
 
         return result;
     },
@@ -134,7 +132,7 @@ this.Viewer = {
             h = options.height;
 
         function preloadCallback(preload, width, height){
-                preloads.push( preload );
+                preloads[preloads.length] = preload ;
                 w = w.max(width);
                 h = h.max(height.toInt());
                 //console.log("preloads.length, w,h);
@@ -338,4 +336,4 @@ Viewer.LIB.append([
 
 ]);
 
-}();
+})();

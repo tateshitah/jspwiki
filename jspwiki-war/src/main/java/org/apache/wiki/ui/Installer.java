@@ -60,9 +60,7 @@ public class Installer
     public static final String INSTALL_ERROR = "Installer.Error";
     public static final String INSTALL_WARNING = "Installer.Warning";
     public static final String APP_NAME = WikiEngine.PROP_APPNAME;
-    public static final String BASE_URL = WikiEngine.PROP_BASEURL;
     public static final String STORAGE_DIR = BasicAttachmentProvider.PROP_STORAGEDIR;
-    public static final String LOG_FILE = "log4j.appender.FileLog.File";
     public static final String PAGE_DIR = FileSystemProvider.PROP_PAGEDIR;
     public static final String WORK_DIR = WikiEngine.PROP_WORKDIR;
     public static final String ADMIN_GROUP = "Admin";
@@ -205,23 +203,12 @@ public class Installer
         // Get application name
         String nullValue = m_props.getProperty( APP_NAME, rb.getString( "install.installer.default.appname" ) );
         parseProperty( APP_NAME, nullValue );
-        
-        // Get/sanitize base URL
-        nullValue = m_request.getRequestURL().toString();
-        nullValue = nullValue.substring( 0, nullValue.lastIndexOf('/') )+"/";
-        parseProperty( BASE_URL, nullValue );
-        sanitizeURL( BASE_URL );
-        
+
         // Get/sanitize page directory
         nullValue = m_props.getProperty( PAGE_DIR, rb.getString( "install.installer.default.pagedir" ) );
         parseProperty( PAGE_DIR, nullValue );
         sanitizePath( PAGE_DIR );
-        
-        // Get/sanitize log directory
-        nullValue = m_props.getProperty( LOG_FILE, TMP_DIR + File.separator + "jspwiki.log" );
-        parseProperty( LOG_FILE, nullValue );
-        sanitizePath( LOG_FILE );
-        
+
         // Get/sanitize work directory
         nullValue = m_props.getProperty( WORK_DIR, TMP_DIR );
         parseProperty( WORK_DIR, nullValue );
@@ -265,12 +252,10 @@ public class Installer
         ResourceBundle rb = ResourceBundle.getBundle( InternationalizationManager.CORE_BUNDLE, m_session.getLocale() );
         m_session.clearMessages( INSTALL_ERROR );
         parseProperties();
-        validateNotNull( BASE_URL, rb.getString( "install.installer.validate.baseurl" ) );
         validateNotNull( PAGE_DIR, rb.getString( "install.installer.validate.pagedir" ) );
         validateNotNull( APP_NAME, rb.getString( "install.installer.validate.appname" ) );
         validateNotNull( WORK_DIR, rb.getString( "install.installer.validate.workdir" ) );
-        validateNotNull( LOG_FILE, rb.getString( "install.installer.validate.logfile" ) );
-        
+
         if ( m_session.getMessages( INSTALL_ERROR ).length == 0 )
         {
             m_validated = true;

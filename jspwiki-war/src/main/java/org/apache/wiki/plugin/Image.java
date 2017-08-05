@@ -1,4 +1,4 @@
-/* 
+/*
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -14,7 +14,7 @@
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
     KIND, either express or implied.  See the License for the
     specific language governing permissions and limitations
-    under the License.  
+    under the License.
  */
 package org.apache.wiki.plugin;
 
@@ -46,8 +46,9 @@ import org.apache.wiki.util.TextUtil;
  *  <li><b>style</b> - the style attribute of the image</li>
  *  <li><b>class</b> - the associated class for the image</li>
  *  <li><b>border</b> - the border for the image</li>
+ *  <li><b>title</b> - the title for the image, can be presented as a tooltip to the user</li>
  *  </ul>
- *  
+ *
  *  @since 2.1.4.
  */
 // FIXME: It is not yet possible to do wiki internal links.  In order to
@@ -79,6 +80,8 @@ public class Image
     //    public static final String PARAM_MAP      = "map";
     /** The parameter name for setting the border.  Value is <tt>{@value}</tt>. */
     public static final String PARAM_BORDER   = "border";
+    /** The parameter name for setting the title.  Value is <tt>{@value}</tt>. */
+    public static final String PARAM_TITLE   = "title";
 
     /**
      *  This method is used to clean away things like quotation marks which
@@ -108,13 +111,14 @@ public class Image
         String cssclass= getCleanParameter( params, PARAM_CLASS );
         // String map     = getCleanParameter( params, PARAM_MAP );
         String border  = getCleanParameter( params, PARAM_BORDER );
+        String title   = getCleanParameter( params, PARAM_TITLE );
 
         if( src == null )
         {
             throw new PluginException("Parameter 'src' is required for Image plugin");
         }
 
-        if( cssclass == null ) cssclass = "imageplugin";
+        //if( cssclass == null ) cssclass = "imageplugin";
 
         if( target != null && !validTargetValue(target) )
         {
@@ -138,45 +142,54 @@ public class Image
 
         StringBuilder result = new StringBuilder();
 
-        result.append( "<table border=\"0\" class=\""+cssclass+"\"" );
-        //if( align != null ) result.append(" align=\""+align+"\"");
-        //if( style != null ) result.append(" style=\""+style+"\"");
-        
-        //
-        //  Do some magic to make sure centering also work on FireFox
-        //
-        if( style != null ) 
+        result.append( "<table border=\"0\" class=\"imageplugin\"" );
+
+        if( title != null )
+        {
+            result.append(" title=\""+title+"\"");
+        }
+
+        if( align != null )
+        {
+            if( align.equals("center") )
+            {
+                result.append(" style=\"margin-left: auto; margin-right: auto; text-align:center; vertical-align:middle;\"");
+            }
+            else
+            {
+                result.append(" style=\"float:" + align + ";\"");
+            }
+        }
+
+        result.append( ">\n" );
+
+        if( caption != null )
+        {
+            result.append("<caption>"+caption+"</caption>\n");
+        }
+
+        //move css class and style to the container of the image,
+        //so it doesn't affect the caption
+        result.append( "<tr><td" );
+
+        if( cssclass != null )
+        {
+            result.append(" class=\""+cssclass+"\"");
+        }
+
+        if( style != null )
         {
             result.append(" style=\""+style);
 
             // Make sure that we add a ";" to the end of the style string
             if( result.charAt( result.length()-1 ) != ';' ) result.append(";");
-                
-            if( align != null && align.equals("center") ) 
-            {
-                result.append(" margin-left: auto; margin-right: auto;");
-            }
-                
+
             result.append("\"");
         }
-        else
-        {
-            if( align != null && align.equals("center") ) result.append(" style=\"margin-left: auto; margin-right: auto;\"");
-        }
-        
-        if( align != null && !(align.equals("center")) ) result.append(" align=\""+align+"\"");
-        
-        result.append( ">\n" );
 
-        if( caption != null ) 
-        {
-            result.append("<caption align=bottom>"+TextUtil.replaceEntities(caption)+"</caption>\n");
-        }
+        result.append( ">" );
 
-
-        result.append( "<tr><td>" );
-       
-        if( link != null ) 
+        if( link != null )
         {
             result.append("<a href=\""+link+"\"");
             if( target != null )
@@ -187,7 +200,7 @@ public class Image
         }
 
         result.append( "<img src=\""+src+"\"" );
-       
+
         if( ht != null )     result.append(" height=\""+ht+"\"");
         if( wt != null )     result.append(" width=\""+wt+"\"");
         if( alt != null )    result.append(" alt=\""+alt+"\"");
@@ -211,7 +224,7 @@ public class Image
                 || s.equals("_top") )
         {
             return true;
-        } 
+        }
         else if( s.length() > 0 ) // check [a-zA-z]
         {
             char c = s.charAt(0);

@@ -61,9 +61,30 @@ Depend on :
     behaviors/TableX.Zebra.js
 */
 
-!function( wiki ){
+!(function( wiki ){
 
 var TheSlimbox, T = TableX;
+
+
+/*
+Behavior: Broken images
+    Replace broken image browser icons
+*/
+wiki.once( "img", function(imgs){
+
+    imgs.addEvent("error", function(){
+
+        var img = $(this);
+        [ "span.danger.img-error", {
+            text: "broken.image".localize() //Broken Image!
+        }, [
+            "span", { text: img.alt || img.src }
+            ]
+        ].slick().replaces(img);
+
+    });
+
+});
 
 
 /*
@@ -88,13 +109,13 @@ wiki.add("*[class^=progress]", function(element){
         maxv = RegExp.$2;
     }
 
-    ( element.get("tag") + clazz + "-maxv" + maxv ).slick().wraps(element);
+    ( element.get("tag") + clazz + "-minv0-maxv" + maxv  ).slick().wraps(element);
     element.className = "gBar";
 
 
 /*
-%%progress-red-striped 50/%  =>  %%graphBars-progress-red-striped-maxv100 %%gBar 50/% /%
-%%progress-red-striped 50/75 /%  =>  %%graphBars-progress-red-striped-maxv75 %%gBar 50/% /%
+%%progress-red-striped 50/%  =>  %%graphBars-progress-red-striped-minv0-maxv100 %%gBar 50/% /%
+%%progress-red-striped 50/75 /%  =>  %%graphBars-progress-red-striped-minv0-maxv75 %%gBar 50/% /%
 
 */
 
@@ -139,16 +160,19 @@ Behavior:tabs & pills
 Behavior:Accordion
 >   %%accordion .. /%
 >   %%leftAccordion .. /%
+>   %%left-accordion .. /%
 >   %%rightAccordion .. /%
+>   %%right-accordion .. /%
 >   %%tabbedAccordion .. /%
+>   %%tabbed-accordion .. /%
 >   %%pillsAccordion .. /%
+>   %%pills-accordion .. /%
 */
     .add("[class^=accordion]", Accordion)
-    .add("[class^=leftAccordion]", Accordion, { type: "pills", position: "pull-left" })
-    .add("[class^=rightAccordion]", Accordion, { type: "pills", position: "pull-right" })
-    .add(".tabbedAccordion", Accordion, { type: "tabs" })
-    .add(".pillsAccordion", Accordion, { type: "pills" })
-
+    .add("[class^=leftAccordion],[class^=left-accordion]", Accordion, { type: "pills", position: "pull-left" })
+    .add("[class^=rightAccordion],[class^=right-accordion]", Accordion, { type: "pills", position: "pull-right" })
+    .add(".tabbedAccordion,.tabbed-accordion", Accordion, { type: "tabs" })
+    .add(".pillsAccordion,.pills-accordion", Accordion, { type: "pills" })
 
 /*
 Behavior:JSPWiki Categories
@@ -207,7 +231,7 @@ Behavior: Viewer
 >     %%viewer [link to youtube, vimeo, some-wiki-page, http://some-external-site ..] /%
 >     [description | url to youtube... | class="viewer"]
 */
-    .add("a.viewer, div.viewer a", function( a ){
+    .add("a.viewer, div.viewer a, span.viewer a", function( a ){
 
         Viewer.preload(a.href, { width: 800, height: 600 }, function( element ){
 
@@ -218,7 +242,21 @@ Behavior: Viewer
 
         });
 
+    })
+    .add(".maps", function( map ){
+
+        var address = map.get("text").trim(),
+            mapSvc = map.className.replace("-maps","").replace("maps","google"),
+            url = "https://maps.{0}.com/maps?q=".xsubs(mapSvc) + encodeURIComponent( address );
+
+        Viewer.preload(url, { width: 800, height: 600 }, function( element ){
+
+            element.addClass("viewport").replaces(map);
+
+        });
+
     });
+
 
 
 /*
@@ -278,12 +316,14 @@ function filterJSPWikiLinks(element){
         element.getElements( element.match(".slimbox-attachments") ?
             "a[href].attachment" :
             // otherwise,  catch several different cases in one go
+            //    img:not([href$=/attachment_small.png]):not(.outlink)  ::jspwiki small icons
             //    img:not([src$=/attachment_small.png]):not(.outlink)  ::jspwiki small icons
             //    a[href].attachment,
             //    a[href].external,
             //    a[href].wikipage,
             //    a[href].interwiki
-            "img:not([src$=/attachment_small.png]):not(.outlink),a[href].attachment,a[href].external,a[href].wikipage, a[href].interwiki"
+            //    .recentchanges td:not(:nth-child(3)) a:first-child
+            "img:not([href$=/attachment_small.png]):not([src$=/attachment_small.png]):not(.outlink),a[href].attachment,a[href].external,a[href].wikipage, a[href].interwiki, .recentchanges td:not(:nth-child(3n)) a:first-child"
         );
 }
 
@@ -409,9 +449,9 @@ Wiki Markup:
 /*
 Behavior:Columns
 
->    %%columns(-width) .. /%
+>    %%columns .. /%
 */
-    .add( "div[class~=columns]", Columns, { prefix: "columns" } )
+    .add( "div[class^=columns]", Columns, { prefix: "columns" } )
 
 /*
 Dynamic Style: Code-Prettifier
@@ -428,18 +468,19 @@ Example:
 >    }}} /%
 
 */
-    .add("div.prettify pre, div.prettify code", function(element){
+    .add("div.prettify:not(.prettyprint) pre, div.prettify:not(.prettyprint) code", function(element){
 
         element.addClass("prettyprint");
 
         //brute-force line-number injection
-        "pre.prettylines".slick({
+        "div".slick().wraps(element).grab(
+            "pre.prettylines".slick({
 
-            html: element.innerHTML.trim().split("\n").map( function(line, i){
-                return i + 1; }
-            ).join("\n")
+                html: element.innerHTML.trim().split("\n").map( function(line, i){
+                    return i + 1; }
+                ).join("\n")
 
-        }).inject(element, "before");
+            }),"top");
 
     })
     .add("[class~=prettify-nonum] pre, [class~=prettify-nonum] code", function(element){
@@ -503,14 +544,14 @@ Behavior: Table behaviors
 
         var args = "table".sliceArgs(element),
             arg,
-            tables = element.getElements("table"),
+            tables = element.getElements("table:not(.imageplugin)"),
             hints = Object.map({
                 sort: "sort.click",
                 atoz: "sort.ascending",
                 ztoa: "sort.descending"
             }, String.localize);
 
-        while( args[0] ){
+        while( args && args[0] ){
 
             arg = args.shift();
 
@@ -553,6 +594,8 @@ Behavior: Scrollable pre area with maximum size (based on BOOTSTRAP)
             .addClass("pre-scrollable")
             .setStyle("maxHeight", maxHeight + "px");
 
+        //FFS : support scollable > table
+
     })
 
 /*
@@ -577,11 +620,12 @@ Behavior: List (based on BOOTSTRAP)
 >   %%list-unstyled-hover-group-nostyle
 
 */
-    .add("[class|=list]", function(element){
+    .add("[class*=list-]", function(element){
 
         var args = "list".sliceArgs(element),
             lists = element.getElements("ul|ol");
 
+        if( !args ) return;
         args.each( function( arg ){
 
             if( arg.test("unstyled|hover|group|nostyle") ){
@@ -645,8 +689,20 @@ DOM Structure:
     })
 
 /*
+Behavior: Magnify
+    Add magnifying image glass
+
+Wiki-markup:
+    > %%magnify <img> /%
+    > [{Image src='...' class='magnify' }]
+
+*/
+    .once(".magnify img", Magnify)
+
+
+/*
 Behavior: DropCaps
-    Convert the first character of a paragraph to a large "DropCap"
+    Convert the first character of a paragraph to a large "DropCap" character
 
 >    %%dropcaps .. /%
 
@@ -655,7 +711,7 @@ Behavior: DropCaps
 
         var content, node = element.firstChild;
 
-        if( node.nodeType == 3 ){   // this is a text-node
+        if( node.nodeType == 3 ){   // aha, this is a text-node
 
             content = node.textContent.trim();
             node.textContent = content.slice(1);  //remove first character
@@ -675,7 +731,6 @@ Behavior: Add-CSS
     .add(".add-css", AddCSS)
 
 
-
 /*
 Behavior: Invisibles
     Show hidden characters such as tabs and line breaks.
@@ -692,7 +747,7 @@ CSS:
 .token.lf:before { content: '\240A'; }
 (end)
 */
-    .add(".invisibles pre", function(element){
+    .add(".invisibles pre, .reveal pre", function(element){
 
         var token = "<span class='token {0}'>$&</span>";
 
@@ -703,6 +758,167 @@ CSS:
 
     })
 
+
+/*
+wiki-slides
+
+*/
+    .once(".page-content.wiki-slides", function(elements){
+
+        var divider = "hr";
+
+        elements
+            .grab(divider.slick(), "top") //add one extra group-start-element at the top
+            .groupChildren(divider, "div.slide");
+
+    })
+
+
+/*
+Behviour:  Background
+    Move image to the background of a page.
+    Also support additional image styles on background images.
+
+Case1:
+div[this is the parent container]
+    img.bg[src=<imageurl>]
+    ...
+    div other content
+    ...
+
+Case2:
+div[this is the parent container]
+    table.imageplugin
+        tr
+            td.bg
+                img[src=<imageurl>]
+    ...
+    div other content
+    ...
+
+Case3:
+div[this is the parent container]
+    div.bg
+        img[src=<imageurl>]
+    ...
+    div other content
+    ...
+
+
+After
+div[this is the parent container]
+    span.background[background-image=<image-url>]
+    div.background-overlay[z-index=2]
+        ...
+        div other content
+        ...
+
+
+%%bg [<image link>] /%
+%bg [{IMAGE src='<image link>' }]/%
+[{IMAGE src='<image link>' class='bg' }]
+
+%%bg-image.bg-fixed [<image link>] /%
+[{IMAGE src='<image link>' class='bg-image bg-fixed' }]
+
+*/
+    .add(".bg > table.imageplugin img, .bg > img", function( image ){
+
+        var bgBox = image.getParent(".bg"),
+            clazz = bgBox.className; //contains possibly other styles to be applied to the background image
+
+        if( bgBox && bgBox.match("td") ){
+            bgBox = bgBox.getParent("table");
+        }
+
+        if( bgBox ){
+
+            bgBox
+                .addClass("bg")   //need .bg as trigger for groupChildren() !
+                .getParent()      //move up to the containing element
+                .addClass("has-background")
+                .groupChildren(".bg", "div.bg-overlay.clearfix", function(wrapper, bg){
+
+                    //use a extra container span to allow additional effects
+                    //on the background image without impact on the overlay content ...
+                    var element = "span".slick();
+                    element.className = clazz;
+                    element.style.backgroundImage = "url(" + image.src + ")";
+                    element.inject(bg, "before");
+
+            });
+            //bgBox.destroy();   //not really needed as per default css the .bg  element is hidden
+            //bgBox.parentNode.removeChild(bgBox);
+        }
+
+    })
+
+/*
+Behvior:  Image Caption
+
+DOM Structure
+
+Case1
+from::
+    div.caption(-arrow)(-overlay).other-class
+        img.inline[src='...']
+        caption-text
+
+to::
+    figure.caption(-arrow)(-overlay).other-class
+        figcaption.other-class
+            caption-text
+        img.inline[src='...']
+
+
+Case2
+from::
+    div.caption(-arrow)(-overlay).other-class
+        table.imageplugin
+            tr
+                td
+                    img[src='...']
+        caption-text
+
+to::
+    div.caption(-arrow)(-overlay)
+        table.imageplugin
+            caption.other-class
+                caption-text
+            tr
+                td
+                    img[src='...']
+
+*/
+    .add("[class^=caption] > .imageplugin", function( imageplugin ){
+
+        var caption = imageplugin.getParent(),
+            oldcaption = imageplugin.getFirst("caption");
+
+        if( !oldcaption ){
+
+            imageplugin.wraps(caption,"top");
+
+            "caption".slick({
+                html: caption.innerHTML,
+                "class": caption.className
+            }).replaces(caption);
+
+        }
+
+    })
+    .add("[class^=caption] > img.inline", function( img ){
+
+        var caption = img.getParent();
+
+        "figure".slick().grab(img).wraps(caption,"top");
+
+        "figcaption".slick({
+            html: caption.innerHTML,
+            "class": caption.className
+        }).replaces(caption);
+
+    })
 
 /*
 Experimental
@@ -742,4 +958,4 @@ Behavior:Flip, Flop
     .add( "div[class|=flop]", Flip, { prefix: "flop" } );
 
 
-}( Wiki );
+})( Wiki );

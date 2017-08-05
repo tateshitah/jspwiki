@@ -25,7 +25,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.EmptyStackException;
 import java.util.HashMap;
@@ -41,7 +40,6 @@ import javax.xml.transform.Result;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.oro.text.GlobCompiler;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.MatchResult;
 import org.apache.oro.text.regex.Pattern;
@@ -57,8 +55,6 @@ import org.apache.wiki.WikiPage;
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.exceptions.ProviderException;
 import org.apache.wiki.api.plugin.WikiPlugin;
-import org.apache.wiki.attachment.Attachment;
-import org.apache.wiki.attachment.AttachmentManager;
 import org.apache.wiki.auth.WikiSecurityException;
 import org.apache.wiki.auth.acl.Acl;
 import org.apache.wiki.i18n.InternationalizationManager;
@@ -82,9 +78,6 @@ import org.jdom2.Verifier;
  */
 public class JSPWikiMarkupParser extends MarkupParser {
 
-    /** Name of the outlink image; relative path to the JSPWiki directory. */
-    private static final String OUTLINK_IMAGE = "images/out.png";
-
     /** The value for anchor element <tt>class</tt> attributes when used
       * for wiki page (normal) links. The value is "wikipage". */
     public static final String CLASS_WIKIPAGE = "wikipage";
@@ -96,6 +89,22 @@ public class JSPWikiMarkupParser extends MarkupParser {
     /** The value for anchor element <tt>class</tt> attributes when used
       * for interwiki page links. The value is "interwiki". */
     public static final String CLASS_INTERWIKI = "interwiki";
+
+    /** The value for anchor element <tt>class</tt> attributes when used
+      * for footnote links. The value is "footnote". */
+    public static final String CLASS_FOOTNOTE = "footnote";
+
+    /** The value for anchor element <tt>class</tt> attributes when used
+      * for footnote links. The value is "footnote". */
+    public static final String CLASS_FOOTNOTE_REF = "footnoteref";
+
+    /** The value for anchor element <tt>class</tt> attributes when used
+      * for external links. The value is "external". */
+    public static final String CLASS_EXTERNAL = "external";
+
+    /** The value for anchor element <tt>class</tt> attributes when used
+      * for attachments. The value is "attachment". */
+    public static final String CLASS_ATTACHMENT = "attachment";
 
     protected static final int              READ          = 0;
     protected static final int              EDIT          = 1;
@@ -130,9 +139,6 @@ public class JSPWikiMarkupParser extends MarkupParser {
 
     private boolean        m_isOpenParagraph = false;
 
-    /** Keeps image regexp Patterns */
-    private List<Pattern>  m_inlineImagePatterns;
-
     /** Parser for extended link functionality. */
     private LinkParser     m_linkParser = new LinkParser();
 
@@ -152,9 +158,6 @@ public class JSPWikiMarkupParser extends MarkupParser {
     /** If true, all hyperlinks are translated as well, regardless whether they
         are surrounded by brackets. */
     public static final String     PROP_PLAINURIS        = "jspwiki.translatorReader.plainUris";
-
-    /** If true, all outward links (external links) have a small link image appended. */
-    public static final String     PROP_USEOUTLINKIMAGE  = "jspwiki.translatorReader.useOutlinkImage";
 
     /** If true, all outward attachment info links have a small link image appended. */
     public static final String     PROP_USEATTACHMENTIMAGE = "jspwiki.translatorReader.useAttachmentImage";
@@ -214,8 +217,6 @@ public class JSPWikiMarkupParser extends MarkupParser {
         "h323:", "ipp:", "tftp:", "mupdate:", "pres:",
         "im:", "mtqp", "smb:" };
 
-    private static final String INLINE_IMAGE_PATTERNS = "JSPWikiMarkupParser.inlineImagePatterns";
-
     private static final String CAMELCASE_PATTERN     = "JSPWikiMarkupParser.camelCasePattern";
 
     private static final String[] CLASS_TYPES =
@@ -223,14 +224,14 @@ public class JSPWikiMarkupParser extends MarkupParser {
        CLASS_WIKIPAGE,
        CLASS_EDITPAGE,
        "",
-       "footnote",
-       "footnoteref",
+       CLASS_FOOTNOTE,
+       CLASS_FOOTNOTE_REF,
        "",
-       "external",
+       CLASS_EXTERNAL,
        CLASS_INTERWIKI,
-       "external",
+       CLASS_EXTERNAL,
        CLASS_WIKIPAGE,
-       "attachment"
+       CLASS_ATTACHMENT
     };
 
 
@@ -258,44 +259,9 @@ public class JSPWikiMarkupParser extends MarkupParser {
     }
 
     // FIXME: parsers should be pooled for better performance.
-    @SuppressWarnings("unchecked")
     private void initialize()
     {
-        PatternCompiler compiler         = new GlobCompiler();
-        List<Pattern>   compiledpatterns;
-
-        //
-        //  We cache compiled patterns in the engine, since their creation is
-        //  really expensive
-        //
-        compiledpatterns = (List<Pattern>)m_engine.getAttribute( INLINE_IMAGE_PATTERNS );
-
-        if( compiledpatterns == null )
-        {
-            compiledpatterns = new ArrayList<Pattern>(20);
-            Collection< String > ptrns = m_engine.getAllInlinedImagePatterns();
-
-            //
-            //  Make them into Regexp Patterns.  Unknown patterns
-            //  are ignored.
-            //
-            for( Iterator< String > i = ptrns.iterator(); i.hasNext(); )
-            {
-                try
-                {
-                    compiledpatterns.add( compiler.compile( i.next(),
-                                                            GlobCompiler.DEFAULT_MASK|GlobCompiler.READ_ONLY_MASK ) );
-                }
-                catch( MalformedPatternException e )
-                {
-                    log.error("Malformed pattern in properties: ", e );
-                }
-            }
-
-            m_engine.setAttribute( INLINE_IMAGE_PATTERNS, compiledpatterns );
-        }
-
-        m_inlineImagePatterns = Collections.unmodifiableList(compiledpatterns);
+        initInlineImagePatterns();
 
         m_camelCasePattern = (Pattern) m_engine.getAttribute( CAMELCASE_PATTERN );
         if( m_camelCasePattern == null )
@@ -339,24 +305,19 @@ public class JSPWikiMarkupParser extends MarkupParser {
         }
 
         m_plainUris           = getLocalBooleanProperty( m_context,
-                                                         props,
                                                          PROP_PLAINURIS,
                                                          m_plainUris );
         m_useOutlinkImage     = getLocalBooleanProperty( m_context,
-                                                         props,
                                                          PROP_USEOUTLINKIMAGE,
                                                          m_useOutlinkImage );
         m_useAttachmentImage  = getLocalBooleanProperty( m_context,
-                                                         props,
                                                          PROP_USEATTACHMENTIMAGE,
                                                          m_useAttachmentImage );
         m_allowHTML           = getLocalBooleanProperty( m_context,
-                                                         props,
                                                          MarkupParser.PROP_ALLOWHTML,
                                                          m_allowHTML );
 
         m_useRelNofollow      = getLocalBooleanProperty( m_context,
-                                                         props,
                                                          PROP_USERELNOFOLLOW,
                                                          m_useRelNofollow );
 
@@ -374,13 +335,11 @@ public class JSPWikiMarkupParser extends MarkupParser {
      *  it will then check the given properties.
      *
      *  @param context WikiContext to check first
-     *  @param props   Properties to check next
      *  @param key     What key are we searching for?
      *  @param defValue Default value for the boolean
      *  @return True or false
      */
     private static boolean getLocalBooleanProperty( WikiContext context,
-                                                    Properties  props,
                                                     String      key,
                                                     boolean     defValue )
     {
@@ -391,7 +350,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
             return TextUtil.isPositive( (String) bool );
         }
 
-        return TextUtil.getBooleanProperty( props, key, defValue );
+        return TextUtil.getBooleanProperty( context.getEngine().getWikiProperties(), key, defValue );
     }
 
     /**
@@ -524,7 +483,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
                 break;
 
             case LOCAL:
-                el = new Element("a").setAttribute("class","footnote");
+                el = new Element("a").setAttribute("class",CLASS_FOOTNOTE);
                 el.setAttribute("name", "ref-"+m_context.getName()+"-"+link.substring(1));
                 el.addContent("["+text+"]");
                 break;
@@ -1456,9 +1415,9 @@ public class JSPWikiMarkupParser extends MarkupParser {
                 if( !m_wysiwygEditorMode )
                 {
                     ResourceBundle rbPlugin = Preferences.getBundle( m_context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE );
-                    return addElement( makeError( MessageFormat.format( rbPlugin.getString( "plugin.error.insertionfailed" ), 
-                    		                                            m_context.getRealPage().getWiki(), 
-                    		                                            m_context.getRealPage().getName(), 
+                    return addElement( makeError( MessageFormat.format( rbPlugin.getString( "plugin.error.insertionfailed" ),
+                    		                                            m_context.getRealPage().getWiki(),
+                    		                                            m_context.getRealPage().getName(),
                     		                                            e.getMessage() ) ) );
                 }
             }
@@ -1568,7 +1527,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
                 //
                 //  Internal wiki link, but is it an attachment link?
                 //
-                String attachment = findAttachment( linkref );
+                String attachment = m_engine.getAttachmentManager().getAttachmentInfoName( m_context, linkref );
                 if( attachment != null )
                 {
                     callMutatorChain( m_attachmentLinkMutatorChain, attachment );
@@ -1634,33 +1593,6 @@ public class JSPWikiMarkupParser extends MarkupParser {
         }
 
         return m_currentElement;
-    }
-
-    private String findAttachment( String linktext )
-    {
-        AttachmentManager mgr = m_engine.getAttachmentManager();
-        Attachment att = null;
-
-        try
-        {
-            att = mgr.getAttachmentInfo( m_context, linktext );
-        }
-        catch( ProviderException e )
-        {
-            log.warn("Finding attachments failed: ",e);
-            return null;
-        }
-
-        if( att != null )
-        {
-            return att.getName();
-        }
-        else if( linktext.indexOf('/') != -1 )
-        {
-            return linktext;
-        }
-
-        return null;
     }
 
     /**
@@ -2317,6 +2249,19 @@ public class JSPWikiMarkupParser extends MarkupParser {
             {
                 pushBack( ch );
                 clazz = readUntil( " \t\n\r" );
+                //Note: ref.https://www.w3.org/TR/CSS21/syndata.html#characters
+                //CSS Classnames can contain only the characters [a-zA-Z0-9] and
+                //ISO 10646 characters U+00A0 and higher, plus the "-" and the "_".
+                //They cannot start with a digit, two hyphens, or a hyphen followed by a digit.
+
+                //(1) replace '.' by spaces, allowing multiple classnames on a div or span
+                //(2) remove any invalid character
+                if( clazz != null){
+
+                    clazz = clazz.replace('.', ' ')
+                                 .replaceAll("[^\\s-_\\w\\x200-\\x377]+","");
+
+                }
                 ch = nextToken();
 
                 //
@@ -2407,7 +2352,7 @@ public class JSPWikiMarkupParser extends MarkupParser {
             }
 
             if( style != null ) el.setAttribute("style", style);
-            if( clazz != null ) el.setAttribute("class", clazz );
+            if( clazz != null ) el.setAttribute("class", clazz);
             el = pushElement( el );
 
             return el;

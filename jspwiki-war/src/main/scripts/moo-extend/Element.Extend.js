@@ -282,7 +282,7 @@ Element.implement({
     },
 
     /*
-    Function sticky
+    Function onSticky
         Simulate "position:sticky".
         Keep the element fixed on the screen, during scrolling.
         Only supports top-bottom scrolling.
@@ -358,7 +358,7 @@ Element.implement({
 
                 Array.from(this.options).each( function(option){
 
-                    if (option.defaultSelected){ values.push(option.value || option.text); }
+                    if (option.defaultSelected){ values[values.length] = option.value || option.text; }
 
                 });
 
