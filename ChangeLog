@@ -1,11 +1,113 @@
+2018-02-03  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-48
+
+       * JSPWIKI-835 - better mobile experience: move sidebar to bottom on
+         extra-small devices (< 768px, only on haddock template)
+
+       * Some internal refactors to org.apache.wiki.WatchDog
+
+       * Flexmark updated to 0.28.38.
+
+2018-01-27  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-47
+
+       * Another fix on JSPWIKI-1064 - Link to non-existing page doesn't change if
+         linked page is created, as the page render cache must also take into account
+         if the plugins should be rendered or not.
+
+       * JSPWiki portable: Update bundled Apache Tomcat to latest version on 7.x branch
+         and launch4j to 3.11.
+
+       * JSPWiki portable: As appbundler is not longer accesible through java.net, use
+         fork at https://github.com/teras/appbundler instead.
+
+       * Updated maven plugins' versions to latest + use latest ASF parent pom.
+
+2018-01-21  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * Updated <scm/> section from main pom.xml so it points to github repo
+
+       * Flexmark updated to 0.28.34 (no version bump).
+
+2017-12-30  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * Upgraded all test from JUnit 3 to JUnit 4 (no version bump).
+
+2017-12-27  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-46
+
+       * JSPWIKI-802 - Markdown support
+         * urls are not set on attribute provider derived classes, as this has some
+           unwanted side effects. Introduced JSPWikiLink, a wrapper around Flexmark's
+           links which retain the original wiki link.
+         * updated Flexmark to 0.28.24.
+
+2017-12-16  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-45
+
+       * Fixed JSPWIKI-1064 - Link to non-existing page doesn't change if linked page
+         is created
+
+       * Improvement on JSPWIKI-843 - exclude tests from test-jar
+
+2017-12-08  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-44
+
+       * JSPWIKI-802 - initial markdown support see
+         https://jspwiki-wiki.apache.org/Wiki.jsp?page=Markdown%20Support
+         for details
+
+2017-12-03  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-43
+
+       * Fixed JSPWIKI-843 - generate test-jar for jspwiki-war (wasn't being generated)
+
+       * Extract WikiLink parsing operations from JSPWikiMarkupParser, LinkParser,
+         VariableManager to their own class, LinkParsingOperations
+
+       * Move (private) JSPWikiMarkupParser#getLocalBooleanProperty to
+        (public) WikiContext#getBooleanWikiProperty
+
+2017-11-16  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-42
+
+       * small refactor to move some private constants to public at MarkupParser and
+         WikiRenderer, so they can be reused throughout the code and custom extensions.
+
+2017-08-22  Juan Pablo Santos (juanpablo AT apache DOT org)
+
+       * 2.10.3-git-41
+
+       * WysiwygEditingRenderer isn't hardcoded in JSPs anymore, and can be substituted
+         through jspwiki.renderingManager.renderer.wysiwyg property on jspwiki.properties.
+         This allows to develop custom renderers which do not expect the same information
+         as the existing ones.
+
+       * Fixed DefaultFilterManager#modules not returning Collection< WikiModuleInfo >,
+         as it was supposed to. This method wasn't used anywhere, until now, where it
+         is used through FilterBean, a new JSPWiki AdminBean exposing existing filters
+         information.
+
+       * FilterBean runs parallel to PluginBean, which allowed some more minor internal
+         refactorings and code polishing.
+
+       * Moved some constants from JSPWikiMarkupParser to MarkupParser.
+
 2017-07-16  Juan Pablo Santos (juanpablo AT apache DOT org)
 
        * 2.10.3-git-40
 
-       * Some small changes around JSPWikiMarkupParser, needed to develop 
-         custom markup parsers, which do not rely on the former class or 
+       * Some small changes around JSPWikiMarkupParser, needed to develop
+         custom markup parsers, which do not rely on the former class or
          WikiDocument.
-       
+
        * Some other minor internal refactorings and code polishing
 
 2017-05-14  Harry Metske (metskem@apache.org)
