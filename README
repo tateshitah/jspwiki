@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Emacs, this is -*- Text -*- for you.
 
 
@@ -50,6 +51,38 @@ The world doesn't need to become a bad place.
 
 Oh yeah, and if you run a Wiki based on this software, let me know.
 I'm always interested in hearing from my users =).
+=======
+Apache JSPWiki 2.10 - Documentation
+===============================================
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.  
+
+The license file can be found in LICENSE.
+
+
+What is JSPWiki?
+----------------
+
+JSPWiki is a simple (well, not any more) WikiWiki clone, written in Java
+and JSP.  A WikiWiki is a web site which allows anyone to participate
+in its development.  JSPWiki supports all the traditional wiki features,
+as well as very detailed access control and security integration using JAAS. 
+>>>>>>> jspwiki_apache/master
 
 
 Pre-requirements
@@ -59,25 +92,39 @@ Okay, so you wanna Wiki?  You'll need the following things:
 
 REQUIRED:
 
+<<<<<<< HEAD
 * A JSP engine that supports Servlet API 2.2.  I recommend Tomcat from
   http://jakarta.apache.org/tomcat for a really easy installation.
+=======
+* A JSP engine that supports Servlet API 2.5.  We recommend Tomcat from
+  http://tomcat.apache.org/ for a really easy installation.
+  Tomcat 6.x or later is supported.
+>>>>>>> jspwiki_apache/master
 
 * Some previous administration experience...  If you've ever installed
   Apache or any other web server, you should be pretty well off.
 
 * And of course, a server to run the JSP engine on.
 
+<<<<<<< HEAD
 * JDK 1.4+
+=======
+* JDK 1.6+
+
+>>>>>>> jspwiki_apache/master
 
 OPTIONAL:
 
 * JavaMail package from java.sun.com, if you want to use log4j mailing
   capabilities.  You'll also need the Java Activation Framework.
 
+<<<<<<< HEAD
 * RCS versioning system installed and available in your PATH if you
   want to use RCS versioning.  It is also possible (and on Windows, it
   is even recommended) to use the VersioningFileProvider, which does
   not require RCS.
+=======
+>>>>>>> jspwiki_apache/master
 
 
 Really simple installation
@@ -91,6 +138,7 @@ check out the "Install" section below.
 Since JSPWiki 2.1.153, JSPWiki comes with a really simple installation
 engine.  Just do the following:
 
+<<<<<<< HEAD
 1) Install Tomcat from http://jakarta.apache.org/ (or any other servlet
    container)
 
@@ -130,6 +178,49 @@ to be stored.  I recommend a directory that is regularly backed up.
 
 Unzip the contents of jspwiki-samplepages.zip into your newly created
 directory.  You can find the rest of the documentation in there.
+=======
+1) Install Tomcat from http://tomcat.apache.org/ (or any other servlet
+   container)
+
+2) Rename the JSPWiki.war file from the download and rename it based on
+   your desired URL (if you want it different from /JSPWiki).  For example,
+   if you want your URL to be http://.../wiki, rename it to wiki.war.
+   This name will be referred to as <appname> below.
+   Place this WAR in your $TOMCAT_HOME/webapps folder and then start Tomcat.
+
+3) Point your browser at http://<myhost>/<appname>/Install.jsp
+
+4) Answer a couple of simple questions
+
+5) Restart your container
+
+6) Point your browser to http://<myhost>/<appname>/
+
+That's it!
+
+
+Advanced Installation
+---------------------
+
+In the $TOMCAT_HOME/lib folder (or equivalent based on your servlet container),
+place a jspwiki-custom.properties file, which can contain any overrides to the 
+default ini/jspwiki.properties file in the JSPWiki JAR.  For any values not 
+placed in jspwiki-custom.properties file JSPWiki will rely on the default file.
+Review the default file to look for values you may wish to override in the custom
+file.  Some common values to override in your custom file include 
+jspwiki.xmlUserDatabaseFile, jspwiki.xmlGroupDatabaseFile
+jspwiki.fileSystemProvider.pageDir, jspwiki.basicAttachmentProvider.storageDir, 
+and log4j.appender.FileLog.File.  The comments in the default file will suggest 
+appropriate values to override them with. 
+
+The custom file can also be placed in the WEB-INF/ folder of the WAR, but storing
+this file in TOMCAT_HOME/lib allows you to upgrade the JSPWiki WAR without needing
+to re-insert your customizations.
+
+Unzip the contents of jspwiki-corepages.zip into your newly created
+directory.  You can find the rest of the documentation in the
+JSPWiki-doc.zip file.
+>>>>>>> jspwiki_apache/master
 
 (Re)start tomcat.
 
@@ -137,6 +228,7 @@ Point your browser at http://<where your Tomcat is installed>/MyWiki/.
 You should see the Main Wiki page.  See the next section if you want
 to edit the pages =).
 
+<<<<<<< HEAD
 
 Installation with Windows
 -------------------------
@@ -149,10 +241,18 @@ There is some documentation within the samplepages archive, on page
 "WindowsInstall".
 
 
+=======
+The WEB-INF/jspwiki.policy file is used to change access permissions for 
+the Wiki.
+
+Check the Apache JSPWiki website and project documentation for additional
+setup and configuration suggestions.
+>>>>>>> jspwiki_apache/master
 
 Upgrading from previous versions
 --------------------------------
 
+<<<<<<< HEAD
 Please read ReleaseNotes.
 
 
@@ -326,10 +426,15 @@ support and/or code.  There are also a number of other people who have
 generously given their time, and you can find hopefully all of their
 names in the ChangeLog.
 
+=======
+Please read ReleaseNotes and the UPGRADING document available with this
+distribution.
+>>>>>>> jspwiki_apache/master
 
 Contact
 -------
 
+<<<<<<< HEAD
 JSPWiki was written by Janne Jalkanen.  You may send email to me at
 Janne.Jalkanen@nospam.ecyrd.com.  (Remove the nospam from the
 address).  Feel free to send me patches, suggestions, whatever.
@@ -417,4 +522,11 @@ Except as contained in this notice, the name of a copyright holder
 shall not be used in advertising or otherwise to promote the sale, use
 or other dealings in this Software without prior written authorization
 of the copyright holder.
+=======
+Questions can be asked to JSPWiki team members and fellow users via the jspwiki-users
+mailing list: See http://jspwiki.apache.org/community/mailing_lists.html.
+Please use the user mailing list instead of contacting team members directly, 
+and as this is a public list stored in public archives, be sure to avoid including
+any sensitive information (passwords, data, etc.) in your questions.
+>>>>>>> jspwiki_apache/master
 
