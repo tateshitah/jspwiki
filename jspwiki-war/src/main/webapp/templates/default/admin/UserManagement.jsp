@@ -27,26 +27,19 @@
 <fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
 <script>
-function constructdate(date)
-{
-  var d = new Date();
-  d.setTime(date.time);
-  return d;
-}
-
 function refreshUserInfo()
 {
-   var userid = $('userid').getValue();
+   var userid = $('userid').value;
 
    if( userid == '--New--' ) return;
 
-   Wiki.ajaxJsonCall("/users/",[userid], function(userprofile) {
+   Wiki.jsonrpc("/users", [userid], function(userprofile){
 	   $('loginname').value = userprofile.loginName;
 	   $('loginid').value = userprofile.loginName;
 	   $('fullname').value = userprofile.fullname;
 	   $('email').value = userprofile.email;
-	   $('lastmodified').setHTML(constructdate(userprofile.lastModified));
-	   $('creationdate').setHTML(constructdate(userprofile.created));
+	   $('lastmodified').innerHTML = userprofile.modified || "";
+	   $('creationdate').innerHTML = userprofile.created || "";
    });
 }
 
@@ -81,7 +74,6 @@ function addNew()
    <form action="<wiki:Link jsp='admin/Admin.jsp' format='url'><wiki:Param name='tab-admin' value='users'/></wiki:Link>"
        class="wikiform"
           id="adminuserform"
-    onsubmit="return Wiki.submitOnce(this);"
       method="post" accept-charset="<wiki:ContentEncoding/>"
      enctype="application/x-www-form-urlencoded" >
      <input type="hidden" name='bean' value='org.apache.wiki.ui.admin.beans.UserBean'/>
@@ -138,7 +130,9 @@ function addNew()
 
      </table>
    <div id="useractions">
-     <input type="submit" name="action" value="Remove" onclick="return( confirm('Are you sure you wish to remove this user?') && Wiki.submitOnce(this) );"/>      <input type="button" value="Add" onclick="javascript:addNew()"/>
+     <input type="submit" name="action" value="Remove" data-modal="+ .modal" />
+     <div class="modal">"Are you sure you wish to remove this user?</div>
+     <input type="button" value="Add" onclick="javascript:addNew()"/>
    </div>
    </form>
    </div>

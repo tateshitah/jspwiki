@@ -21,7 +21,7 @@
 
 
 /*eslint-env browser*/
-/*global $, $$, Form, Hash, Behavior, HighlightQuery, Accesskey, Dialog */
+/*global $, $$, Form, Behavior, HighlightQuery, Accesskey, Dialog, $.cookie */
 /*exported  Wiki */
 
 /*
@@ -56,11 +56,11 @@ Depends on :
 
 /*
 Class: Wiki
-    Javascript support functions for jspwiki.  (singleton)
+    Javascript support functions for jspwiki.
 */
 var Wiki = {
 
-    version: "haddock04",  //used to validate compatible preference cookies
+    version: "haddock04",  //js version, used to validate compatible preference cookies
 
     initialize: function(){
 
@@ -71,73 +71,70 @@ var Wiki = {
         wiki.once = behavior.once.bind(behavior);
         wiki.update = behavior.update.bind(behavior);
 
-
-
-        //jspwiki behaviors; needed to support the haddock template jsp's
+        //add the standard jspwiki behaviors; needed to render the haddock JSP templates
         wiki.add( "body", wiki.caniuse )
 
             .add( "[accesskey]", Accesskey )
 
-            //toggle effect:  toggle .active class on this element when clicking toggle element
             .add( "[data-toggle]", function(element){
-
+                //toggle the .active class on this element when clicking the "data-toggle" element
                 element.onToggle( element.get("data-toggle"), function(isActive){
                     var pref = element.get("data-toggle-pref");
                     if (pref) {
-                        wiki.prefs.set(pref, isActive ? "active" : "");
+                        //console.log( pref, isActive );
+                        wiki.prefs(pref, isActive ? "active" : "");
                     }
                 });
             })
 
-            //generate modal confirmation boxes, eg prompting to execute
-            //an unrecoverable action such as deleting a page or attachment
             .add( "[data-modal]", function(element){
+                //render modal confirmation dialog
+                //prior to executing unrecoverable actions such as deleting a page or attachment
                 element.onModal( element.get("data-modal") );
             })
 
-            //hover effects: show/hide an element when hovering over the data-hover-parent element
             .add( "[data-hover-parent]", function(element){
+                //show/hide an element when hovering over the "data-hover-parent" element
                 element.onHover( element.get("data-hover-parent") );
             })
 
-            //resize the "data-resize" elements when dragging this element
-            //.add( "[data-resize]", wiki.resizer.bind(wiki) )
             .add( "[data-resize]", function(element){
+                //when dragging this element, resize the "data-resize" element
                 wiki.resizer(element, $$(element.get("data-resize")) );
             })
 
-            //add header scroll-up/down effect
-            .add(".fixed-header > .header", wiki.yoyo)
+            //cookie based page insertions
+            .add(".context-view .inserted-page[data-once]", wiki.insertPage )
 
-            //sticky toolbar in the editor
+            //add header scroll-up/down effect
+            .add( ".fixed-header > .header", wiki.yoyo )
+
             .add(".sticky", function (element) {
-                element.onSticky();
+                element.onSticky();  //eg used by the sticky toolbar in the editor
             })
 
-            //highlight previous search query retreived from a cookie or referrer page
+            //highlight previous search query, retreived from a cookie or the referrer page
             .add( ".page-content", function(element){
-
                 var previousQuery = "PrevQuery";
 
-                HighlightQuery( element, wiki.prefs.get(previousQuery) );
-                wiki.prefs.erase(previousQuery);
-
+                HighlightQuery( element, wiki.prefs(previousQuery) );
+                wiki.prefs(previousQuery,"");
             })
 
-            //activate quick navigation searchbox
+            //searchbox dropdown engines
             .add( ".searchbox .dropdown-menu", function(element){
-
-                var recentSearch = "RecentSearch", prefs = wiki.prefs;
+                var recentSearch = "RecentSearch",
+                    prefs = wiki.prefs;
 
                 //activate Recent Searches functionality
                 new wiki.Recents( element, {
-                    items: prefs.get(recentSearch),
+                    items: prefs(recentSearch),
                     onChange: function( items ){
-                        items ? prefs.set(recentSearch, items) : prefs.erase(recentSearch);
+                        items ? prefs(recentSearch, items) : prefs(recentSearch,"");
                     }
                 });
 
-                //activate Quick Navigation functionality
+                //activate Quick Navigation functionality, with type-ahead search
                 new wiki.Findpages(element, {
                     rpc: function(value, callback){
                         wiki.jsonrpc("/search/pages", [value, 16], callback);
@@ -155,8 +152,7 @@ var Wiki = {
                 wiki.search = new wiki.Search( form, {
                     xhrURL: wiki.XHRSearch,
                     onComplete: function(){
-                        //console.log(form.query.get("value"));
-                        wiki.prefs.set("PrevQuery", form.query.get("value"));
+                        wiki.prefs("PrevQuery", form.query.get("value"));
                     }
                 });
             })
@@ -187,8 +183,23 @@ var Wiki = {
 
         body.ifClass( !( isIE11 || isIE9or10 ) , "can-flex");
 
+        //body.ifClass( "ontouchstart" in document.documentElement, "can-touch" );
+
     },
 
+    /*
+    Function: prefs
+        Read/Write the JSPWikiUserPrefs cookie, JSON-encoded.
+        Uses $.cookie.json
+
+    > wiki.prefs("version");                //get version
+    > wiki.prefs("version","new-version");  //set version to a new value
+    > wiki.prefs("")                        //erase user-preference cookie
+    */
+    prefs: function(key, value){
+
+        return $.cookie.json({name:"JSPWikiUserPrefs", path:this.BaseUrl, expiry:20}, key, value);
+    },
 
     /*
     Function: domready
@@ -206,21 +217,14 @@ var Wiki = {
 
         wiki.meta();
 
-        wiki.prefs = new Hash.Cookie("JSPWikiUserPrefs", {
-            path: wiki.BasePath,
-            duration: 20
-        });
-
-        //Object.each(wiki.prefs.hash, function(item,key){ console.log("PREFS  ",key,"=>",item); });
-
-        if( wiki.version != wiki.prefs.get("version") ){
-            wiki.prefs.empty();
-            wiki.prefs.set("version", wiki.version);
+        if( wiki.version != wiki.prefs("version") ){
+            wiki.prefs("");
+            wiki.prefs("version", wiki.version);
         }
 
         //The initial Sidebar will be active depending on a cookie state.
-        //However, for small screen,  the default state will be hidden.
-        wiki.media("(min-width:768px)", function( screenIsLarge ){
+        //However, for small screens,  the sidebar will be hidden by default.
+        wiki.media( "(min-width:768px)", function( screenIsLarge ){
 
             if(!screenIsLarge){
                 $$(".content")[0].removeClass("active"); //always hide sidebar on pageload for narrow screens
@@ -228,25 +232,29 @@ var Wiki = {
 
         });
 
-        //wiki.url = null;  //CHECK:  why this is needed?
-        //console.log( wiki.prefs.get("SectionEditing") , wiki.EditPermission ,wiki.Context );
-        if( wiki.prefs.get("SectionEditing") && wiki.EditPermission && (wiki.Context != "preview") ){
+        //FIXME
+        //The default Language is taken from a preference cookie, with fallback to the browser setting
+        //String.I18N.DEFAULT_LOCAL_LANGUAGE = wiki.prefs("Language") || navigator.language || "en";
+        //The default Date & Time format is taken for m a preference cookie, with fallback
+        //String.I18N.DEFAULT_DATE_FORMAT = wiki.prefs("DateFormat") || "dd mmm yyyy hh:mm";
+
+        if( wiki.prefs("SectionEditing") && wiki.EditPermission && (wiki.Context != "preview") ){
 
             wiki.addEditLinks( wiki.toUrl( wiki.PageName, true ) );
 
         }
 
+        //jump to the right section if the referrer page (previous edit) says so
         //console.log( "section", document.referrer, document.referrer.match( /\&section=(\d+)$/ ) );
         wiki.scrollTo( ( document.referrer.match( /&section=(\d+)$/ ) || [0,-1])[1] );
 
-        // initialize all registered behaviors
+        // now we are ready to run all the registered behaviors
         wiki.update();
 
-        //on page-load, also read the #hash and fire popstate events
+        //read the #hash and fire popstate events
         wiki.popstate();
 
         wiki.autofocus();
-
     },
 
 
@@ -258,7 +266,7 @@ var Wiki = {
 
         function queryChanged( event ){ callback( event.matches ); }
 
-        if( /*window.*/ matchMedia ){
+        if( /*window.*/matchMedia ){
 
             var mediaQueryList = matchMedia( query );
             mediaQueryList.addListener( queryChanged );
@@ -325,7 +333,7 @@ var Wiki = {
     /*
     Function: popstate
         When pressing the back-button, the "popstate" event is fired.
-        This popstate function will fire a internal 'popstate' event
+        This popstate function will fire an internal 'popstate' event
         on the target DOM element.
 
         Behaviors (such as Tabs or Accordions) can push the ID of their
@@ -340,14 +348,15 @@ var Wiki = {
 
         var target = $(location.hash.slice(1)),
             events,
+            pagecontent = ".page-content",
             popstate = "popstate";
 
         //console.log( popstate, location.hash, target );
 
         //only send popstate events to targets within the main page; eg not sidebar
-        if( target && target.getParent(".page-content") ){
+        if( target && target.closest(pagecontent) ){
 
-            while( !target.hasClass("page-content") ){
+            while( !target.matches(pagecontent) ){
 
                 events = target.retrieve("events"); //mootools specific - to read registered events on elements
 
@@ -356,13 +365,12 @@ var Wiki = {
                     target.fireEvent(popstate);
 
                 }
-
                 target = target.getParent();
-
             }
         }
     },
 
+    //CHECKME
     autofocus: function(){
 
         var els, element;
@@ -374,6 +382,7 @@ var Wiki = {
             // find              input#query2
             els = $$("input[autofocus=autofocus], textarea[autofocus=autofocus]");
             while( els[0] ){
+
                 element = els.shift();
                 //console.log("autofocus", element, element.autofocus, element.isVisible(), element.offsetWidth, element.offsetHeight, "$", element.getStyle("display"), "$");
                 if( element.isVisible() ){
@@ -382,7 +391,6 @@ var Wiki = {
                 }
             }
         }
-
     },
 
     /*
@@ -408,21 +416,21 @@ var Wiki = {
             host = location.host;
 
         $$("meta[name^=wiki]").each( function(el){
-            wiki[el.get("name").slice(4)] = el.get("content") || "";
+            wiki[el.get("name").slice(4)] = el.content || "";
         });
 
         // BasePath: if JSPWiki is installed in the root, then we have to make sure that
         // the cookie-cutter works properly here.
         url = wiki.BaseUrl;
         url = url ? url.slice(url.indexOf(host) + host.length, -1) : "";
-        wiki.BasePath = (url /*===""*/) ? url : "/";
-        //console.log(url, host, wiki.BaseUrl + " basepath: " + wiki.BasePath);
+        wiki.BasePath = url || "/";
+        //console.log(url, host, "BaseUrl", wiki.BaseUrl, "BasePath: " + wiki.BasePath);
 
     },
 
     /*
     Function: dropdowns
-        Parse special wikipages such ase MoreMenu, HomeMenu
+        Parse special wikipage parts such ase MoreMenu, HomeMenu
         and format them as bootstrap compatible dropdown menus.
     */
     dropdowns: function(){
@@ -445,7 +453,7 @@ var Wiki = {
                 li.inject(parentLi, "before");
 
             }
-            ul.dispose();
+            ul.remove();
 
         });
 
@@ -461,10 +469,10 @@ var Wiki = {
             element.getElements('a').each( function(link){
                 ["li",[link]].slick().inject(parentLi, "before");
             });
-            if( element.getNext("p *,hr") ){
+            if( element.getElement("+p *,+hr") ){
                 "li.divider".slick().inject(parentLi, "before") ;
             }
-            element.dispose();
+            element.remove();
 
         });
 
@@ -546,7 +554,7 @@ var Wiki = {
 
         this.getSections().each( function(element, index){
 
-            element.grab("a.editsection".slick({ html: description, href: url + index }));
+            element.appendChild("a.editsection".slick({ html: description, href: url + index }));
 
         });
 
@@ -571,7 +579,7 @@ var Wiki = {
                 isChecked = this.checked;
 
             wiki.toggleLivePreview(form, cmd, isChecked);
-            wiki.prefs.set(cmd, isChecked);  //persist in the pref cookie
+            wiki.prefs(cmd, isChecked);  //persist in the pref cookie
             if( onChangeFn ){ onChangeFn(cmd, isChecked); }
 
         }
@@ -579,16 +587,17 @@ var Wiki = {
         //Handle all configuration checkboxes
         form.getElements("[type=checkbox][data-cmd]").each( function( el ){
 
-            el.checked = !!wiki.prefs.get(el.getAttribute("data-cmd"));
+            //el.checked = !!wiki.prefs(el.getAttribute("data-cmd"));
             el.addEvent("click", onCheck );
             onCheck.apply(el);
 
         });
 
         //Persist the selected editor type in the pref cookie
-        form.getElements("a.editor-type").addEvent("click", function(){
+        //????form.getElements(".dropdown-menu a[data-cmd=editor]").addEvent("click", ...
+        form.getElements("a.editor-type").addEvent("click", function () {
 
-            wiki.prefs.set("editor", this.get("text"));
+            wiki.prefs("editor", this.textContent);
 
         });
 
@@ -629,7 +638,7 @@ var Wiki = {
                 */
 
                 if( !state ){ previewcontainer = previewcontainer.getParent(); }
-                previewcontainer.grab(ajaxpreview);
+                previewcontainer.appendChild(ajaxpreview);
 
             }
         }
@@ -640,6 +649,7 @@ var Wiki = {
         var wiki = this,
             loading = "loading",
             preview = function(p){ previewElement.removeClass(loading).set("text", p);};
+
 
         return (function(){
 
@@ -699,7 +709,7 @@ var Wiki = {
 
         //set the initial size of the targets
         if( pref ){
-            targets.setStyle("height", prefs.get(pref) || 300 );
+            targets.setStyle("height", prefs(pref) || 300 );
         }
 
         target = targets.pop();
@@ -709,7 +719,7 @@ var Wiki = {
             modifiers: { x: null },
             onDrag: function(){
                 var h = this.value.now.y;
-                if( pref ){ prefs.set(pref, h); }
+                if( pref ){ prefs(pref, h); }
                 if( targets ){ targets.setStyle("height", h); }
                 if( dragCallback ){ dragCallback(h); }
             },
@@ -814,6 +824,40 @@ var Wiki = {
 
         }
 
+    },
+
+    //behavior linked to ".context-view .inserted-page[data-once]"
+    insertPage: function( element ){
+
+        var onceCookie = element.getAttribute("data-once"),
+            okButton = ".btn.btn-success";
+
+        //do not handle the notification (and cookie) when this is the inserted-page itself
+        if( onceCookie.test( RegExp( "." + Wiki.PageName.replace(/\s/g,"%20")+"$" ) ) ){
+            if( !element.closest(".page") ) element.remove();
+            return;
+        }
+
+        if( !element.getElement( okButton ) ){
+            element.appendChild([
+                "div.modal-footer", [
+                    "button.btn.btn-success", { text: "dialog.confirm".localize() }                            ]
+            ].slick());
+        }
+
+        element.getElement( okButton ).addEvent("click", function(){
+            $.cookie( onceCookie, Date() );   //register the current timestamp
+            element.remove();
+        });
+
+        //if no other additional css class is set, add the default .modal class
+        if( element.className.trim() === "inserted-page" ){
+            element.addClass("modal");      //element.classList.add("modal");
+        }
+
+        if( element.matches(".modal") ){
+            element.openModal( function(){} ); // open the modal dialog
+        }
     }
 
 };

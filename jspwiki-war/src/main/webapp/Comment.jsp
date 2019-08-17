@@ -28,6 +28,7 @@
 <%@ page import="org.apache.wiki.ui.EditorManager" %>
 <%@ page import="org.apache.wiki.util.HttpUtil" %>
 <%@ page import="org.apache.wiki.util.TextUtil" %>
+<%@ page import="org.apache.wiki.pages.PageLock" %>
 <%@ page import="org.apache.wiki.preferences.Preferences" %>
 <%@ page import="org.apache.wiki.auth.login.CookieAssertionLoginModule" %>
 <%@ page import="org.apache.wiki.workflow.DecisionRequiredException" %>
@@ -120,6 +121,7 @@
     {
         link = HttpUtil.retrieveCookieValue( request, "link" );
         if( link == null ) link = "";
+        link = TextUtil.urlDecodeUTF8(link);
     }
 
     session.setAttribute( "link", link );
@@ -223,7 +225,7 @@
         {
             if( link != null )
             {
-                Cookie linkcookie = new Cookie("link", link);
+                Cookie linkcookie = new Cookie("link", TextUtil.urlEncodeUTF8(link) );
                 linkcookie.setMaxAge(1001*24*60*60);
                 response.addCookie( linkcookie );
             }

@@ -28,7 +28,7 @@
 <%@ page import="org.apache.wiki.ui.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.Collection" %>
-<%@ page import="org.apache.commons.lang.*" %>
+<%@ page import="org.apache.commons.lang3.*" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -56,16 +56,19 @@
   {
     try
     {
-      Collection list = wiki.findPages( query, wikiContext );
+      Collection< SearchResult > list = wiki.getSearchManager().findPages( query, wikiContext );
 
       //  Filter down to only those that we actually have a permission to view
       AuthorizationManager mgr = wiki.getAuthorizationManager();
 
-      ArrayList items = new ArrayList();
+      //ArrayList< SearchResult > items = new ArrayList<>();
+      //"The '<>' Diamond operator is not allowed for source level below 1.7"
+      //The compiler that eg. tomcat is running is older than 1.7. -- need mod to tomcat/conf/web.xml
+      ArrayList< SearchResult > items = new ArrayList< SearchResult >();
 
-      for( Iterator i = list.iterator(); i.hasNext(); )
+      for( Iterator< SearchResult > i = list.iterator(); i.hasNext(); )
       {
-        SearchResult r = (SearchResult)i.next();
+        SearchResult r = i.next();
 
         WikiPage p = r.getPage();
 

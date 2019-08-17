@@ -144,9 +144,6 @@ Behavior:%%graphBar .. /%
     .add("*[class^=graphBars]", GraphBar )
 
 
-    //FIXME -- OBSOLETE ?? top level TAB of the page
-    //.add(".page > .tabmenu a:not([href])", Tab )
-
 /*
 Behavior:tabs & pills
 >   %%tabbedSection .. /%
@@ -175,7 +172,7 @@ Behavior:Accordion
     .add(".pillsAccordion,.pills-accordion", Accordion, { type: "pills" })
 
 /*
-Behavior:JSPWiki Categories
+Behavior: Categories
 >   %%category .. /%
 */
     .add( ".category a.wikipage", function(element) {
@@ -190,10 +187,13 @@ Behavior:Alert (based on Bootstrap)
 */
     .add(".alert", function(element){
 
-        element.addClass("alert-warning alert-dismissable").grab(
+        element.addClass("alert-dismissable").appendChild(
 
             "button.close[type=button][html=&times;]".slick()
-                .addEvent("click", function(){ element.dispose(); }),
+                .addEvent("click", function(){
+                    element.remove();
+
+                }),
             "top"
 
         );
@@ -206,7 +206,7 @@ Behavior: Quote (based on Bootstrap)
 */
     .add(".quote", function(element){
 
-        "blockquote".slick().wraps( "p".slick().wraps(element) );
+        "blockquote".slick().wraps( element );
 
     })
 
@@ -218,14 +218,6 @@ Behavior: Quote (based on Bootstrap)
     })
 
 
-    //FIXME  under construction
-    .add(".typography", function(element){
-
-        element.mapTextNodes( function(s){ return s.replace( /---/g, "&mdash;" );  });
-
-
-    })
-
 /*
 Behavior: Viewer
 >     %%viewer [link to youtube, vimeo, some-wiki-page, http://some-external-site ..] /%
@@ -236,7 +228,7 @@ Behavior: Viewer
         Viewer.preload(a.href, { width: 800, height: 600 }, function( element ){
 
             var next = a.getNext();
-            if( next && next.match("img.outlink") ){ next.dispose(); }
+            if( next && next.matches("img.outlink") ){ next.remove(); }
 
             element.addClass("viewport").replaces(a);
 
@@ -245,7 +237,7 @@ Behavior: Viewer
     })
     .add(".maps", function( map ){
 
-        var address = map.get("text").trim(),
+        var address = map.textContent.trim(),
             mapSvc = map.className.replace("-maps","").replace("maps","google"),
             url = "https://maps.{0}.com/maps?q=".xsubs(mapSvc) + encodeURIComponent( address );
 
@@ -311,9 +303,9 @@ becomes
 //helper function, to collect the links to be converted
 function filterJSPWikiLinks(element){
 
-    return element.match("a") ?
+    return element.matches("a") ?
         element :
-        element.getElements( element.match(".slimbox-attachments") ?
+        element.getElements( element.matches(".slimbox-attachments") ?
             "a[href].attachment" :
             // otherwise,  catch several different cases in one go
             //    img:not([href$=/attachment_small.png]):not(.outlink)  ::jspwiki small icons
@@ -402,33 +394,21 @@ Depends on:
 */
 
 //helper function
-function collapseFn(element, cookie){
+function collapseFn(elements, pagename){
 
-    var TCollapsible = Collapsible,
-        clazz = element.className,
-        list = "collapse",
-        box = list + "box";
+    new Collapsible( elements, {
+        cookie: {
+            name: "JSPWiki.Collapse." + (pagename || wiki.PageName),
+            path: wiki.BaseUrl,
+            duration: 20
+        }
+    });
 
-    cookie = cookie || wiki.PageName;
-
-    cookie = new Cookie.Flags("JSPWikiCollapse" + cookie, {path: wiki.BasePath, duration: 20});
-
-    if( clazz == list ){
-
-        new TCollapsible.List(element, { cookie: cookie });
-
-    } else if( clazz.indexOf(box) == 0 ){
-
-        new TCollapsible.Box(element, {
-            cookie: cookie,
-            collapsed: clazz.indexOf(box + "-closed") == 0
-        });
-    }
 }
 
 wiki
-    .add(".page div[class^=collapse]", collapseFn )
-    .add(".sidebar div[class^=collapse]", collapseFn, "Sidebar")
+    .once(".page div[class^=collapse]", collapseFn )
+    .once(".sidebar div[class^=collapse]", collapseFn, "Sidebar")
 
 /*
 Behavior:Comment Box
@@ -457,7 +437,7 @@ Behavior:Columns
 Dynamic Style: Code-Prettifier
     JSPWiki wrapper around http://google-code-prettify.googlecode.com/svn/trunk/README.html
 
-    TODO: add option to overrule the choice of language:
+    TODO: add option to set the choice of language:
     >    "bsh", "c", "cc", "cpp", "cs", "csh", "cyc", "cv", "htm", "html",
     >    "java", "js", "m", "mxml", "perl", "pl", "pm", "py", "rb", "sh",
     >    "xhtml", "xml", "xsl"
@@ -482,7 +462,7 @@ Example:
 
         element.addClass("prettyprint");
         /*html5 expects  <pre><code>  */
-        if( element.match("pre") ){
+        if( element.matches("pre") ){
             element.innerHTML = "<code>" + element.innerHTML + "</code>";
         }
 
@@ -491,7 +471,7 @@ Example:
 
         element.addClass("prettyprint");
         /*html5 expects  <pre><code>  */
-        if( element.match("pre") ){
+        if( element.matches("pre") ){
             element.innerHTML = "<code>" + element.innerHTML + "</code>";
         }
 
@@ -548,7 +528,7 @@ Behavior: Table behaviors
 
     .add(".sortable,div[class*=table-]", function(element){
 
-        element.ifClass(element.hasClass("sortable"), "table-sort");
+        element.ifClass(element.matches(".sortable"), "table-sort");
 
         var args = "table".sliceArgs(element),
             arg,
@@ -835,7 +815,7 @@ div[this is the parent container]
         var bgBox = image.getParent(".bg"),
             clazz = bgBox.className; //contains possibly other styles to be applied to the background image
 
-        if( bgBox && bgBox.match("td") ){
+        if( bgBox && bgBox.matches("td") ){
             bgBox = bgBox.getParent("table");
         }
 

@@ -20,9 +20,10 @@
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="org.apache.wiki.*" %>
+<fmt:setLocale value="${prefs.Language}" />
 <fmt:setBundle basename="templates.default"/>
 <!doctype html>
-<html lang="en">
+<html lang="<c:out value='${prefs.Language}' default='en'/>" name="top">
   <head>
 
   <title>
@@ -74,7 +75,7 @@ String.I18N.PREFIX = "javascript.";
 
 <%-- FIXME: for now, reuse haddock's stylesheet --%>
 <link rel="stylesheet" media="screen, projection, print" type="text/css"
-     href="<wiki:Link format='url' templatefile='../../templates/haddock/haddock.css'/>"/>
+     href="<wiki:Link format='url' templatefile='../../templates/default/haddock.css'/>"/>
 
 </head>
 
