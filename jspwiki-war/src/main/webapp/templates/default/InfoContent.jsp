@@ -39,9 +39,6 @@
   String attTitle = LocaleSupport.getLocalizedMessage(pageContext, "attach.tab");
   if( attCount != 0 ) attTitle += " (" + attCount + ")";
 
-  String parm_renameto = (String)request.getParameter( "renameto" );
-  if( parm_renameto == null ) parm_renameto = wikiPage.getName();
-
   String creationAuthor ="";
 
   //FIXME -- seems not to work correctly for attachments !!
@@ -123,7 +120,8 @@
 
       <input type="hidden" name="page" value="<wiki:Variable var='pagename' />" />
       <input class="btn btn-success" type="submit" name="rename" value="<fmt:message key='info.rename.submit' />" />
-      <input class="form-control form-col-50" type="text" name="renameto" value="<%= parm_renameto %>" size="40" />
+      <input class="form-control form-col-50" type="text" name="renameto"
+             value="<c:out value='${param.renameto}' default='<%= wikiPage.getName() %>'/>" size="40" />
       <label class="btn btn-default" for="references">
         <input type="checkbox" name="references" id="references" checked="checked" />
         <fmt:message key="info.updatereferrers"/>
@@ -163,14 +161,14 @@
     <c:set var="last" value="<%= startitem + pagesize %>"/>
 
     <div class="table-filter-sort-condensed-striped">
-    <table class="table" >
+    <table class="table" aria-describedby="history">
       <tr>
-        <th><fmt:message key="info.version"/></th>
-        <th><fmt:message key="info.date"/></th>
-        <th><fmt:message key="info.size"/></th>
-        <th><fmt:message key="info.author"/></th>
-        <th><fmt:message key="info.changes"/></th>
-        <th><fmt:message key="info.changenote"/></th>
+        <th scope="col"><fmt:message key="info.version"/></th>
+        <th scope="col"><fmt:message key="info.date"/></th>
+        <th scope="col"><fmt:message key="info.size"/></th>
+        <th scope="col"><fmt:message key="info.author"/></th>
+        <th scope="col"><fmt:message key="info.changes"/></th>
+        <th scope="col"><fmt:message key="info.changenote"/></th>
       </tr>
 
       <wiki:HistoryIterator id="currentPage">
@@ -215,10 +213,10 @@
     ${pagination}
 
     <h4 id="page-refs"><fmt:message key="info.tab.links" /></h4>
-    <table class="table">
+    <table class="table" aria-describedby="page-refs">
       <tr>
-      <th><fmt:message key="info.tab.incoming" /></th>
-      <th><fmt:message key="info.tab.outgoing" /></th>
+      <th scope="col"><fmt:message key="info.tab.incoming" /></th>
+      <th scope="col"><fmt:message key="info.tab.outgoing" /></th>
       </tr>
       <tr>
       <td>
@@ -318,23 +316,24 @@
   </wiki:Permission>
 </form>
 
+
 <%-- TODO why no pagination here - number of attach versions of one page limited ?--%>
-<%--<h4><fmt:message key='info.attachment.history' /></h4>--%>
+  <h4 id="info-attachment-history"><fmt:message key='info.attachment.history' /></h4>
   <div class="slimbox-attachments table-filter-sort-condensed-striped">
-  <table class="table">
+  <table class="table" aria-describedby="info-attachment-history">
     <tr>
-      <th><fmt:message key="info.attachment.name"/></th>
-      <th><fmt:message key="info.version"/></th>
-      <th><fmt:message key="info.date"/></th>
-      <th><fmt:message key="info.size"/></th>
-      <th><fmt:message key="info.attachment.type"/></th>
-      <th><fmt:message key="info.author"/></th>
+      <th scope="col"><fmt:message key="info.attachment.name"/></th>
+      <th scope="col"><fmt:message key="info.version"/></th>
+      <th scope="col"><fmt:message key="info.date"/></th>
+      <th scope="col"><fmt:message key="info.size"/></th>
+      <th scope="col"><fmt:message key="info.attachment.type"/></th>
+      <th scope="col"><fmt:message key="info.author"/></th>
       <%--
       <wiki:Permission permission="upload">
-         <th><fmt:message key="info.actions"/></th>
+         <th scope="col"><fmt:message key="info.actions"/></th>
       </wiki:Permission>
       --%>
-      <th><fmt:message key="info.changenote"/></th>
+      <th scope="col"><fmt:message key="info.changenote"/></th>
     </tr>
 
     <wiki:HistoryIterator id="att"><%-- <wiki:AttachmentsIterator id="att"> --%>

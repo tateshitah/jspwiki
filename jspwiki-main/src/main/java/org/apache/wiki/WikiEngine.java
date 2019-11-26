@@ -74,7 +74,6 @@ import org.apache.wiki.workflow.WorkflowManager;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -83,13 +82,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -130,7 +129,7 @@ public class WikiEngine
 
     /** The default inlining pattern.  Currently "*.png" */
     public static final String DEFAULT_INLINEPATTERN = "*.png";
-    
+
     /** The name used for the default template. The value is {@value}. */
     public static final String DEFAULT_TEMPLATE_NAME = "default";
 
@@ -255,7 +254,7 @@ public class WikiEngine
     private InternationalizationManager m_internationalizationManager;
 
     private ProgressManager  m_progressManager;
-    
+
     private TasksManager m_tasksManager;
 
     /** Constructs URLs */
@@ -681,7 +680,7 @@ public class WikiEngine
         log.info("WikiEngine configured.");
         m_isConfigured = true;
     }
-    
+
     /**
      * Checks if the template directory specified in the wiki's properties actually exists. If it doesn't, then {@code m_templateDir} is
      * set to {@link #DEFAULT_TEMPLATE_NAME}.
@@ -767,7 +766,7 @@ public class WikiEngine
      *  @since 1.9.20
      *  @return The template directory as initialized by the engine.
      */
-    public String getTemplateDir() 
+    public String getTemplateDir()
     {
         return m_templateDir;
     }
@@ -788,14 +787,9 @@ public class WikiEngine
      *  @since 1.6.1
      *  @return The Base URL.
      */
-
-    public String getBaseURL()
-    {
-    	String contextPath = m_servletContext.getContextPath();
-
-        return contextPath;
+    public String getBaseURL() {
+    	return m_servletContext.getContextPath();
     }
-
 
     /**
      *  Returns the moment when this engine was started.
@@ -803,7 +797,6 @@ public class WikiEngine
      *  @since 2.0.15.
      *  @return The start time of this wiki.
      */
-
     public Date getStartTime()
     {
         return (Date)m_startTime.clone();
@@ -822,49 +815,11 @@ public class WikiEngine
      * @param pageName The name of the page.  May be null, in which case defaults to the front page.
      * @return An absolute URL to the page.
      */
-    public String getViewURL( String pageName )
-    {
-        if( pageName == null )
-        {
+    public String getViewURL( String pageName ) {
+        if( pageName == null ) {
             pageName = getFrontPage();
         }
-        return getURLConstructor().makeURL(WikiContext.VIEW, pageName, "absolute".equals(PROP_REFSTYLE), null);
-    }
-
-    /**
-     *  Returns the basic URL to an editor.  Please use WikiContext.getURL() or
-     *  WikiEngine.getURL() instead.
-     *
-     *  @see #getURL(String, String, String, boolean)
-     *  @see WikiContext#getURL(String, String)
-     *  @deprecated
-     *
-     *  @param pageName The name of the page.
-     *  @return An URI.
-     *
-     *  @since 2.0.3
-     */
-    @Deprecated
-    public String getEditURL( String pageName )
-    {
-        return m_urlConstructor.makeURL( WikiContext.EDIT, pageName, false, null );
-    }
-
-    /**
-     *  Returns the basic attachment URL.Please use WikiContext.getURL() or
-     *  WikiEngine.getURL() instead.
-     *
-     *  @see #getURL(String, String, String, boolean)
-     *  @see WikiContext#getURL(String, String)
-     *  @since 2.0.42.
-     *  @param attName Attachment name
-     *  @deprecated
-     *  @return An URI.
-     */
-    @Deprecated
-    public String getAttachmentURL( String attName )
-    {
-        return m_urlConstructor.makeURL( WikiContext.ATTACH, attName, false, null );
+        return getURLConstructor().makeURL( WikiContext.VIEW, pageName, "absolute".equals( PROP_REFSTYLE ), null );
     }
 
     /**
@@ -876,9 +831,10 @@ public class WikiEngine
      *  @param absolute If true, will generate an absolute URL regardless of properties setting.
      *  @return An URL (absolute or relative).
      */
-    public String getURL( String context, String pageName, String params, boolean absolute )
-    {
-        if( pageName == null ) pageName = getFrontPage();
+    public String getURL( final String context, String pageName, final String params, final boolean absolute ) {
+        if( pageName == null ) {
+            pageName = getFrontPage();
+        }
         return m_urlConstructor.makeURL( context, pageName, absolute, params );
     }
 
@@ -908,49 +864,6 @@ public class WikiEngine
     }
 
     /**
-     *  This is a safe version of the Servlet.Request.getParameter() routine.
-     *  Unfortunately, the default version always assumes that the incoming
-     *  character set is ISO-8859-1, even though it was something else.
-     *  This means that we need to make a new string using the correct
-     *  encoding.
-     *  <P>
-     *  For more information, see:
-     *     <A HREF="http://www.jguru.com/faq/view.jsp?EID=137049">JGuru FAQ</A>.
-     *  <P>
-     *  Incidentally, this is almost the same as encodeName(), below.
-     *  I am not yet entirely sure if it's safe to merge the code.
-     *
-     *  @param request The servlet request
-     *  @param name    The parameter name to get.
-     *  @return The parameter value or null
-     *  @since 1.5.3
-     *  @deprecated JSPWiki now requires servlet API 2.3, which has a better
-     *              way of dealing with this stuff.  This will be removed in
-     *              the near future.
-     */
-
-    @Deprecated
-    public String safeGetParameter( ServletRequest request, String name )
-    {
-        try
-        {
-            String res = request.getParameter( name );
-            if( res != null )
-            {
-                res = new String(res.getBytes( StandardCharsets.ISO_8859_1), getContentEncoding() );
-            }
-
-            return res;
-        }
-        catch( UnsupportedEncodingException e )
-        {
-            log.fatal( "Unsupported encoding", e );
-            return "";
-        }
-
-    }
-
-    /**
      *  Returns the query string (the portion after the question mark).
      *
      *  @param request The HTTP request to parse.
@@ -959,46 +872,31 @@ public class WikiEngine
      *
      *  @since 2.1.3
      */
-    public String safeGetQueryString( HttpServletRequest request )
-    {
-        if (request == null)
-        {
+    public String safeGetQueryString( final HttpServletRequest request ) {
+        if (request == null) {
             return "";
         }
 
-        try
-        {
-            String res = request.getQueryString();
-            if( res != null )
-            {
-                res = new String(res.getBytes("ISO-8859-1"),
-                                 getContentEncoding() );
+        String res = request.getQueryString();
+        if( res != null ) {
+            res = new String( res.getBytes( StandardCharsets.ISO_8859_1 ), getContentEncoding() );
 
-                //
-                // Ensure that the 'page=xyz' attribute is removed
-                // FIXME: Is it really the mandate of this routine to
-                //        do that?
-                //
-                int pos1 = res.indexOf("page=");
-                if (pos1 >= 0)
-                {
-                    String tmpRes = res.substring(0, pos1);
-                    int pos2 = res.indexOf("&",pos1) + 1;
-                    if ( (pos2 > 0) && (pos2 < res.length()) )
-                    {
-                        tmpRes = tmpRes + res.substring(pos2);
-                    }
-                    res = tmpRes;
+            //
+            // Ensure that the 'page=xyz' attribute is removed
+            // FIXME: Is it really the mandate of this routine to do that?
+            //
+            final int pos1 = res.indexOf("page=");
+            if( pos1 >= 0 ) {
+                String tmpRes = res.substring( 0, pos1 );
+                final int pos2 = res.indexOf( "&",pos1 ) + 1;
+                if ( ( pos2 > 0 ) && ( pos2 < res.length() ) ) {
+                    tmpRes = tmpRes + res.substring(pos2);
                 }
+                res = tmpRes;
             }
+        }
 
-            return res;
-        }
-        catch( UnsupportedEncodingException e )
-        {
-            log.fatal( "Unsupported encoding", e );
-            return "";
-        }
+        return res;
     }
 
     /**
@@ -1293,14 +1191,10 @@ public class WikiEngine
      *  @return A decoded string.
      *  @see #encodeName(String)
      */
-    public String decodeName( String pagerequest )
-    {
-        try
-        {
+    public String decodeName( final String pagerequest ) {
+        try {
             return URLDecoder.decode( pagerequest, m_useUTF8 ? "UTF-8" : "ISO-8859-1" );
-        }
-        catch( UnsupportedEncodingException e )
-        {
+        } catch( UnsupportedEncodingException e ) {
             throw new InternalWikiException("ISO-8859-1 not a supported encoding!?!  Your platform is borked.", e);
         }
     }
@@ -1312,12 +1206,11 @@ public class WikiEngine
      *  @since 1.5.3
      *  @return The content encoding (either UTF-8 or ISO-8859-1).
      */
-    public String getContentEncoding()
-    {
-        if( m_useUTF8 )
-            return "UTF-8";
-
-        return "ISO-8859-1";
+    public Charset getContentEncoding() {
+        if( m_useUTF8 ) {
+            return StandardCharsets.UTF_8;
+        }
+        return StandardCharsets.ISO_8859_1;
     }
 
     /**
@@ -1704,18 +1597,18 @@ public class WikiEngine
 
     /**
      *  Writes the WikiText of a page into the page repository. If the <code>jspwiki.properties</code> file contains
-     *  the property <code>jspwiki.approver.workflow.saveWikiPage</code> and its value resolves to a valid user, 
+     *  the property <code>jspwiki.approver.workflow.saveWikiPage</code> and its value resolves to a valid user,
      *  {@link org.apache.wiki.auth.authorize.Group} or {@link org.apache.wiki.auth.authorize.Role}, this method will
-     *  place a {@link org.apache.wiki.workflow.Decision} in the approver's workflow inbox and throw a 
-     *  {@link org.apache.wiki.workflow.DecisionRequiredException}. If the submitting user is authenticated and the 
+     *  place a {@link org.apache.wiki.workflow.Decision} in the approver's workflow inbox and throw a
+     *  {@link org.apache.wiki.workflow.DecisionRequiredException}. If the submitting user is authenticated and the
      *  page save is rejected, a notification will be placed in the user's decision queue.
      *
      *  @since 2.1.28
      *  @param context The current WikiContext
      *  @param text    The Wiki markup for the page.
-     *  @throws WikiException if the save operation encounters an error during the save operation. If the page-save 
-     *  operation requires approval, the exception will be of type {@link org.apache.wiki.workflow.DecisionRequiredException}. 
-     *  Individual PageFilters, such as the {@link org.apache.wiki.filters.SpamFilter} may also throw a 
+     *  @throws WikiException if the save operation encounters an error during the save operation. If the page-save
+     *  operation requires approval, the exception will be of type {@link org.apache.wiki.workflow.DecisionRequiredException}.
+     *  Individual PageFilters, such as the {@link org.apache.wiki.filters.SpamFilter} may also throw a
      *  {@link org.apache.wiki.api.exceptions.RedirectException}.
      */
     public void saveText( WikiContext context, String text ) throws WikiException {
@@ -1733,8 +1626,8 @@ public class WikiEngine
             return;
         }
 
-        // Create approval workflow for page save; add the diffed, proposed and old text versions as 
-        // Facts for the approver (if approval is required). If submitter is authenticated, any reject 
+        // Create approval workflow for page save; add the diffed, proposed and old text versions as
+        // Facts for the approver (if approval is required). If submitter is authenticated, any reject
         // messages will appear in his/her workflow inbox.
         WorkflowBuilder builder = WorkflowBuilder.getBuilder( this );
         Principal submitter = context.getCurrentUser();
@@ -1984,7 +1877,7 @@ public class WikiEngine
             return null;
         }
     }
-    
+
     /**
      *  Throws an exception if a property is not found.
      *
@@ -2096,7 +1989,7 @@ public class WikiEngine
      *  @since 2.2
      */
 
-    public String getRedirectURL( WikiContext context )
+    public String getRedirectURL( final WikiContext context )
     {
         return context.getRedirectURL();
     }
@@ -2112,18 +2005,14 @@ public class WikiEngine
      *  @see org.apache.wiki.ui.Command
      *  @since 2.1.15.
      */
-    // FIXME: We need to have a version which takes a fixed page
-    //        name as well, or check it elsewhere.
-    public WikiContext createContext( HttpServletRequest request,
-                                      String requestContext )
-    {
-        if( !m_isConfigured )
-        {
-            throw new InternalWikiException("WikiEngine has not been properly started.  It is likely that the configuration is faulty.  Please check all logs for the possible reason.");
+    // FIXME: We need to have a version which takes a fixed page name as well, or check it elsewhere.
+    public WikiContext createContext( final HttpServletRequest request, final String requestContext ) {
+        if( !m_isConfigured ) {
+            throw new InternalWikiException( "WikiEngine has not been properly started.  It is likely that the configuration is faulty.  Please check all logs for the possible reason." );
         }
 
         // Build the wiki context
-        Command command = m_commandResolver.findCommand( request, requestContext );
+        final Command command = m_commandResolver.findCommand( request, requestContext );
         return new WikiContext( this, request, command );
     }
 
@@ -2134,28 +2023,21 @@ public class WikiEngine
      * @param pageName The name of the page.
      * @throws ProviderException If something goes wrong.
      */
-    public void deletePage( String pageName )
-        throws ProviderException
-    {
-        WikiPage p = getPage( pageName );
+    public void deletePage( final String pageName ) throws ProviderException {
+        final WikiPage p = getPage( pageName );
+        if( p != null ) {
+            if( p instanceof Attachment ) {
+                m_attachmentManager.deleteAttachment( ( Attachment )p );
+            } else {
+                final Collection< String > refTo = m_referenceManager.findRefersTo( pageName );
+                // May return null, if the page does not exist or has not been indexed yet.
 
-        if( p != null )
-        {
-            if( p instanceof Attachment )
-            {
-                m_attachmentManager.deleteAttachment( (Attachment) p );
-            }
-            else
-            {
-                Collection<String> refTo = m_referenceManager.findRefersTo(pageName);
-
-                if (m_attachmentManager.hasAttachments( p ))
-                {
-                    List< Attachment > attachments = m_attachmentManager.listAttachments( p );
-                    for( Iterator< Attachment > atti = attachments.iterator(); atti.hasNext(); )
-                    {
-                        Attachment attachment = atti.next();
-                        refTo.remove(attachment.getName());
+                if( m_attachmentManager.hasAttachments( p ) ) {
+                    final List< Attachment > attachments = m_attachmentManager.listAttachments( p );
+                    for( final Attachment attachment : attachments ) {
+                        if( refTo != null ) {
+                            refTo.remove( attachment.getName() );
+                        }
 
                         m_attachmentManager.deleteAttachment( attachment );
                     }
@@ -2172,15 +2054,10 @@ public class WikiEngine
      *  @param page The page object.
      *  @throws ProviderException If something goes wrong.
      */
-    public void deleteVersion( WikiPage page )
-        throws ProviderException
-    {
-        if( page instanceof Attachment )
-        {
+    public void deleteVersion( final WikiPage page ) throws ProviderException {
+        if( page instanceof Attachment ) {
             m_attachmentManager.deleteVersion( (Attachment) page );
-        }
-        else
-        {
+        } else {
             m_pageManager.deleteVersion( page );
         }
     }

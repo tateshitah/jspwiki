@@ -113,16 +113,28 @@ public class TestEngine extends WikiEngine
             // Set up a test Janne session
             HttpServletRequest request = newHttpRequest();
             m_janneWikiSession = WikiSession.getWikiSession( this, request );
-            this.getAuthenticationManager().login( m_janneWikiSession, request,
-                    Users.JANNE,
-                    Users.JANNE_PASS );
+            this.getAuthenticationManager().login( m_janneWikiSession, request, Users.JANNE, Users.JANNE_PASS );
         }
         return m_janneWikiSession;
     }
 
-    public TestEngine( Properties props )
-        throws WikiException
-    {
+    public static TestEngine build() {
+        return build( getTestProperties() );
+    }
+
+    public static TestEngine build( final Properties props ) {
+        try {
+            return new TestEngine( props );
+        } catch(  WikiException we ) {
+            throw new UnsupportedOperationException( "Unable to build TestEngine: " + we.getMessage(), we );
+        }
+    }
+
+    public TestEngine() throws WikiException {
+        this( getTestProperties() );
+    }
+
+    public TestEngine( Properties props ) throws WikiException {
         super( new MockServletContext( "test" ), "test", cleanTestProps( props ) );
 
         // Stash the WikiEngine in the servlet context
@@ -261,29 +273,32 @@ public class TestEngine extends WikiEngine
     /**
      *  Copied from FileSystemProvider
      */
-    protected static String mangleName( String pagename )
-        throws IOException
-    {
-        Properties properties = new Properties();
-        String m_encoding = properties.getProperty( WikiEngine.PROP_ENCODING,
-                                                    AbstractFileProvider.DEFAULT_ENCODING );
+    protected static String mangleName( String pagename ) {
+        final Properties properties = new Properties();
+        final String m_encoding = properties.getProperty( WikiEngine.PROP_ENCODING, AbstractFileProvider.DEFAULT_ENCODING );
 
         pagename = TextUtil.urlEncode( pagename, m_encoding );
         pagename = TextUtil.replaceString( pagename, "/", "%2F" );
         return pagename;
     }
 
+    public void deletePage( final String pageName ) throws ProviderException {
+        try {
+            super.deletePage( pageName );
+        } catch( final ProviderException | RuntimeException e ) {
+            log.error( e.getMessage(), e );
+            throw e;
+        }
+    }
+
     /**
      *  Removes a page, but not any auxiliary information.  Works only
      *  with FileSystemProvider.
      */
-    public void deleteTestPage( String name )
-    {
-        Properties properties = getTestProperties();
-
-        try
-        {
-            String files = properties.getProperty( FileSystemProvider.PROP_PAGEDIR );
+    public void deleteTestPage( final String name ) {
+        final Properties properties = getTestProperties();
+        try {
+            final String files = properties.getProperty( FileSystemProvider.PROP_PAGEDIR );
 
             File f = new File( files, mangleName(name)+FileSystemProvider.FILE_EXT );
 
@@ -298,9 +313,7 @@ public class TestEngine extends WikiEngine
 
             deleteAttachments( name );
             firePageEvent( WikiPageEvent.PAGE_DELETED, name );
-        }
-        catch( Exception e )
-        {
+        } catch( final Exception e ) {
             log.error("Couldn't delete "+name, e );
         }
     }
@@ -432,14 +445,25 @@ public class TestEngine extends WikiEngine
      * @return the corrected/clean properties
      */
     private static Properties cleanTestProps( final Properties props ) {
-        final String pageDir = props.getProperty( "jspwiki.fileSystemProvider.pageDir" );
-        final String stripNumbers = pageDir.substring( pageDir.lastIndexOf( '/' ) );
-        final String testDir = pageDir.substring( 0, pageDir.lastIndexOf( '/' ) ) +
-                               stripNumbers.replaceAll( "\\d", StringUtils.EMPTY ) + System.currentTimeMillis();
+        long millis = System.currentTimeMillis();
         props.put( AuthenticationManager.PROP_LOGIN_THROTTLING, "false" );
-        props.setProperty( "jspwiki.fileSystemProvider.pageDir", testDir );
-        props.setProperty( "jspwiki.basicAttachmentProvider.storageDir", testDir );
+        props.setProperty( "jspwiki.fileSystemProvider.pageDir", cleanNewDirFrom( props.getProperty( "jspwiki.fileSystemProvider.pageDir" ), millis ) );
+        props.setProperty( "jspwiki.basicAttachmentProvider.storageDir", cleanNewDirFrom( props.getProperty( "jspwiki.basicAttachmentProvider.storageDir" ), millis ) );
+        props.setProperty( "jspwiki.workDir", cleanNewDirFrom( props.getProperty( "jspwiki.workDir" ), millis ) );
         return props;
+    }
+
+    private static String cleanNewDirFrom( final String pageDir, final long millis ) {
+        if( StringUtils.isBlank( pageDir ) ) {
+            return "";
+        }
+        if( pageDir.lastIndexOf( '/' ) == -1 ) {
+            return "target/" + millis + "-" + pageDir;
+        }
+        final String stripNumbers = pageDir.substring( pageDir.lastIndexOf( '/' ) );
+        return pageDir.substring( 0, pageDir.lastIndexOf( '/' ) + 1 )
+             + millis // place all related tests' folders one next to the others
+             + stripNumbers.replaceAll( "\\d", StringUtils.EMPTY );
     }
 
 }

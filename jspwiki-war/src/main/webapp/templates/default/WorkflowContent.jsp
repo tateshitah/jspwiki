@@ -45,15 +45,15 @@
 
 <c:if test="${!empty decisions}">
 
-  <p><fmt:message key="workflow.actor.instructions"/></p>
+  <p id="workflow-actor-instructions"><fmt:message key="workflow.actor.instructions"/></p>
 
-  <table class="table table-striped table-condensed">
+  <table class="table table-striped table-condensed" aria-describedby="workflow-actor-instructions">
     <thead><%-- 5/45/15/15/20--%>
-      <th><fmt:message key="workflow.id"/></th>
-      <th><fmt:message key="workflow.item"/></th>
-      <th><fmt:message key="workflow.requester"/></th>
-      <th><fmt:message key="workflow.startTime"/></th>
-      <th><fmt:message key="workflow.actions"/></th>
+      <th scope="col"><fmt:message key="workflow.id"/></th>
+      <th scope="col"><fmt:message key="workflow.item"/></th>
+      <th scope="col"><fmt:message key="workflow.requester"/></th>
+      <th scope="col"><fmt:message key="workflow.startTime"/></th>
+      <th scope="col"><fmt:message key="workflow.actions"/></th>
     </thead>
     <tbody>
       <c:forEach var="decision" items="${decisions}">
@@ -125,15 +125,15 @@
 
 <c:if test="${!empty workflows}">
 
-  <p><fmt:message key="workflow.owner.instructions"/></p>
+  <p id="workflow-owner-instructions"><fmt:message key="workflow.owner.instructions"/></p>
 
-  <table class="table">
+  <table class="table" aria-describedby="workflow-owner-instructions">
     <thead>
-      <th><fmt:message key="workflow.id"/></th>
-      <th><fmt:message key="workflow.item"/></th>
-      <th><fmt:message key="workflow.actor"/></th>
-      <th><fmt:message key="workflow.startTime"/></th>
-      <th><fmt:message key="workflow.actions"/></th>
+      <th scope="col"><fmt:message key="workflow.id"/></th>
+      <th scope="col"><fmt:message key="workflow.item"/></th>
+      <th scope="col"><fmt:message key="workflow.actor"/></th>
+      <th scope="col"><fmt:message key="workflow.startTime"/></th>
+      <th scope="col"><fmt:message key="workflow.actions"/></th>
     </thead>
     <tbody>
       <c:forEach var="workflow" items="${workflows}">

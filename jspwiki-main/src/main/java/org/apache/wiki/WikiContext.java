@@ -18,15 +18,6 @@
  */
 package org.apache.wiki;
 
-import java.security.Permission;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.PropertyPermission;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
-
 import org.apache.log4j.Logger;
 import org.apache.wiki.auth.NoSuchPrincipalException;
 import org.apache.wiki.auth.UserManager;
@@ -41,6 +32,14 @@ import org.apache.wiki.ui.Installer;
 import org.apache.wiki.ui.PageCommand;
 import org.apache.wiki.ui.WikiCommand;
 import org.apache.wiki.util.TextUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
+import java.security.Permission;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.PropertyPermission;
 
 /**
  *  <p>Provides state information throughout the processing of a page.  A
@@ -65,23 +64,22 @@ import org.apache.wiki.util.TextUtil;
  *  @see org.apache.wiki.plugin.Counter
  *
  */
-public class WikiContext
-    implements Cloneable, Command
-{
+public class WikiContext implements Cloneable, Command {
+
     private    Command m_command = null;
 
     private    WikiPage   m_page;
     private    WikiPage   m_realPage;
     private    WikiEngine m_engine;
     private    String     m_template = "default";
-    
+
     private    HashMap<String,Object> m_variableMap = new HashMap<>();
 
     /** Stores the HttpServletRequest.  May be null, if the request did not come from a servlet. */
     protected  HttpServletRequest m_request = null;
 
     private    WikiSession m_session = null;
-    
+
     /** User is administering JSPWiki (Install, SecurityConfig). */
     public static final String INSTALL = WikiCommand.INSTALL.getRequestContext();
 
@@ -601,9 +599,7 @@ public class WikiContext
      *  @param page The page to which to link
      *  @return An URL to the page, honours the absolute/relative setting in jspwiki.properties
      */
-    public String getURL( String context,
-                          String page )
-    {
+    public String getURL( final String context, final String page ) {
         return getURL( context, page, null );
     }
 
@@ -618,18 +614,11 @@ public class WikiContext
      *
      *  @return An URL to the given context and page.
      */
-    public String getURL( String context,
-                          String page,
-                          String params )
-    {
-        boolean absolute = "absolute".equals(m_engine.getVariable( this, WikiEngine.PROP_REFSTYLE ));
+    public String getURL( final String context, final String page, final String params ) {
+        final boolean absolute = "absolute".equals(m_engine.getVariable( this, WikiEngine.PROP_REFSTYLE ));
 
         // FIXME: is rather slow
-        return m_engine.getURL( context,
-                                page,
-                                params,
-                                absolute );
-
+        return m_engine.getURL( context, page, params, absolute );
     }
 
     /**
@@ -648,10 +637,8 @@ public class WikiContext
      *  @return A shallow clone of the WikiContext
      */
     @Override
-	public Object clone()
-    {
-        try
-        {
+	public Object clone() {
+        try {
             // super.clone() must always be called to make sure that inherited objects
             // get the right type
             WikiContext copy = (WikiContext)super.clone();
@@ -666,8 +653,7 @@ public class WikiContext
             copy.m_page        = m_page;
             copy.m_realPage    = m_realPage;
             return copy;
-        }
-        catch( CloneNotSupportedException e ){} // Never happens
+        } catch( CloneNotSupportedException e ){} // Never happens
 
         return null;
     }
@@ -819,6 +805,8 @@ public class WikiContext
         if ( request != null )
         {
             template = request.getParameter( "skin" );
+
+            if( template != null ) template = template.replaceAll("\\p{Punct}", "");
         }
 
         // If request doesn't supply the value, extract from wiki page

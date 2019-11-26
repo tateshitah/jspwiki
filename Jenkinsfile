@@ -36,9 +36,10 @@ try {
             dir( build ) {
                 git url: buildRepo, poll: true
                 withMaven(jdk: 'JDK 1.8 (latest)', maven: 'Maven 3 (latest)' ) {
-                    withSonarQubeEnv( 'ASF Sonar Analysis' ) {
-                        echo "Will use SonarQube instance at $SONAR_HOST_URL"
-                        sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pattach-additional-artifacts $SONAR_MAVEN_GOAL -up"
+                    withCredentials( [ string( credentialsId: 'sonarcloud-jspwiki', variable: 'SONAR_TOKEN' ) ] ) {
+                        def sonarOptions = "-Dsonar.projectKey=jspwiki-builder -Dsonar.organization=apache -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"
+                        echo 'Will use SonarQube instance at https://sonarcloud.io'
+                        sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pattach-additional-artifacts sonar:sonar -up $sonarOptions"
                     }
                     pom = readMavenPom file: 'pom.xml'
                     writeFile file: 'target/classes/apidocs.txt', text: 'file created in order to allow aggregated javadoc generation, target/classes is needed for all modules'
@@ -52,6 +53,8 @@ try {
             withMaven(jdk: 'JDK 1.8 (latest)', maven: 'Maven 3 (latest)' ) {
                 dir( jbake ) {
                     git branch: jbake, url: siteRepo, credentialsId: creds, poll: false
+                    sh "cp ../$build/ChangeLog.md ./src/main/config/changelog.md"
+                    sh "cat ./src/main/config/changelog-header.txt ./src/main/config/changelog.md > ./src/main/jbake/content/development/changelog.md"
                     sh 'mvn clean process-resources -Dplugin.japicmp.jspwiki-new=' + pom.version
                 }
                 stash name: 'jbake-website'

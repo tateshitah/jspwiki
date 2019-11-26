@@ -22,13 +22,12 @@
 /*global $, $$ */
 
 // ELEMENT
-// convienience dom manipulation functions
+// convenience dom manipulation functions
 // FFS:  patch on Element.prototype;  or global $ namespace
 
 $.replaces = function (newElement, existingElement) {
 
     existingElement.parentNode.replaceChild(newElement, existingElement);
-
 }
 
 /*
@@ -44,9 +43,14 @@ $.remove = function (selector, context) {
     });
 }
 
-
 // syntax sugar for element.classList add/remove ; and polyfill for ie11
 // FIMXE better function on element.addClass and [el1,el2...].addClass ...
+$.hasClass = function (element, clazz) {
+
+    //return element.classList.contains(clazz)
+    return element.matches("." + clazz);
+}
+
 $.addClass = function (elements, clazz) {
 
     element.classList.add(clazz);
@@ -59,6 +63,7 @@ $.removeClass = function (elements, clazz) {
 
 //Element.classList mini polyfill for IE11
 if (!!document.createElement('div').classList) {
+
     $.addClass = function (element, clazz) {
         if (!$.hasClass(element, clazz)) {
             element.className = element.className + ' ' + clazz;
@@ -69,21 +74,19 @@ if (!!document.createElement('div').classList) {
     }
 }
 
-$.hasClass = function (element, clazz) {
-    //return element.classList.contains(clazz)
-    return element.matches("." + clazz);
-}
 
 //credit: mootools more
 $.isVisible = function (element) {
+
     var w = element.offsetWidth,
         h = element.offsetHeight;
+
     return (w == 0 && h == 0) ? false : (w > 0 && h > 0) ? true : element.style.display != 'none';
 }
 
 /*
 Function: ifClass
-    Add and/or remove a css class from an element depending on a condition.
+    Add and/or remove a css class from an element depending on a condition flag.
 
 Arguments:
     flag : (boolean)
@@ -97,6 +100,7 @@ Examples:
 >    $.ifClass($("page"), i > 5, "hideMe" );
 >    $("page")._.ifClass($("page"), i > 5, "hideMe" );
 */
+//$.ifClass = function (element, flag, trueClass = "", falseClass = "") {
 $.ifClass = function (element, flag, trueClass, falseClass) {
 
     trueClass = trueClass || "";
@@ -105,7 +109,6 @@ $.ifClass = function (element, flag, trueClass, falseClass) {
     $.removeClass(element, flag ? falseClass : trueClass);
     return element;
 }
-
 
 /*
 Function: wrapChildren(start, grab)
@@ -175,5 +178,3 @@ $.wrapChildren = function (container, delimitter, wrapper, replaceDelimitter, st
         }
     }
 }
-
-

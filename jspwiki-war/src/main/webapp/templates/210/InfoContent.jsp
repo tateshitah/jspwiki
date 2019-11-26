@@ -37,12 +37,9 @@
   int attCount = c.getEngine().getAttachmentManager().listAttachments( c.getPage() ).size();
   String attTitle = LocaleSupport.getLocalizedMessage(pageContext, "attach.tab");
   if( attCount != 0 ) attTitle += " (" + attCount + ")";
-  
+
   String tabParam = (String)request.getParameter( "tab" );
   if ( tabParam == null ) tabParam = "info";
-
-  String parm_renameto = (String)request.getParameter( "renameto" );
-  if( parm_renameto == null ) parm_renameto = wikiPage.getName();
 
   String creationAuthor ="";
 
@@ -143,7 +140,8 @@
       <p>
       <input type="hidden" name="page" value="<wiki:Variable var='pagename' />" />
       <input type="submit" name="rename" value="<fmt:message key='info.rename.submit' />" />
-      <input type="text" name="renameto" value="<%= parm_renameto %>" size="40" />
+      <input type="text" name="renameto"
+             value="<c:out value='${param.renameto}' default='<%= wikiPage.getName() %>'/>" size="40" />
       &nbsp;&nbsp;
       <input type="checkbox" name="references" checked="checked" />
       <fmt:message key="info.updatereferrers"/>
@@ -202,12 +200,12 @@
     <div class="zebra-table sortable table-filter">
     <table class="wikitable" >
       <tr>
-        <th><fmt:message key="info.version"/></th>
-        <th><fmt:message key="info.date"/></th>
-        <th><fmt:message key="info.size"/></th>
-        <th><fmt:message key="info.author"/></th>
-        <th><fmt:message key="info.changes"/></th>
-        <th class='changenote'><fmt:message key="info.changenote"/></th>
+        <th scope="col"><fmt:message key="info.version"/></th>
+        <th scope="col"><fmt:message key="info.date"/></th>
+        <th scope="col"><fmt:message key="info.size"/></th>
+        <th scope="col"><fmt:message key="info.author"/></th>
+        <th scope="col"><fmt:message key="info.changes"/></th>
+        <th class="changenote" scope="col"><fmt:message key="info.changenote"/></th>
       </tr>
 
       <wiki:HistoryIterator id="currentPage">
@@ -343,18 +341,18 @@
   <div class="zebra-table"><div class="slimbox-img sortable">
   <table class="wikitable">
     <tr>
-      <th><fmt:message key="info.attachment.type"/></th>
-      <%--<th><fmt:message key="info.attachment.name"/></th>--%>
-      <th><fmt:message key="info.version"/></th>
-      <th><fmt:message key="info.size"/></th>
-      <th><fmt:message key="info.date"/></th>
-      <th><fmt:message key="info.author"/></th>
+      <th scope="col"><fmt:message key="info.attachment.type"/></th>
+      <%--<th scope="col"><fmt:message key="info.attachment.name"/></th>--%>
+      <th scope="col"><fmt:message key="info.version"/></th>
+      <th scope="col"><fmt:message key="info.size"/></th>
+      <th scope="col"><fmt:message key="info.date"/></th>
+      <th scope="col"><fmt:message key="info.author"/></th>
       <%--
       <wiki:Permission permission="upload">
-         <th><fmt:message key="info.actions"/></th>
+         <th scope="col"><fmt:message key="info.actions"/></th>
       </wiki:Permission>
       --%>
-      <th  class='changenote'><fmt:message key="info.changenote"/></th>
+      <th  class="changenote" scope="col"><fmt:message key="info.changenote"/></th>
     </tr>
 
     <wiki:HistoryIterator id="att"><%-- <wiki:AttachmentsIterator id="att"> --%>

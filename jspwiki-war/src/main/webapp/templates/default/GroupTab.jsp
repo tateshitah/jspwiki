@@ -107,16 +107,18 @@
   <div class="modal"><fmt:message key='grp.deletegroup.confirm'/></div>
 </form>
 
+<h4 id="allgroups"><fmt:message key='grp.allgroups'/></h4>
 <div class="table-filter-sort-condensed-striped">
-  <table class="table">
+  <table class="table" aria-described-by="allgroups">
+    <caption class="hide">Group Details</caption>
     <thead>
-      <th><fmt:message key="group.name"/></th>
-      <th><fmt:message key="group.members"/></th>
-      <th><fmt:message key="group.created"/></th>
-      <th><fmt:message key="group.thecreator"/></th>
-      <th><fmt:message key="group.modified"/></th>
-      <th><fmt:message key="group.themodifier"/></th>
-      <th><fmt:message key="group.actions"/></th>
+      <th scope="col"><fmt:message key="group.name"/></th>
+      <th scope="col"><fmt:message key="group.members"/></th>
+      <th scope="col"><fmt:message key="group.created"/></th>
+      <th scope="col"><fmt:message key="group.thecreator"/></th>
+      <th scope="col"><fmt:message key="group.modified"/></th>
+      <th scope="col"><fmt:message key="group.themodifier"/></th>
+      <th scope="col"><fmt:message key="group.actions"/></th>
     </thead>
     <tbody>
     <%
@@ -128,22 +130,18 @@
         group = groupMgr.getGroup( name );
         members = group.members();
         Arrays.sort( members, new PrincipalComparator() );
-
-        membersAsString = new StringBuffer();
-        for ( int i = 0; i < members.length; i++ )
-        {
-          membersAsString.append( members[i].getName().trim() );
-          if( i+1 < members.length ){ membersAsString.append( ", " ); }
-        }
-
+        pageContext.setAttribute("members", members);
     %>
     <c:set var="group" value="<%= group %>" />
-    <c:set var="members" value="<%= membersAsString %>" />
     <tr class="${param.group == group.name ? 'highlight' : ''}">
       <%--<td><wiki:Link jsp='Group.jsp'><wiki:Param name='group' value='${group.name}'/>${group.name}</wiki:Link></td>--%>
-      <td><c:if test="${group.name =='Admin'}"><span class="icon-unlock-alt"></span></c:if> ${group.name}</td>
-      <td>${members}</td>
-
+      <td><c:if test="${group.name =='Admin'}"><span class="icon-unlock-alt"></span> </c:if>${group.name}</td>
+      <td>
+        <c:forEach items="${members}" var="member" varStatus="iterator">
+          <c:if test="${iterator.index > 0}">, </c:if>
+          ${member.name}
+        </c:forEach>
+      </td>
       <td><fmt:formatDate value="${group.created}" pattern="${prefs.DateFormat}" timeZone="${prefs.TimeZone}" /></td>
       <td>${group.creator}</td>
       <td><fmt:formatDate value="${group.lastModified}" pattern="${prefs.DateFormat}" timeZone="${prefs.TimeZone}" /></td>

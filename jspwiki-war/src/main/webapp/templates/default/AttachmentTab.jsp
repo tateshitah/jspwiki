@@ -101,17 +101,18 @@
     </form>
   </wiki:Permission>
 
+  <h4 id="attach-list"><fmt:message key='attach.list'/></h4>
   <div class="slimbox-attachments table-filter-striped-sort-condensed">
-  <table class="table">
+  <table class="table" aria-describedby="attach-list">
     <tr>
-      <th><fmt:message key="info.attachment.name"/></th>
-      <th><fmt:message key="info.version"/></th>
-      <th><fmt:message key="info.date"/></th>
-      <th><fmt:message key="info.size"/></th>
-      <th><fmt:message key="info.attachment.type"/></th>
-      <th><fmt:message key="info.author"/></th>
-      <th><fmt:message key="info.actions"/></th>
-      <th><fmt:message key="info.changenote"/></th>
+      <th scope="col"><fmt:message key="info.attachment.name"/></th>
+      <th scope="col"><fmt:message key="info.version"/></th>
+      <th scope="col"><fmt:message key="info.date"/></th>
+      <th scope="col"><fmt:message key="info.size"/></th>
+      <th scope="col"><fmt:message key="info.attachment.type"/></th>
+      <th scope="col"><fmt:message key="info.author"/></th>
+      <th scope="col"><fmt:message key="info.actions"/></th>
+      <th scope="col"><fmt:message key="info.changenote"/></th>
     </tr>
 
     <wiki:AttachmentsIterator id="att">

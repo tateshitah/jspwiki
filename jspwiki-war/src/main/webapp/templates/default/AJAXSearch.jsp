@@ -105,19 +105,19 @@
 
 <wiki:SearchResults>
 
-  <h4><fmt:message key="find.heading.results"><fmt:param><c:out value="${param.query}"/></fmt:param></fmt:message></h4>
+  <h4 id="find-heading-results"><fmt:message key="find.heading.results"><fmt:param><c:out value="${param.query}"/></fmt:param></fmt:message></h4>
 
   <p>
   <fmt:message key="find.externalsearch"/>
-    <a class="external"
+    &nbsp;<a class="external"
         href="http://www.google.com/search?q=<c:out value='${param.query}'/>"
         title="Google Search '<c:out value='${param.query}'/>'"
-       target="_blank">Google</a><img class="outlink" src="images/out.png" alt="" />
+       target="_blank">Google</a>
     |
     <a class="external"
         href="http://en.wikipedia.org/wiki/Special:Search?search=<c:out value='${param.query}'/>"
         title="Wikipedia Search '<c:out value='${param.query}'/>'"
-       target="_blank">Wikipedia</a><img class="outlink" src="images/out.png" alt="" />
+       target="_blank">Wikipedia</a>
   </p>
 
   <wiki:SetPagination start="${param.start}" total="<%=list.size()%>" pagesize="20" maxlinks="9"
@@ -126,11 +126,11 @@
 
     <div class="graphBars">
     <div class="zebra-table">
-    <table class="wikitable  table-striped" >
+    <table class="wikitable  table-striped" aria-describedby="find-heading-results">
 
       <tr>
-         <th align="left"><fmt:message key="find.results.page"/></th>
-         <th align="left"><fmt:message key="find.results.score"/></th>
+         <th scope="col"><fmt:message key="find.results.page"/></th>
+         <th scope="col"><fmt:message key="find.results.score"/></th>
       </tr>
 
       <wiki:SearchResultIterator id="searchref" start="${param.start}" maxItems="<%=maxitems%>">
