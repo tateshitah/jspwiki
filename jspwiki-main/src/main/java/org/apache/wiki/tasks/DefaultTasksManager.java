@@ -18,14 +18,14 @@
  */
 package org.apache.wiki.tasks;
 
-import java.util.Locale;
-
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.Engine;
 import org.apache.wiki.tasks.auth.SaveUserProfileTask;
 import org.apache.wiki.tasks.pages.PreSaveWikiPageTask;
 import org.apache.wiki.tasks.pages.SaveWikiPageTask;
 import org.apache.wiki.workflow.Step;
+
+import java.util.Locale;
 
 
 /**
@@ -37,7 +37,7 @@ public class DefaultTasksManager implements TasksManager {
      * {@inheritDoc}
      */
     @Override
-    public Step buildPreSaveWikiPageTask( WikiContext context, String proposedText ) {
+    public Step buildPreSaveWikiPageTask( final Context context, final String proposedText ) {
         return new PreSaveWikiPageTask( context, proposedText );
     }
     
@@ -45,15 +45,15 @@ public class DefaultTasksManager implements TasksManager {
      * {@inheritDoc}
      */
     @Override
-    public Step buildSaveWikiPageTask() {
-        return new SaveWikiPageTask();
+    public Step buildSaveWikiPageTask( final Context context ) {
+        return new SaveWikiPageTask( context );
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Step buildSaveUserProfileTask( WikiEngine engine, Locale loc ) {
+    public Step buildSaveUserProfileTask( final Engine engine, final Locale loc ) {
         return new SaveUserProfileTask( engine, loc );
     }
     

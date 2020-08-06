@@ -27,19 +27,21 @@ import org.apache.oro.text.regex.Pattern;
 import org.apache.oro.text.regex.PatternCompiler;
 import org.apache.oro.text.regex.PatternMatcher;
 import org.apache.oro.text.regex.Perl5Matcher;
-import org.apache.wiki.ReferenceManager;
 import org.apache.wiki.WikiBackgroundThread;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.WikiPage;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.ContextEnum;
+import org.apache.wiki.api.core.Engine;
+import org.apache.wiki.api.core.Page;
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.plugin.InitializablePlugin;
-import org.apache.wiki.api.plugin.WikiPlugin;
+import org.apache.wiki.api.plugin.Plugin;
 import org.apache.wiki.event.WikiEngineEvent;
 import org.apache.wiki.event.WikiEvent;
 import org.apache.wiki.event.WikiEventListener;
 import org.apache.wiki.event.WikiPageEvent;
 import org.apache.wiki.event.WikiPageRenameEvent;
+import org.apache.wiki.references.ReferenceManager;
+import org.apache.wiki.render.RenderingManager;
 import org.apache.wiki.util.TextUtil;
 
 import java.io.File;
@@ -75,7 +77,7 @@ import java.util.TreeMap;
  * 
  * @since 2.8
  */
-public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin, InitializablePlugin {
+public class PageViewPlugin extends AbstractReferralPlugin implements Plugin, InitializablePlugin {
 
     private static final Logger log = Logger.getLogger( PageViewPlugin.class );
 
@@ -132,16 +134,12 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
      * 
      * @param engine The wiki engine.
      */
-    public void initialize( WikiEngine engine )
-    {
-
+    @Override
+    public void initialize( final Engine engine ) {
         log.info( "initializing PageViewPlugin" );
-
-        synchronized( this )
-        {
-            if( c_singleton == null )
-            {
-                c_singleton = new PageViewManager(  );
+        synchronized( this ) {
+            if( c_singleton == null ) {
+                c_singleton = new PageViewManager();
             }
             c_singleton.initialize( engine );
         }
@@ -150,23 +148,20 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
     /**
      * Cleanup the singleton reference.
      */
-    private void cleanup()
-    {
+    private void cleanup() {
         log.info( "cleaning up PageView Manager" );
-
         c_singleton = null;
     }
 
     /**
      *  {@inheritDoc}
      */
-    public String execute( WikiContext context, Map<String, String> params ) throws PluginException
-    {
-        PageViewManager manager = c_singleton;
+    @Override
+    public String execute( final Context context, final Map< String, String > params ) throws PluginException {
+        final PageViewManager manager = c_singleton;
         String result = STR_EMPTY;
 
-        if( manager != null )
-        {
+        if( manager != null ) {
             result = manager.execute( context, params );
         }
 
@@ -176,8 +171,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
     /**
      * Page view manager, handling all storage.
      */
-    public final class PageViewManager implements WikiEventListener
-    {
+    public final class PageViewManager implements WikiEventListener {
         /** Are we initialized? */
         private boolean m_initialized = false;
 
@@ -197,13 +191,10 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
         private String m_workDir = null;
 
         /** Comparator for descending sort on page count. */
-        private final Comparator<Object> m_compareCountDescending = new Comparator<Object>() {
-            public int compare( Object o1, Object o2 )
-            {
-                final int v1 = getCount( o1 );
-                final int v2 = getCount( o2 );
-                return (v1 == v2) ? ((String) o1).compareTo( (String) o2 ) : (v1 < v2) ? 1 : -1;
-            }
+        private final Comparator< Object > m_compareCountDescending = ( o1, o2 ) -> {
+            final int v1 = getCount( o1 );
+            final int v2 = getCount( o2 );
+            return ( v1 == v2 ) ? ( ( String )o1 ).compareTo( ( String )o2 ) : ( v1 < v2 ) ? 1 : -1;
         };
 
         /**
@@ -211,26 +202,20 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * 
          * @param engine The wiki engine.
          */
-        public synchronized void initialize( WikiEngine engine )
-        {
+        public synchronized void initialize( final Engine engine ) {
             log.info( "initializing PageView Manager" );
-
             m_workDir = engine.getWorkDir();
-
             engine.addWikiEventListener( this );
-
-            if( m_counters == null )
-            {
+            if( m_counters == null ) {
                 // Load the counters into a collection
                 m_storage = new Properties();
-                m_counters = new TreeMap<String, Counter>();
+                m_counters = new TreeMap<>();
 
                 loadCounters();
             }
 
             // backup counters every 5 minutes
-            if( m_pageCountSaveThread == null )
-            {
+            if( m_pageCountSaveThread == null ) {
                 m_pageCountSaveThread = new CounterSaveThread( engine, 5 * STORAGE_INTERVAL, this );
                 m_pageCountSaveThread.start();
             }
@@ -240,16 +225,13 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
 
         /**
          * Handle the shutdown event via the page counter thread.
-         * 
          */
-        private synchronized void handleShutdown()
-        {
+        private synchronized void handleShutdown() {
             log.info( "handleShutdown: The counter store thread was shut down." );
 
             cleanup();
 
-            if( m_counters != null )
-            {
+            if( m_counters != null ) {
 
                 m_dirty = true;
                 storeCounters();
@@ -271,35 +253,28 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * 
          * @param event The wiki event to inspect.
          */
-        public void actionPerformed( WikiEvent event )
-        {
-            if( event instanceof WikiEngineEvent )
-            {
-                if( event.getType() == WikiEngineEvent.SHUTDOWN )
-                {
+        @Override
+        public void actionPerformed( final WikiEvent event ) {
+            if( event instanceof WikiEngineEvent ) {
+                if( event.getType() == WikiEngineEvent.SHUTDOWN ) {
                     log.info( "Detected wiki engine shutdown" );
                     handleShutdown();
                 }
-            } 
-            else if( (event instanceof WikiPageRenameEvent) && (event.getType() == WikiPageRenameEvent.PAGE_RENAMED) )
-            {
-                String oldPageName = ((WikiPageRenameEvent) event).getOldPageName();
-                String newPageName = ((WikiPageRenameEvent) event).getNewPageName();
-                Counter oldCounter = m_counters.get(oldPageName);
-                if ( oldCounter != null )
-                {
-                    m_storage.remove(oldPageName);
-                    m_counters.put(newPageName, oldCounter);
-                    m_storage.setProperty(newPageName, oldCounter.toString());
-                    m_counters.remove(oldPageName);
+            } else if( ( event instanceof WikiPageRenameEvent ) && ( event.getType() == WikiPageRenameEvent.PAGE_RENAMED ) ) {
+                final String oldPageName = ( ( WikiPageRenameEvent )event ).getOldPageName();
+                final String newPageName = ( ( WikiPageRenameEvent )event ).getNewPageName();
+                final Counter oldCounter = m_counters.get( oldPageName );
+                if( oldCounter != null ) {
+                    m_storage.remove( oldPageName );
+                    m_counters.put( newPageName, oldCounter );
+                    m_storage.setProperty( newPageName, oldCounter.toString() );
+                    m_counters.remove( oldPageName );
                     m_dirty = true;
                 }
-            }
-            else if( (event instanceof WikiPageEvent) && (event.getType() == WikiPageEvent.PAGE_DELETED) )
-            {
-                 String pageName = ((WikiPageEvent) event).getPageName();
-                 m_storage.remove(pageName);
-                 m_counters.remove(pageName);
+            } else if( ( event instanceof WikiPageEvent ) && ( event.getType() == WikiPageEvent.PAGE_DELETED ) ) {
+                final String pageName = ( ( WikiPageEvent )event ).getPageName();
+                m_storage.remove( pageName );
+                m_counters.remove( pageName );
             }
         }
 
@@ -311,73 +286,55 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * @return String Wiki page snippet
          * @throws PluginException Malformed pattern parameter.
          */
-        public String execute( WikiContext context, Map<String, String> params ) throws PluginException
-        {
-            WikiEngine engine = context.getEngine();
-            WikiPage page = context.getPage();
+        public String execute( final Context context, final Map< String, String > params ) throws PluginException {
+            final Engine engine = context.getEngine();
+            final Page page = context.getPage();
             String result = STR_EMPTY;
 
-            if( page != null )
-            {
+            if( page != null ) {
                 // get parameters
-                String pagename = page.getName();
+                final String pagename = page.getName();
                 String count = params.get( PARAM_COUNT );
-                String show = params.get( PARAM_SHOW );
+                final String show = params.get( PARAM_SHOW );
                 int entries = TextUtil.parseIntParameter( params.get( PARAM_MAX_ENTRIES ), Integer.MAX_VALUE );
                 final int max = TextUtil.parseIntParameter( params.get( PARAM_MAX_COUNT ), Integer.MAX_VALUE );
                 final int min = TextUtil.parseIntParameter( params.get( PARAM_MIN_COUNT ), Integer.MIN_VALUE );
-                String sort = params.get( PARAM_SORT );
-                String body = params.get( DefaultPluginManager.PARAM_BODY );
-                Pattern[] exclude = compileGlobs( PARAM_EXCLUDE, params.get( PARAM_EXCLUDE ) );
-                Pattern[] include = compileGlobs( PARAM_INCLUDE, params.get( PARAM_INCLUDE ) );
-                Pattern[] refer = compileGlobs( PARAM_REFER, params.get( PARAM_REFER ) );
-                PatternMatcher matcher = (null != exclude || null != include || null != refer) ? new Perl5Matcher() : null;
+                final String sort = params.get( PARAM_SORT );
+                final String body = params.get( DefaultPluginManager.PARAM_BODY );
+                final Pattern[] exclude = compileGlobs( PARAM_EXCLUDE, params.get( PARAM_EXCLUDE ) );
+                final Pattern[] include = compileGlobs( PARAM_INCLUDE, params.get( PARAM_INCLUDE ) );
+                final Pattern[] refer = compileGlobs( PARAM_REFER, params.get( PARAM_REFER ) );
+                final PatternMatcher matcher = (null != exclude || null != include || null != refer) ? new Perl5Matcher() : null;
                 boolean increment = false;
 
                 // increment counter?
-                if( STR_YES.equals( count ) )
-                {
+                if( STR_YES.equals( count ) ) {
                     increment = true;
-                }
-                else
-                {
+                } else {
                     count = null;
                 }
 
                 // default increment counter?
-                if( (show == null || STR_NONE.equals( show )) && count == null )
-                {
+                if( ( show == null || STR_NONE.equals( show ) ) && count == null ) {
                     increment = true;
                 }
 
                 // filter on referring pages?
-                Collection<String> referrers = null;
+                Collection< String > referrers = null;
 
-                if( refer != null )
-                {
-                    ReferenceManager refManager = engine.getReferenceManager();
-
-                    Iterator< String > iter = refManager.findCreated().iterator();
-
-                    while ( iter != null && iter.hasNext() )
-                    {
-                        String name = iter.next();
+                if( refer != null ) {
+                    final ReferenceManager refManager = engine.getManager( ReferenceManager.class );
+                    for( final String name : refManager.findCreated() ) {
                         boolean use = false;
-
-                        for( int n = 0; !use && n < refer.length; n++ )
-                        {
-                            use = matcher.matches( name, refer[n] );
+                        for( int n = 0; !use && n < refer.length; n++ ) {
+                            use = matcher.matches( name, refer[ n ] );
                         }
 
-                        if( use )
-                        {
-                            Collection< String > refs = engine.getReferenceManager().findReferrers( name );
-
-                            if( refs != null && !refs.isEmpty() )
-                            {
-                                if( referrers == null )
-                                {
-                                    referrers = new HashSet<String>();
+                        if( use ) {
+                            final Collection< String > refs = engine.getManager( ReferenceManager.class ).findReferrers( name );
+                            if( refs != null && !refs.isEmpty() ) {
+                                if( referrers == null ) {
+                                    referrers = new HashSet<>();
                                 }
                                 referrers.addAll( refs );
                             }
@@ -385,15 +342,12 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
                     }
                 }
 
-                synchronized( this )
-                {
+                synchronized( this ) {
                     Counter counter = m_counters.get( pagename );
 
                     // only count in view mode, keep storage values in sync
-                    if( increment && WikiContext.VIEW.equalsIgnoreCase( context.getRequestContext() ) )
-                    {
-                        if( counter == null )
-                        {
+                    if( increment && ContextEnum.PAGE_VIEW.getRequestContext().equalsIgnoreCase( context.getRequestContext() ) ) {
+                        if( counter == null ) {
                             counter = new Counter();
                             m_counters.put( pagename, counter );
                         }
@@ -402,16 +356,12 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
                         m_dirty = true;
                     }
 
-                    if( show == null || STR_NONE.equals( show ) )
-                    {
+                    if( show == null || STR_NONE.equals( show ) ) {
                         // nothing to show
 
-                    }
-                    else if( PARAM_COUNT.equals( show ) )
-                    {
+                    } else if( PARAM_COUNT.equals( show ) ) {
                         // show page count
-                        if( counter == null )
-                        {
+                        if( counter == null ) {
                             counter = new Counter();
                             m_counters.put( pagename, counter );
                             m_storage.setProperty( pagename, counter.toString() );
@@ -419,95 +369,72 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
                         }
                         result = counter.toString();
 
-                    }
-                    else if( body != null && 0 < body.length() && STR_LIST.equals( show ) )
-                    {
+                    } else if( body != null && 0 < body.length() && STR_LIST.equals( show ) ) {
                         // show list of counts
                         String header = STR_EMPTY;
                         String line = body;
                         String footer = STR_EMPTY;
                         int start = body.indexOf( STR_SEPARATOR );
 
-                        // split body into header, line, footer on ----
-                        // separator
-                        if( 0 < start )
-                        {
+                        // split body into header, line, footer on ---- separator
+                        if( 0 < start ) {
                             header = body.substring( 0, start );
-
                             start = skipWhitespace( start + STR_SEPARATOR.length(), body );
-
                             int end = body.indexOf( STR_SEPARATOR, start );
-
-                            if( start >= end )
-                            {
+                            if( start >= end ) {
                                 line = body.substring( start );
-
-                            }
-                            else
-                            {
+                            } else {
                                 line = body.substring( start, end );
-
                                 end = skipWhitespace( end + STR_SEPARATOR.length(), body );
-
                                 footer = body.substring( end );
                             }
                         }
 
                         // sort on name or count?
-                        Map<String, Counter> sorted = m_counters;
-
-                        if( sort != null && PARAM_COUNT.equals( sort ) )
-                        {
-                            sorted = new TreeMap<String, Counter>( m_compareCountDescending );
-
+                        Map< String, Counter > sorted = m_counters;
+                        if( PARAM_COUNT.equals( sort ) ) {
+                            sorted = new TreeMap<>( m_compareCountDescending );
                             sorted.putAll( m_counters );
                         }
 
                         // build a messagebuffer with the list in wiki markup
-                        StringBuffer buf = new StringBuffer( header );
-                        MessageFormat fmt = new MessageFormat( line );
-                        Object[] args = new Object[] { pagename, STR_EMPTY, STR_EMPTY };
-                        Iterator< Entry< String, Counter > > iter = sorted.entrySet().iterator();
+                        final StringBuffer buf = new StringBuffer( header );
+                        final MessageFormat fmt = new MessageFormat( line );
+                        final Object[] args = new Object[] { pagename, STR_EMPTY, STR_EMPTY };
+                        final Iterator< Entry< String, Counter > > iter = sorted.entrySet().iterator();
 
-                        while ( iter != null && 0 < entries && iter.hasNext() )
-                        {
-                            Entry< String, Counter > entry = iter.next();
-                            String name = entry.getKey();
+                        while( 0 < entries && iter.hasNext() ) {
+                            final Entry< String, Counter > entry = iter.next();
+                            final String name = entry.getKey();
 
                             // check minimum/maximum count
                             final int value = entry.getValue().getValue();
                             boolean use = min <= value && value <= max;
 
                             // did we specify a refer-to page?
-                            if( use && referrers != null )
-                            {
+                            if( use && referrers != null ) {
                                 use = referrers.contains( name );
                             }
 
                             // did we specify what pages to include?
-                            if( use && include != null )
-                            {
+                            if( use && include != null ) {
                                 use = false;
 
-                                for( int n = 0; !use && n < include.length; n++ )
-                                {
-                                    use = matcher.matches( name, include[n] );
+                                for( int n = 0; !use && n < include.length; n++ ) {
+                                    use = matcher.matches( name, include[ n ] );
                                 }
                             }
 
                             // did we specify what pages to exclude?
-                            if( use && null != exclude )
-                            {
-                                for( int n = 0; use && n < exclude.length; n++ )
-                                {
-                                    use &= !matcher.matches( name, exclude[n] );
+                            if( use && null != exclude ) {
+                                for( int n = 0; use && n < exclude.length; n++ ) {
+                                    use &= !matcher.matches( name, exclude[ n ] );
                                 }
                             }
 
-                            if( use )
-                            {
-                                args[1] = engine.beautifyTitle( name );
-                                args[2] = entry.getValue();
+                            if( use ) {
+                                args[ 1 ] = engine.getManager( RenderingManager.class ).beautifyTitle( name );
+                                args[ 2 ] = entry.getValue();
 
                                 fmt.format( args, buf, null );
 
@@ -517,7 +444,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
                         buf.append( footer );
 
                         // let the engine render the list
-                        result = engine.textToHTML( context, buf.toString() );
+                        result = engine.getManager( RenderingManager.class ).textToHTML( context, buf.toString() );
                     }
                 }
             }
@@ -532,27 +459,18 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * @return Pattern[] The compiled patterns, or <code>null</code>.
          * @throws PluginException On malformed patterns.
          */
-        private Pattern[] compileGlobs( String name, String value ) throws PluginException
-        {
+        private Pattern[] compileGlobs( final String name, final String value ) throws PluginException {
             Pattern[] result = null;
+            if( value != null && 0 < value.length() && !STR_GLOBSTAR.equals( value ) ) {
+                try {
+                    final PatternCompiler pc = new GlobCompiler();
+                    final String[] ptrns = StringUtils.split( value, STR_COMMA );
+                    result = new Pattern[ ptrns.length ];
 
-            if( value != null && 0 < value.length() && !STR_GLOBSTAR.equals( value ) )
-            {
-                try
-                {
-                    PatternCompiler pc = new GlobCompiler();
-
-                    String[] ptrns = StringUtils.split( value, STR_COMMA );
-
-                    result = new Pattern[ptrns.length];
-
-                    for( int n = 0; n < ptrns.length; n++ )
-                    {
-                        result[n] = pc.compile( ptrns[n] );
+                    for( int n = 0; n < ptrns.length; n++ ) {
+                        result[ n ] = pc.compile( ptrns[ n ] );
                     }
-                }
-                catch( MalformedPatternException e )
-                {
+                } catch( final MalformedPatternException e ) {
                     throw new PluginException( "Parameter " + name + " has a malformed pattern: " + e.getMessage() );
                 }
             }
@@ -567,10 +485,8 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * @param value String in which offset points.
          * @return int Adjusted offset into value.
          */
-        private int skipWhitespace( int offset, String value )
-        {
-            while ( Character.isWhitespace( value.charAt( offset ) ) )
-            {
+        private int skipWhitespace( int offset, final String value ) {
+            while( Character.isWhitespace( value.charAt( offset ) ) ) {
                 offset++;
             }
             return offset;
@@ -582,7 +498,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * @return int The page count for the given key.
          * @param key the key for the Counter
          */
-        protected int getCount( Object key )
+        protected int getCount( final Object key )
         {
             return m_counters.get( key ).getValue();
         }
@@ -594,18 +510,15 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
             if( m_counters != null && m_storage != null ) {
                 log.info( "Loading counters." );
                 synchronized( this ) {
-                    try( InputStream fis = new FileInputStream( new File( m_workDir, COUNTER_PAGE ) ) ) {
+                    try( final InputStream fis = new FileInputStream( new File( m_workDir, COUNTER_PAGE ) ) ) {
                         m_storage.load( fis );
-                    } catch( IOException ioe ) {
+                    } catch( final IOException ioe ) {
                         log.error( "Can't load page counter store: " + ioe.getMessage() + " , will create a new one!" );
                     }
 
                     // Copy the collection into a sorted map
-                    Iterator< Entry< Object, Object > > iter = m_storage.entrySet().iterator();
-
-                    while ( iter != null && iter.hasNext() ) {
-                        Entry< ?, ? > entry = iter.next();
-                        m_counters.put( (String) entry.getKey(), new Counter( (String) entry.getValue() ) );
+                    for( final Entry< ?, ? > entry : m_storage.entrySet() ) {
+                        m_counters.put( ( String )entry.getKey(), new Counter( ( String )entry.getValue() ) );
                     }
                     
                     log.info( "Loaded " + m_counters.size() + " counter values." );
@@ -626,7 +539,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
                         fos.flush();
 
                         m_dirty = false;
-                    } catch( IOException ioe ) {
+                    } catch( final IOException ioe ) {
                         log.error( "Couldn't store counters values: " + ioe.getMessage() );
                     }
                 }
@@ -635,24 +548,19 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
 
         /**
          * Is the given thread still current?
-         * 
-         * @return boolean <code>true</code> if the thread is still the current
-         *         background thread.
-         * @param thrd
+         *
+         * @param thrd thread that can be the current background thread.
+         * @return boolean <code>true</code> if the thread is still the current background thread.
          */
-        private synchronized boolean isRunning( Thread thrd )
+        private synchronized boolean isRunning( final Thread thrd )
         {
             return m_initialized && thrd == m_pageCountSaveThread;
         }
 
     }
 
-
-    /**
-     * Counter for page hits collection.
-     */
-    private static final class Counter
-    {
+    /** Counter for page hits collection. */
+    private static final class Counter {
 
         /** The count value. */
         private int m_count = 0;
@@ -660,8 +568,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
         /**
          * Create a new counter.
          */
-        public Counter()
-        {
+        public Counter() {
         }
 
         /**
@@ -669,7 +576,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * 
          * @param value Count value.
          */
-        public Counter( String value )
+        public Counter( final String value )
         {
             setValue( value );
         }
@@ -697,7 +604,7 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * 
          * @param value String representation of the count.
          */
-        public void setValue( String value )
+        public void setValue( final String value )
         {
             m_count = NumberUtils.toInt( value );
         }
@@ -705,17 +612,18 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
         /**
          * @return String String representation of the count.
          */
+        @Override
         public String toString()
         {
             return String.valueOf( m_count );
         }
+
     }
 
     /**
      * Background thread storing the page counters.
      */
-    static final class CounterSaveThread extends WikiBackgroundThread
-    {
+    static final class CounterSaveThread extends WikiBackgroundThread {
 
         /** The page view manager. */
         private final PageViewManager m_manager;
@@ -725,15 +633,11 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
          * 
          * @param engine The wiki engine.
          * @param interval Delay in seconds between saves.
-         * @param pageViewManager
+         * @param pageViewManager page view manager.
          */
-        public CounterSaveThread( WikiEngine engine, int interval, PageViewManager pageViewManager )
-        {
-
+        public CounterSaveThread( final Engine engine, final int interval, final PageViewManager pageViewManager ) {
             super( engine, interval );
-
-            if( pageViewManager == null )
-            {
+            if( pageViewManager == null ) {
                 throw new IllegalArgumentException( "Manager cannot be null" );
             }
 
@@ -743,11 +647,9 @@ public class PageViewPlugin extends AbstractReferralPlugin implements WikiPlugin
         /**
          * Save the page counters to file.
          */
-        public void backgroundTask()
-        {
-
-            if( m_manager.isRunning( this ) )
-            {
+        @Override
+        public void backgroundTask() {
+            if( m_manager.isRunning( this ) ) {
                 m_manager.storeCounters();
             }
         }

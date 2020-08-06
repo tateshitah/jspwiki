@@ -18,17 +18,19 @@
  */
 package org.apache.wiki.plugin;
 
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.ContextEnum;
+import org.apache.wiki.api.core.Engine;
+import org.apache.wiki.api.exceptions.PluginException;
+import org.apache.wiki.api.plugin.Plugin;
+import org.apache.wiki.auth.authorize.GroupManager;
+import org.apache.wiki.url.URLConstructor;
+import org.apache.wiki.util.comparators.PrincipalComparator;
+
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
-
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.api.exceptions.PluginException;
-import org.apache.wiki.api.plugin.WikiPlugin;
-import org.apache.wiki.auth.PrincipalComparator;
-import org.apache.wiki.auth.authorize.GroupManager;
 
 /**
  *  <p>Prints the groups managed by this wiki, separated by commas.
@@ -36,35 +38,31 @@ import org.apache.wiki.auth.authorize.GroupManager;
  *  </p>
  *  <p>Parameters : </p>
  *  NONE
- *  
- *  
+ *
  *  @since 2.4.19
  */
-public class Groups
-    implements WikiPlugin
-{
+public class Groups implements Plugin {
+
     private static final Comparator<Principal> COMPARATOR = new PrincipalComparator();
     
     /**
      *  {@inheritDoc}
      */
-    public String execute( WikiContext context, Map<String, String> params )
-        throws PluginException
-    {
+    @Override
+    public String execute( final Context context, final Map<String, String> params ) throws PluginException {
         // Retrieve groups, and sort by name
-        WikiEngine engine = context.getEngine();
-        GroupManager groupMgr = engine.getGroupManager();
-        Principal[] groups = groupMgr.getRoles();
+        final Engine engine = context.getEngine();
+        final GroupManager groupMgr = engine.getManager( GroupManager.class );
+        final Principal[] groups = groupMgr.getRoles();
         Arrays.sort( groups, COMPARATOR );
 
-        StringBuilder s = new StringBuilder();
+        final StringBuilder s = new StringBuilder();
         
-        for ( int i = 0; i < groups.length; i++ )
-        {
-            String name = groups[i].getName();
+        for ( int i = 0; i < groups.length; i++ ) {
+            final String name = groups[ i ].getName();
             
             // Make URL
-            String url = engine.getURLConstructor().makeURL( WikiContext.VIEW_GROUP, name, false, null );
+            final String url = engine.getManager( URLConstructor.class ).makeURL( ContextEnum.GROUP_VIEW.getRequestContext(), name,  null );
             
             // Create hyperlink
             s.append( "<a href=\"" );
@@ -74,12 +72,12 @@ public class Groups
             s.append( "</a>" );
             
             // If not the last one, add a comma and space
-            if ( i < ( groups.length - 1 ) )
-            {
+            if ( i < ( groups.length - 1 ) ) {
                 s.append( ',' );
                 s.append( ' ' );
             }
         }
         return s.toString();
     }
+
 }

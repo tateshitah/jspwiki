@@ -18,6 +18,8 @@
  */
 package org.apache.wiki.workflow;
 
+import org.apache.wiki.api.exceptions.WikiException;
+
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -29,17 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.wiki.api.exceptions.WikiException;
-
 /**
- * Abstact superclass that provides a complete implementation of most
- * Step methods; subclasses need only implement {@link #execute()} and
+ * Abstract superclass that provides a complete implementation of most Step methods; subclasses need only implement {@link #execute()} and
  * {@link #getActor()}.
  *
  * @since 2.5
  */
-public abstract class AbstractStep implements Step
-{
+public abstract class AbstractStep implements Step {
 
     private static final long serialVersionUID = 8635678679349653768L;
 
@@ -53,9 +51,12 @@ public abstract class AbstractStep implements Step
 
     private boolean m_completed;
 
-    private final Map<Outcome, Step> m_successors;
+    private final Map< Outcome, Step > m_successors;
 
-    private Workflow m_workflow;
+    private int workflowId;
+
+    /** attribute map. */
+    private Map< String, Serializable > workflowContext;
 
     private Outcome m_outcome;
 
@@ -64,70 +65,55 @@ public abstract class AbstractStep implements Step
     private boolean m_started;
 
     /**
-     * Protected constructor that creates a new Step with a specified message key.
-     * After construction, the method {@link #setWorkflow(Workflow)} should be
-     * called.
+     * Protected constructor that creates a new Step with a specified message key. After construction, the method
+     * {@link #setWorkflow(int, Map)} should be called.
      *
-     * @param messageKey
-     *            the Step's message key, such as
-     *            <code>decision.editPageApproval</code>. By convention, the
-     *            message prefix should be a lower-case version of the Step's
-     *            type, plus a period (<em>e.g.</em>, <code>task.</code>
-     *            and <code>decision.</code>).
+     * @param messageKey the Step's message key, such as {@code decision.editPageApproval}. By convention, the message prefix should
+     *                   be a lower-case version of the Step's type, plus a period (<em>e.g.</em>, {@code task.} and {@code decision.}).
      */
-    protected AbstractStep( String messageKey )
-    {
+    protected AbstractStep( final String messageKey ) {
         m_started = false;
-        m_start = Workflow.TIME_NOT_SET;
+        m_start = Step.TIME_NOT_SET;
         m_completed = false;
-        m_end = Workflow.TIME_NOT_SET;
-        m_errors = new ArrayList<String>();
+        m_end = Step.TIME_NOT_SET;
+        m_errors = new ArrayList<>();
         m_outcome = Outcome.STEP_CONTINUE;
         m_key = messageKey;
-        m_successors = new LinkedHashMap<Outcome, Step>();
+        m_successors = new LinkedHashMap<>();
     }
 
     /**
-     * Constructs a new Step belonging to a specified Workflow and having a
-     * specified message key.
+     * Constructs a new Step belonging to a specified Workflow and having a specified message key.
      *
-     * @param workflow
-     *            the workflow the Step belongs to
-     * @param messageKey
-     *            the Step's message key, such as
-     *            <code>decision.editPageApproval</code>. By convention, the
-     *            message prefix should be a lower-case version of the Step's
-     *            type, plus a period (<em>e.g.</em>, <code>task.</code>
-     *            and <code>decision.</code>).
+     * @param workflowId the parent workflow id to set
+     * @param workflowContext the parent workflow context to set
+     * @param messageKey the Step's message key, such as {@code decision.editPageApproval}. By convention, the message prefix should
+     *                   be a lower-case version of the Step's type, plus a period (<em>e.g.</em>, {@code task.} and {@code decision.}).
      */
-    public AbstractStep( Workflow workflow, String messageKey )
-    {
+    public AbstractStep( final int workflowId, final Map< String, Serializable > workflowContext, final String messageKey ) {
         this( messageKey );
-        setWorkflow( workflow );
+        setWorkflow( workflowId, workflowContext );
     }
 
     /**
      * {@inheritDoc}
      */
-    public final void addSuccessor(Outcome outcome, Step step)
-    {
+    public final void addSuccessor( final Outcome outcome, final Step step ) {
         m_successors.put( outcome, step );
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Collection< Outcome > getAvailableOutcomes()
-    {
-        Set<Outcome> outcomes = m_successors.keySet();
+    public final Collection< Outcome > getAvailableOutcomes() {
+        final Set< Outcome > outcomes = m_successors.keySet();
         return Collections.unmodifiableCollection( outcomes );
     }
 
     /**
      * {@inheritDoc}
      */
-    public final List< String > getErrors()
-    {
+    public final List< String > getErrors() {
         return Collections.unmodifiableList( m_errors );
     }
 
@@ -144,103 +130,59 @@ public abstract class AbstractStep implements Step
     /**
      * {@inheritDoc}
      */
-    public final Date getEndTime()
-    {
+    public final Date getEndTime() {
         return m_end;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final Serializable[] getMessageArguments()
-    {
-        if ( m_workflow == null )
-        {
-            return new Serializable[0];
-        }
-        return m_workflow.getMessageArguments();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final String getMessageKey()
-    {
+    public final String getMessageKey() {
         return m_key;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized Outcome getOutcome()
-    {
+    public final synchronized Outcome getOutcome() {
         return m_outcome;
     }
 
     /**
      * {@inheritDoc}
      */
-    public Principal getOwner()
-    {
-        if ( m_workflow == null )
-        {
-            return null;
-        }
-        return m_workflow.getOwner();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final Date getStartTime()
-    {
+    public final Date getStartTime() {
         return m_start;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized Workflow getWorkflow()
-    {
-        return m_workflow;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final boolean isCompleted()
-    {
+    public final boolean isCompleted() {
         return m_completed;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final boolean isStarted()
-    {
+    public final boolean isStarted() {
         return m_started;
     }
 
     /**
      * {@inheritDoc}
      */
-    public final synchronized void setOutcome(Outcome outcome)
-    {
+    public final synchronized void setOutcome( final Outcome outcome ) {
         // Is this an allowed Outcome?
-        if ( !m_successors.containsKey( outcome ) )
-        {
-            if ( !Outcome.STEP_CONTINUE.equals( outcome ) &&
-                 !Outcome.STEP_ABORT.equals( outcome ) )
-            {
-                 throw new IllegalArgumentException( "Outcome " + outcome.getMessageKey() + " is not supported for this Step." );
+        if( !m_successors.containsKey( outcome ) ) {
+            if( !Outcome.STEP_CONTINUE.equals( outcome ) && !Outcome.STEP_ABORT.equals( outcome ) ) {
+                throw new IllegalArgumentException( "Outcome " + outcome.getMessageKey() + " is not supported for this Step." );
             }
         }
 
         // Is this a "completion" outcome?
-        if ( outcome.isCompletion() )
-        {
-            if ( m_completed )
-            {
+        if( outcome.isCompletion() ) {
+            if( m_completed ) {
                 throw new IllegalStateException( "Step has already been marked complete; cannot set again." );
             }
             m_completed = true;
@@ -252,10 +194,8 @@ public abstract class AbstractStep implements Step
     /**
      * {@inheritDoc}
      */
-    public final synchronized void start() throws WikiException
-    {
-        if ( m_started )
-        {
+    public final synchronized void start() throws WikiException {
+        if( m_started ) {
             throw new IllegalStateException( "Step already started." );
         }
         m_started = true;
@@ -265,31 +205,37 @@ public abstract class AbstractStep implements Step
     /**
      * {@inheritDoc}
      */
-    public final Step getSuccessor( Outcome outcome )
-    {
+    public final Step getSuccessor( final Outcome outcome ) {
         return m_successors.get( outcome );
     }
 
     // --------------------------Helper methods--------------------------
 
     /**
-     * method that sets the parent Workflow post-construction.
-     * @param workflow the parent workflow to set
+     * method that sets the parent Workflow id and context post-construction.
+     *
+     * @param workflowId the parent workflow id to set
+     * @param workflowContext the parent workflow context to set
      */
-    public final synchronized void setWorkflow( Workflow workflow )
-    {
-        m_workflow = workflow;
+    public final synchronized void setWorkflow( final int workflowId, final Map< String, Serializable > workflowContext ) {
+        this.workflowId = workflowId;
+        this.workflowContext = workflowContext;
+    }
+
+    public int getWorkflowId() {
+        return workflowId;
+    }
+
+    public Map< String, Serializable > getWorkflowContext() {
+        return workflowContext;
     }
 
     /**
-     * Protected helper method that adds a String representing an error message
-     * to the Step's cached errors list.
+     * Protected helper method that adds a String representing an error message to the Step's cached errors list.
      *
-     * @param message
-     *            the error message
+     * @param message the error message
      */
-    protected final synchronized void addError( String message )
-    {
+    protected final synchronized void addError( final String message ) {
         m_errors.add( message );
     }
 

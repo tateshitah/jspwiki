@@ -18,19 +18,19 @@
  */
 package org.apache.wiki.tags;
 
-import java.io.IOException;
-import java.util.Collection;
+import org.apache.log4j.Logger;
+import org.apache.wiki.api.core.Command;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.Engine;
+import org.apache.wiki.api.search.SearchResult;
+import org.apache.wiki.api.spi.Wiki;
+import org.apache.wiki.ui.PageCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
-
-import org.apache.log4j.Logger;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.search.SearchResult;
-import org.apache.wiki.ui.Command;
-import org.apache.wiki.ui.PageCommand;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  *  Iterates through Search result results.
@@ -42,11 +42,9 @@ import org.apache.wiki.ui.PageCommand;
  *
  *  @since 2.0
  */
-
 // FIXME: Shares MUCH too much in common with IteratorTag.  Must refactor.
-public class SearchResultIteratorTag
-    extends IteratorTag
-{
+public class SearchResultIteratorTag extends IteratorTag {
+
     private static final long serialVersionUID = 0L;
     
     private   int         m_maxItems;
@@ -54,62 +52,59 @@ public class SearchResultIteratorTag
     private   int         m_start = 0;
     
     private static final Logger log = Logger.getLogger(SearchResultIteratorTag.class);
-    
-    public void release()
-    {
+
+    /** {@inheritDoc} */
+    @Override
+    public void release() {
         super.release();
         m_maxItems = m_count = 0;
     }
 
-    public void setMaxItems( int arg )
+    public void setMaxItems( final int arg )
     {
         m_maxItems = arg;
     }
 
-    public void setStart( int arg )
+    public void setStart( final int arg )
     {
         m_start = arg;
     }
-    
-    public final int doStartTag()
-    {
-        //
+
+    /** {@inheritDoc} */
+    @Override
+    public final int doStartTag() {
         //  Do lazy eval if the search results have not been set.
-        //
-        if( m_iterator == null )
-        {
-            Collection< ? > searchresults = (Collection< ? >)pageContext.getAttribute( "searchresults", PageContext.REQUEST_SCOPE );
+        if( m_iterator == null ) {
+            final Collection< ? > searchresults = (Collection< ? >)pageContext.getAttribute( "searchresults", PageContext.REQUEST_SCOPE );
             setList( searchresults );
             
             int skip = 0;
             
             //  Skip the first few ones...
             m_iterator = searchresults.iterator();
-            while( m_iterator.hasNext() && (skip++ < m_start) ) m_iterator.next();
+            while( m_iterator.hasNext() && (skip++ < m_start) ) {
+                m_iterator.next();
+            }
         }
 
         m_count = 0;
-        m_wikiContext = (WikiContext) pageContext.getAttribute( WikiTagBase.ATTR_CONTEXT, PageContext.REQUEST_SCOPE );
+        m_wikiContext = ( Context )pageContext.getAttribute( Context.ATTR_CONTEXT, PageContext.REQUEST_SCOPE );
 
         return nextResult();
     }
 
-    private int nextResult()
-    {
-        if( m_iterator != null && m_iterator.hasNext() && m_count++ < m_maxItems )
-        {
-            SearchResult r = (SearchResult) m_iterator.next();
-            
+    private int nextResult() {
+        if( m_iterator != null && m_iterator.hasNext() && m_count++ < m_maxItems ) {
+            final SearchResult r = ( SearchResult )m_iterator.next();
+
             // Create a wiki context for the result
-            WikiEngine engine = m_wikiContext.getEngine();
-            HttpServletRequest request = m_wikiContext.getHttpRequest();
-            Command command = PageCommand.VIEW.targetedCommand( r.getPage() );
-            WikiContext context = new WikiContext( engine, request, command );
-            
+            final Engine engine = m_wikiContext.getEngine();
+            final HttpServletRequest request = m_wikiContext.getHttpRequest();
+            final Command command = PageCommand.VIEW.targetedCommand( r.getPage() );
+            final Context context = Wiki.context().create( engine, request, command );
+
             // Stash it in the page context
-            pageContext.setAttribute( WikiTagBase.ATTR_CONTEXT,
-                                      context,
-                                      PageContext.REQUEST_SCOPE );
+            pageContext.setAttribute( Context.ATTR_CONTEXT, context, PageContext.REQUEST_SCOPE );
             pageContext.setAttribute( getId(), r );
 
             return EVAL_BODY_BUFFERED;
@@ -118,18 +113,15 @@ public class SearchResultIteratorTag
         return SKIP_BODY;
     }
 
-    public int doAfterBody()
-    {
-        if( bodyContent != null )
-        {
-            try
-            {
-                JspWriter out = getPreviousOut();
+    /** {@inheritDoc} */
+    @Override
+    public int doAfterBody() {
+        if( bodyContent != null ) {
+            try {
+                final JspWriter out = getPreviousOut();
                 out.print(bodyContent.getString());
                 bodyContent.clearBody();
-            }
-            catch( IOException e )
-            {
+            } catch( final IOException e ) {
                 log.error("Unable to get inner tag text", e);
                 // FIXME: throw something?
             }
@@ -138,10 +130,11 @@ public class SearchResultIteratorTag
         return nextResult();
     }
 
-    public int doEndTag()
-    {
+    /** {@inheritDoc} */
+    @Override
+    public int doEndTag() {
         m_iterator = null;
-
         return super.doEndTag();
     }
+
 }

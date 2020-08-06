@@ -18,18 +18,18 @@
  */
 package org.apache.wiki.plugin;
 
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.exceptions.PluginException;
+import org.apache.wiki.api.plugin.Plugin;
+import org.apache.wiki.preferences.Preferences;
+import org.apache.wiki.references.ReferenceManager;
+import org.apache.wiki.util.TextUtil;
+
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
-
-import org.apache.wiki.ReferenceManager;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.api.exceptions.PluginException;
-import org.apache.wiki.api.plugin.WikiPlugin;
-import org.apache.wiki.preferences.Preferences;
-import org.apache.wiki.util.TextUtil;
 /**
  *  <p>Lists all pages containing links to Undefined Pages (pages containing dead links).</p>
  *
@@ -45,50 +45,46 @@ public class ReferringUndefinedPagesPlugin extends AbstractReferralPlugin {
     /** Parameter name for setting the text to show when the maximum items is overruled. Value is <tt>{@value}</tt>. */
     public static final String PARAM_EXTRAS = "extras";
 
-    public String execute(WikiContext context, Map<String, String> params) throws PluginException {
-        ResourceBundle rb = Preferences.getBundle(context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE);
+    @Override
+    public String execute( final Context context, final Map<String, String> params) throws PluginException {
+        final ResourceBundle rb = Preferences.getBundle(context, Plugin.CORE_PLUGINS_RESOURCEBUNDLE);
+        final ReferenceManager referenceManager = context.getEngine().getManager( ReferenceManager.class );
 
-        ReferenceManager referenceManager = context.getEngine().getReferenceManager();
-
-        int items = TextUtil.parseIntParameter(params.get(PARAM_MAX), ALL_ITEMS);
+        final int items = TextUtil.parseIntParameter(params.get(PARAM_MAX), ALL_ITEMS);
         String extras = params.get(PARAM_EXTRAS);
         if (extras == null) {
             extras = rb.getString("referringundefinedpagesplugin.more");
         }
 
-        StringBuilder resultHTML = new StringBuilder();
+        final Collection< String > uncreatedPages = referenceManager.findUncreated();
+        super.initialize( context, params );
+        Collection< String > result = null;
 
-        Collection<String> uncreatedPages = referenceManager.findUncreated();
-
-        super.initialize(context, params);
-
-        Collection<String> result = null;
-
-        TreeMap< String, String > sortedMap = new TreeMap<>();
-        if (uncreatedPages != null) {
-            for (String uncreatedPageName : uncreatedPages) {
-                Collection<String> referrers = referenceManager.findReferrers(uncreatedPageName);
-                if (referrers != null) {
-                    for (String referringPage : referrers) {
-                        sortedMap.put(referringPage, "");
+        final TreeMap< String, String > sortedMap = new TreeMap<>();
+        if( uncreatedPages != null ) {
+            for( final String uncreatedPageName : uncreatedPages ) {
+                final Collection< String > referrers = referenceManager.findReferrers( uncreatedPageName );
+                if( referrers != null ) {
+                    for( final String referringPage : referrers ) {
+                        sortedMap.put( referringPage, "" );
                     }
                 }
             }
             result = sortedMap.keySet();
         }
 
-        result = super.filterAndSortCollection(result);
+        result = super.filterAndSortCollection( result );
 
-        String wikitext = wikitizeCollection(result, m_separator, items);
-
-        resultHTML.append(makeHTML(context, wikitext));
+        final String wikitext = wikitizeCollection( result, m_separator, items );
+        final StringBuilder resultHTML = new StringBuilder();
+        resultHTML.append( makeHTML( context, wikitext ) );
 
         // add the more.... text
-        if (items < result.size() && items > 0) {
-            Object[] args = {"" + (result.size() - items)};
-            extras = MessageFormat.format(extras, args);
+        if( items < result.size() && items > 0 ) {
+            final Object[] args = { "" + ( result.size() - items ) };
+            extras = MessageFormat.format( extras, args );
 
-            resultHTML.append("<br/>" + extras + "<br/>");
+            resultHTML.append( "<br/>" + extras + "<br/>" );
         }
         return resultHTML.toString();
     }

@@ -18,23 +18,26 @@
  */
 package org.apache.wiki.plugin;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import org.apache.log4j.Logger;
 import org.apache.wiki.InternalWikiException;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.WikiPage;
-import org.apache.wiki.api.engine.FilterManager;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.Engine;
+import org.apache.wiki.api.core.Page;
 import org.apache.wiki.api.exceptions.PluginException;
-import org.apache.wiki.api.plugin.WikiPlugin;
+import org.apache.wiki.api.plugin.Plugin;
+import org.apache.wiki.filters.FilterManager;
+import org.apache.wiki.pages.PageManager;
 import org.apache.wiki.parser.Heading;
 import org.apache.wiki.parser.HeadingListener;
 import org.apache.wiki.parser.MarkupParser;
 import org.apache.wiki.preferences.Preferences;
+import org.apache.wiki.render.RenderingManager;
 import org.apache.wiki.util.TextUtil;
+import org.apache.wiki.variables.VariableManager;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  *  Provides a table of contents.
@@ -48,10 +51,9 @@ import org.apache.wiki.util.TextUtil;
  *
  *  @since 2.2
  */
-public class TableOfContents
-    implements WikiPlugin, HeadingListener
-{
-    private static Logger log = Logger.getLogger( TableOfContents.class );
+public class TableOfContents implements Plugin, HeadingListener {
+
+    private static final Logger log = Logger.getLogger( TableOfContents.class );
 
     /** Parameter name for setting the title. */
     public static final String PARAM_TITLE = "title";
@@ -79,12 +81,11 @@ public class TableOfContents
     /**
      *  {@inheritDoc}
      */
-    public void headingAdded( WikiContext context, Heading hd )
-    {
-        log.debug("HD: "+hd.m_level+", "+hd.m_titleText+", "+hd.m_titleAnchor);
+    @Override
+    public void headingAdded( final Context context, final Heading hd ) {
+        log.debug( "HD: " + hd.m_level + ", " + hd.m_titleText + ", " + hd.m_titleAnchor );
 
-        switch( hd.m_level )
-        {
+        switch( hd.m_level ) {
           case Heading.HEADING_SMALL:
             m_buf.append("<li class=\"toclevel-3\">");
             m_level3Index++;
@@ -101,26 +102,23 @@ public class TableOfContents
             throw new InternalWikiException("Unknown depth in toc! (Please submit a bug report.)");
         }
 
-        if (m_level1Index < m_starting)
-        {
+        if( m_level1Index < m_starting ) {
             // in case we never had a large heading ...
             m_level1Index++;
         }
-        if ((m_lastLevel == Heading.HEADING_SMALL) && (hd.m_level != Heading.HEADING_SMALL))
-        {
+        if( ( m_lastLevel == Heading.HEADING_SMALL ) && ( hd.m_level != Heading.HEADING_SMALL ) ) {
             m_level3Index = 0;
         }
-        if ( ((m_lastLevel == Heading.HEADING_SMALL) || (m_lastLevel == Heading.HEADING_MEDIUM)) &&
-                  (hd.m_level == Heading.HEADING_LARGE) )
-        {
+        if( ( ( m_lastLevel == Heading.HEADING_SMALL ) || ( m_lastLevel == Heading.HEADING_MEDIUM ) ) && ( hd.m_level
+                == Heading.HEADING_LARGE ) ) {
             m_level3Index = 0;
             m_level2Index = 0;
         }
 
-        String titleSection = hd.m_titleSection.replace( '%', '_' );
-        String pageName = context.getEngine().encodeName(context.getPage().getName()).replace( '%', '_' );
+        final String titleSection = hd.m_titleSection.replace( '%', '_' );
+        final String pageName = context.getEngine().encodeName(context.getPage().getName()).replace( '%', '_' );
 
-        String sectref = "#section-"+pageName+"-"+titleSection;
+        final String sectref = "#section-"+pageName+"-"+titleSection;
 
         m_buf.append( "<a class=\"wikipage\" href=\"" + sectref + "\">" );
         if (m_usingNumberedList)
@@ -148,58 +146,47 @@ public class TableOfContents
     /**
      *  {@inheritDoc}
      */
-    public String execute( WikiContext context, Map<String, String> params )
-        throws PluginException
-    {
-        WikiEngine engine = context.getEngine();
-        WikiPage   page   = context.getPage();
-        ResourceBundle rb = Preferences.getBundle( context, WikiPlugin.CORE_PLUGINS_RESOURCEBUNDLE );
+    @Override
+    public String execute( final Context context, final Map<String, String> params ) throws PluginException {
+        final Engine engine = context.getEngine();
+        final Page page = context.getPage();
+        final ResourceBundle rb = Preferences.getBundle( context, Plugin.CORE_PLUGINS_RESOURCEBUNDLE );
 
-        if( context.getVariable( VAR_ALREADY_PROCESSING ) != null )
-        {
+        if( context.getVariable( VAR_ALREADY_PROCESSING ) != null ) {
             //return rb.getString("tableofcontents.title");
             return "<a href=\"#section-TOC\" class=\"toc\">"+rb.getString("tableofcontents.title")+"</a>";
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append("<div class=\"toc\">\n");
         sb.append("<div class=\"collapsebox\">\n");
 
-        String title = params.get(PARAM_TITLE);
+        final String title = params.get(PARAM_TITLE);
         sb.append("<h4 id=\"section-TOC\">");
-        if( title != null )
-        {
-            sb.append(TextUtil.replaceEntities(title));
+        if( title != null ) {
+            sb.append( TextUtil.replaceEntities( title ) );
+        } else {
+            sb.append( rb.getString( "tableofcontents.title" ) );
         }
-        else
-        {
-            sb.append(rb.getString("tableofcontents.title"));
-        }
-        sb.append("</h4>\n");
+        sb.append( "</h4>\n" );
 
         // should we use an ordered list?
         m_usingNumberedList = false;
-        if (params.containsKey(PARAM_NUMBERED))
-        {
-            String numbered = params.get(PARAM_NUMBERED);
-            if (numbered.equalsIgnoreCase("true"))
-            {
+        if( params.containsKey( PARAM_NUMBERED ) ) {
+            final String numbered = params.get( PARAM_NUMBERED );
+            if( numbered.equalsIgnoreCase( "true" ) ) {
                 m_usingNumberedList = true;
-            }
-            else if (numbered.equalsIgnoreCase("yes"))
-            {
+            } else if( numbered.equalsIgnoreCase( "yes" ) ) {
                 m_usingNumberedList = true;
             }
         }
 
         // if we are using a numbered list, get the rest of the parameters (if any) ...
-        if (m_usingNumberedList)
-        {
+        if (m_usingNumberedList) {
             int start = 0;
-            String startStr = params.get(PARAM_START);
-            if ((startStr != null) && (startStr.matches("^\\d+$")))
-            {
+            final String startStr = params.get(PARAM_START);
+            if( ( startStr != null ) && ( startStr.matches( "^\\d+$" ) ) ) {
                 start = Integer.parseInt(startStr);
             }
             if (start < 0) start = 0;
@@ -214,17 +201,16 @@ public class TableOfContents
             m_lastLevel = Heading.HEADING_LARGE;
         }
 
-        try
-        {
-            String wikiText = engine.getPureText( page );
-            boolean runFilters = "true".equals( engine.getVariableManager().getValue( context, WikiEngine.PROP_RUNFILTERS, "true" ) );
+        try {
+            String wikiText = engine.getManager( PageManager.class ).getPureText( page );
+            final boolean runFilters = "true".equals( engine.getManager( VariableManager.class ).getValue( context, VariableManager.VAR_RUNFILTERS, "true" ) );
 
             if( runFilters ) {
 				try {
-					FilterManager fm = engine.getFilterManager();
+					final FilterManager fm = engine.getManager( FilterManager.class );
 					wikiText = fm.doPreTranslateFiltering(context, wikiText);
 
-				} catch (Exception e) {
+				} catch( final Exception e ) {
 					log.error("Could not construct table of contents: Filter Error", e);
 					throw new PluginException("Unable to construct table of contents (see logs)");
 				}
@@ -232,14 +218,12 @@ public class TableOfContents
 
             context.setVariable( VAR_ALREADY_PROCESSING, "x" );
 
-            MarkupParser parser = engine.getRenderingManager().getParser( context, wikiText );
+            final MarkupParser parser = engine.getManager( RenderingManager.class ).getParser( context, wikiText );
             parser.addHeadingListener( this );
             parser.parse();
 
-            sb.append( "<ul>\n"+m_buf.toString()+"</ul>\n" );
-        }
-        catch( IOException e )
-        {
+            sb.append( "<ul>\n" ).append( m_buf.toString() ).append( "</ul>\n" );
+        } catch( final IOException e ) {
             log.error("Could not construct table of contents", e);
             throw new PluginException("Unable to construct table of contents (see logs)");
         }

@@ -19,17 +19,17 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://jspwiki.apache.org/tags" prefix="wiki" %>
 <%@ page import="java.util.Properties"%>
-<%@ page import="org.apache.wiki.*" %>
+<%@ page import="org.apache.commons.lang3.*" %>
+<%@ page import="org.apache.wiki.api.core.*" %>
 <%@ page import="org.apache.wiki.auth.*" %>
 <%@ page import="org.apache.wiki.auth.permissions.*" %>
-<%@ page import="org.apache.wiki.render.*" %>
-<%@ page import="org.apache.wiki.parser.JSPWikiMarkupParser" %>
-<%@ page import="org.apache.wiki.ui.*" %>
-
-<%@ page import="org.apache.wiki.util.TextUtil" %>
-
 <%@ page import="org.apache.wiki.filters.*" %>
-<%@ page import="org.apache.commons.lang3.*" %>
+<%@ page import="org.apache.wiki.pages.PageManager" %>
+<%@ page import="org.apache.wiki.parser.MarkupParser" %>
+<%@ page import="org.apache.wiki.render.*" %>
+<%@ page import="org.apache.wiki.ui.*" %>
+<%@ page import="org.apache.wiki.util.TextUtil" %>
+<%@ page import="org.apache.wiki.variables.VariableManager" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -45,15 +45,15 @@
     This provides the WYSIWYG TinyMCE for JSPWiki.
 --%>
 <%
-    WikiContext context = WikiContext.findContext( pageContext );
-    WikiEngine engine = context.getEngine();
+    Context context = Context.findContext( pageContext );
+    Engine engine = context.getEngine();
 
-    context.setVariable( RenderingManager.WYSIWYG_EDITOR_MODE, Boolean.TRUE );
-    context.setVariable( WikiEngine.PROP_RUNFILTERS,  "false" );
+    context.setVariable( Context.VAR_WYSIWYG_EDITOR_MODE, Boolean.TRUE );
+    context.setVariable( VariableManager.VAR_RUNFILTERS,  "false" );
 
-    WikiPage wikiPage = context.getPage();
-    String originalCCLOption = (String)wikiPage.getAttribute( JSPWikiMarkupParser.PROP_CAMELCASELINKS );
-    wikiPage.setAttribute( JSPWikiMarkupParser.PROP_CAMELCASELINKS, "false" );
+    Page wikiPage = context.getPage();
+    String originalCCLOption = (String)wikiPage.getAttribute( MarkupParser.PROP_CAMELCASELINKS );
+    wikiPage.setAttribute( MarkupParser.PROP_CAMELCASELINKS, "false" );
 
     String usertext = EditorManager.getEditedText(pageContext);
 
@@ -66,17 +66,17 @@
   String clone = request.getParameter( "clone" );
   if( clone != null )
   {
-    WikiPage p = engine.getPage( clone );
+    Page p = engine.getManager( PageManager.class ).getPage( clone );
     if( p != null )
     {
-        AuthorizationManager mgr = engine.getAuthorizationManager();
+        AuthorizationManager mgr = engine.getManager( AuthorizationManager.class );
         PagePermission pp = new PagePermission( p, PagePermission.VIEW_ACTION );
 
         try
         {
           if( mgr.checkPermission( context.getWikiSession(), pp ) )
           {
-            usertext = engine.getPureText( p );
+            usertext = engine.getManager( PageManager.class ).getPureText( p );
           }
         }
         catch( Exception e ) {  /*log.error( "Accessing clone page "+clone, e );*/ }
@@ -87,7 +87,7 @@
 <%
   if( usertext == null )
   {
-    usertext = engine.getPureText( context.getPage() );
+    usertext = engine.getManager( PageManager.class ).getPureText( context.getPage() );
   }
 %>
 </wiki:CheckRequestContext>
@@ -97,7 +97,7 @@
     String pageAsHtml;
     try
     {
-        pageAsHtml = engine.getRenderingManager().getHTML( context, usertext );
+        pageAsHtml = engine.getManager( RenderingManager.class ).getHTML( context, usertext );
 
     }
         catch( Exception e )
@@ -115,15 +115,12 @@
 
    // Disable the WYSIWYG_EDITOR_MODE and reset the other properties immediately
    // after the XHTML for TinyMCE has been rendered.
-   context.setVariable( RenderingManager.WYSIWYG_EDITOR_MODE, Boolean.FALSE );
-
-   context.setVariable( WikiEngine.PROP_RUNFILTERS,  null );
-   wikiPage.setAttribute( JSPWikiMarkupParser.PROP_CAMELCASELINKS, originalCCLOption );
-
+   context.setVariable( Context.VAR_WYSIWYG_EDITOR_MODE, Boolean.FALSE );
+   context.setVariable( VariableManager.VAR_RUNFILTERS,  null );
+   wikiPage.setAttribute( MarkupParser.PROP_CAMELCASELINKS, originalCCLOption );
 
    /*FSS not used
-   String templateDir = (String)engine.getWikiProperties().get( WikiEngine.PROP_TEMPLATEDIR );
-
+   String templateDir = (String)engine.getWikiProperties().get( Engine.PROP_TEMPLATEDIR );
    String protocol = "http://";
    if( request.isSecure() )
    {
@@ -188,32 +185,30 @@
     </div>
 
   <div class="btn-group editor-tools">
-
     <div class="btn-group config">
       <%-- note: 'dropdown-toggle' is only here to style the last button properly! --%>
       <button class="btn btn-default dropdown-toggle"><span class="icon-wrench"></span><span class="caret"></span></button>
       <ul class="dropdown-menu" data-hover-parent="div">
-            <li>
-              <a>
-                <label for="livepreview">
-                  <input type="checkbox" data-cmd="livepreview" id="livepreview" ${prefs.livepreview ? 'checked="checked"' : ''}/>
-                  <fmt:message key='editor.plain.livepreview'/> <span class="icon-refresh"/>
-                </label>
-              </a>
-            </li>
-            <li>
-              <a>
-                <label for="previewcolumn">
-                  <input type="checkbox" data-cmd="previewcolumn" id="previewcolumn" ${prefs.previewcolumn ? 'checked="checked"' : ''}/>
-                  <fmt:message key='editor.plain.sidebysidepreview'/> <span class="icon-columns"/>
-                </label>
-              </a>
-            </li>
-
+         <li>
+           <a>
+             <label for="livepreview">
+               <input type="checkbox" data-cmd="livepreview" id="livepreview" ${prefs.livepreview ? 'checked="checked"' : ''}/>
+               <fmt:message key='editor.plain.livepreview'/> <span class="icon-refresh"/>
+             </label>
+           </a>
+         </li>
+         <li>
+           <a>
+             <label for="previewcolumn">
+               <input type="checkbox" data-cmd="previewcolumn" id="previewcolumn" ${prefs.previewcolumn ? 'checked="checked"' : ''}/>
+               <fmt:message key='editor.plain.sidebysidepreview'/> <span class="icon-columns"/>
+             </label>
+           </a>
+         </li>
       </ul>
     </div>
 
-    <c:set var="editors" value="<%= engine.getEditorManager().getEditorList() %>" />
+    <c:set var="editors" value="<%= engine.getManager( EditorManager.class ).getEditorList() %>" />
     <c:if test='${fn:length(editors)>1}'>
    <div class="btn-group config">
       <%-- note: 'dropdown-toggle' is only here to style the last button properly! --%>

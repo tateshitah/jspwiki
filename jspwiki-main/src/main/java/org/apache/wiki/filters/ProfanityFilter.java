@@ -19,8 +19,8 @@
 package org.apache.wiki.filters;
 
 import org.apache.log4j.Logger;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.api.filters.BasicPageFilter;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.filters.BasePageFilter;
 import org.apache.wiki.util.TextUtil;
 
 import java.io.BufferedReader;
@@ -37,7 +37,7 @@ import java.util.List;
  *  is case unsensitive.
  *
  */
-public class ProfanityFilter extends BasicPageFilter {
+public class ProfanityFilter extends BasePageFilter {
 	
     private static final Logger log = Logger.getLogger( ProfanityFilter.class );
     
@@ -71,11 +71,10 @@ public class ProfanityFilter extends BasicPageFilter {
     /**
      *  {@inheritDoc}
      */
-    public String preTranslate( final WikiContext context, String content ) {
-        for( int i = 0; i < c_profanities.length; i++ ) {
-            final String word = c_profanities[ i ];
+    @Override
+    public String preTranslate( final Context context, String content ) {
+        for( final String word : c_profanities ) {
             final String replacement = word.charAt( 0 ) + "*" + word.charAt( word.length() - 1 );
-
             content = TextUtil.replaceStringCaseUnsensitive( content, word, replacement );
         }
 

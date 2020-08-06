@@ -18,32 +18,21 @@
  */
 package org.apache.wiki.url;
 
-import org.apache.wiki.WikiEngine;
+import org.apache.wiki.api.engine.Initializable;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Properties;
 
 
 /**
- *  Provides an interface through which JSPWiki constructs URLs.
- *  JSPWiki calls the methods of this interface whenever an URL
- *  that points to any JSPWiki internals is required.  For example,
- *  if you need to find an URL to the editor page for page "TextFormattingRules",
- *  you would call makeURL( WikiContext.EDIT, "TextFormattingRules", false, null );
+ *  Provides an interface through which JSPWiki constructs URLs. JSPWiki calls the methods of this interface whenever an URL
+ *  that points to any JSPWiki internals is required.  For example, if you need to find an URL to the editor page for page
+ *  "TextFormattingRules", you would call makeURL( WikiContext.EDIT, "TextFormattingRules", false, null );
  *
  *  @since 2.2
  */
-public interface URLConstructor {
-    /**
-     *  Initializes.  Note that the engine is not fully initialized at this
-     *  point, so don't do anything fancy here - use lazy init, if you have to.
-     *
-     *  @param  engine The WikiEngine that this URLConstructor belongs to
-     *  @param properties Properties used to initialize
-     */
-    void initialize( WikiEngine engine, Properties properties );
+public interface URLConstructor extends Initializable {
 
     /**
      *  Constructs the URL with a bunch of parameters.
@@ -51,11 +40,10 @@ public interface URLConstructor {
      *  @param context The request context (@see WikiContext) that you want the URL for
      *  @param name The page name (or in case of WikiContext.NONE, the auxiliary JSP page
      *              or resource you want to point at).  This must be URL encoded.  Null is NOT safe.
-     *  @param absolute True, if you need an absolute URL.  False, if both relative and absolute URLs are fine.
      *  @param parameters An URL parameter string (these must be URL-encoded, and separated with &amp;amp;)
      *  @return An URL pointing to the resource.  Must never return null - throw an InternalWikiException  if something goes wrong.
      */
-    String makeURL( String context, String name, boolean absolute, String parameters );
+    String makeURL( String context, String name, String parameters );
 
     /**
      *  Should parse the "page" parameter from the actual request. This is essentially the reverse of makeURL() - whenever
@@ -77,5 +65,27 @@ public interface URLConstructor {
      * @return "Wiki.jsp", "PageInfo.jsp", etc.  Just return the name, JSPWiki will figure out the page.
      */
     String getForwardPage( HttpServletRequest request );
+
+    /**
+     *  Takes the name of the page from the request URI. The initial slash is also removed.  If there is no page, returns null.
+     *
+     *  @param request The request to parse
+     *  @param encoding The encoding to use
+     *
+     *  @return a parsed page name, or null, if it cannot be found
+     */
+    static String parsePageFromURL( final HttpServletRequest request, final Charset encoding ) {
+        final String name = request.getPathInfo();
+        if( name == null || name.length() <= 1 ) {
+            return null;
+        } else if( name.charAt(0) == '/' ) {
+            return name.substring(1);
+        }
+
+        //  This is required, because by default all URLs are handled as Latin1, even if they are really UTF-8.
+        // name = TextUtil.urlDecode( name, encoding );
+
+        return name;
+    }
 
 }

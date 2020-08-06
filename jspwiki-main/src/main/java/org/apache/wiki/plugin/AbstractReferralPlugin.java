@@ -27,11 +27,12 @@ import org.apache.oro.text.regex.PatternCompiler;
 import org.apache.oro.text.regex.PatternMatcher;
 import org.apache.oro.text.regex.Perl5Matcher;
 import org.apache.wiki.StringTransmutator;
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.WikiPage;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.Engine;
+import org.apache.wiki.api.core.Page;
 import org.apache.wiki.api.exceptions.PluginException;
-import org.apache.wiki.api.plugin.WikiPlugin;
+import org.apache.wiki.api.plugin.Plugin;
+import org.apache.wiki.pages.PageManager;
 import org.apache.wiki.pages.PageSorter;
 import org.apache.wiki.parser.MarkupParser;
 import org.apache.wiki.parser.WikiDocument;
@@ -76,8 +77,8 @@ import java.util.stream.Collectors;
  *  </ul>
  *
  */
-public abstract class AbstractReferralPlugin implements WikiPlugin
-{
+public abstract class AbstractReferralPlugin implements Plugin {
+
     private static Logger log = Logger.getLogger( AbstractReferralPlugin.class );
 
     /** Magic value for rendering all items. */
@@ -134,7 +135,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
     protected           Date m_dateLastModified = new Date(0);
     protected           SimpleDateFormat m_dateFormat;
 
-    protected           WikiEngine m_engine;
+    protected           Engine m_engine;
 
     /**
      * @param context the wiki context
@@ -142,9 +143,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      * @throws PluginException if any of the plugin parameters are malformed
      */
     // FIXME: The compiled pattern strings should really be cached somehow.
-    public void initialize( WikiContext context, Map<String, String> params )
-        throws PluginException
-    {
+    public void initialize( final Context context, final Map<String, String> params ) throws PluginException {
         m_dateFormat = Preferences.getDateFormat( context, TimeFormat.DATETIME );
         m_engine = context.getEngine();
         m_maxwidth = TextUtil.parseIntParameter( params.get( PARAM_MAXWIDTH ), Integer.MAX_VALUE );
@@ -181,9 +180,9 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
         {
             try
             {
-                PatternCompiler pc = new GlobCompiler();
+                final PatternCompiler pc = new GlobCompiler();
 
-                String[] ptrns = StringUtils.split( s, "," );
+                final String[] ptrns = StringUtils.split( s, "," );
 
                 m_exclude = new Pattern[ptrns.length];
 
@@ -192,7 +191,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
                     m_exclude[i] = pc.compile( ptrns[i] );
                 }
             }
-            catch( MalformedPatternException e )
+            catch( final MalformedPatternException e )
             {
                 throw new PluginException("Exclude-parameter has a malformed pattern: "+e.getMessage());
             }
@@ -205,9 +204,9 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
         {
             try
             {
-                PatternCompiler pc = new GlobCompiler();
+                final PatternCompiler pc = new GlobCompiler();
 
-                String[] ptrns = StringUtils.split( s, "," );
+                final String[] ptrns = StringUtils.split( s, "," );
 
                 m_include = new Pattern[ptrns.length];
 
@@ -216,7 +215,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
                     m_include[i] = pc.compile( ptrns[i] );
                 }
             }
-            catch( MalformedPatternException e )
+            catch( final MalformedPatternException e )
             {
                 throw new PluginException("Include-parameter has a malformed pattern: "+e.getMessage());
             }
@@ -253,8 +252,8 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
         initSorter( context, params );
     }
 
-    protected List< WikiPage > filterWikiPageCollection( Collection< WikiPage > pages ) {
-        List< String > pageNames = filterCollection( pages.stream()
+    protected List< Page > filterWikiPageCollection( final Collection< Page > pages ) {
+        final List< String > pageNames = filterCollection( pages.stream()
                                                           .map( page -> page.getName() )
                                                           .collect( Collectors.toList() ) );
         return pages.stream()
@@ -268,16 +267,13 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      *  @param c The collection to filter.
      *  @return A filtered collection.
      */
-    protected List< String > filterCollection( Collection< String > c )
+    protected List< String > filterCollection( final Collection< String > c )
     {
-        ArrayList< String > result = new ArrayList<>();
+        final ArrayList< String > result = new ArrayList<>();
 
-        PatternMatcher pm = new Perl5Matcher();
+        final PatternMatcher pm = new Perl5Matcher();
 
-        for( Iterator< String > i = c.iterator(); i.hasNext(); )
-        {
-            String pageName = i.next();
-
+        for( final String pageName : c ) {
             //
             //  If include parameter exists, then by default we include only those
             //  pages in it (excluding the ones in the exclude pattern list).
@@ -286,48 +282,37 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
             //
             boolean includeThis = m_include == null;
 
-            if( m_include != null )
-            {
-                for( int j = 0; j < m_include.length; j++ )
-                {
-                    if( pm.matches( pageName, m_include[j] ) )
-                    {
+            if( m_include != null ) {
+                for( final Pattern pattern : m_include ) {
+                    if( pm.matches( pageName, pattern ) ) {
                         includeThis = true;
                         break;
                     }
                 }
             }
 
-            if( m_exclude != null )
-            {
-                for( int j = 0; j < m_exclude.length; j++ )
-                {
-                    if( pm.matches( pageName, m_exclude[j] ) )
-                    {
+            if( m_exclude != null ) {
+                for( final Pattern pattern : m_exclude ) {
+                    if( pm.matches( pageName, pattern ) ) {
                         includeThis = false;
                         break; // The inner loop, continue on the next item
                     }
                 }
             }
 
-            if( includeThis )
-            {
+            if( includeThis ) {
                 result.add( pageName );
                 //
                 //  if we want to show the last modified date of the most recently change page, we keep a "high watermark" here:
-                WikiPage page = null;
-                if( m_lastModified )
-                {
-                    page = m_engine.getPage( pageName );
-                    if( page != null )
-                    {
-                        Date lastModPage = page.getLastModified();
-                        if( log.isDebugEnabled() )
-                        {
+                final Page page;
+                if( m_lastModified ) {
+                    page = m_engine.getManager( PageManager.class ).getPage( pageName );
+                    if( page != null ) {
+                        final Date lastModPage = page.getLastModified();
+                        if( log.isDebugEnabled() ) {
                             log.debug( "lastModified Date of page " + pageName + " : " + m_dateLastModified );
                         }
-                        if( lastModPage.after( m_dateLastModified ) )
-                        {
+                        if( lastModPage.after( m_dateLastModified ) ) {
                             m_dateLastModified = lastModPage;
                         }
                     }
@@ -345,8 +330,8 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      *  @param c The collection to filter.
      *  @return A filtered and sorted collection.
      */
-    protected List< String > filterAndSortCollection( Collection< String > c ) {
-        List< String > result = filterCollection( c );
+    protected List< String > filterAndSortCollection( final Collection< String > c ) {
+        final List< String > result = filterCollection( c );
         result.sort( m_sorter );
         return result;
     }
@@ -359,14 +344,14 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      *  @param numItems How many items to show.
      *  @return The WikiText
      */
-    protected String wikitizeCollection( Collection< String > links, String separator, int numItems )
-    {
-        if( links == null || links.isEmpty() )
+    protected String wikitizeCollection( final Collection< String > links, final String separator, final int numItems ) {
+        if( links == null || links.isEmpty() ) {
             return "";
+        }
 
-        StringBuilder output = new StringBuilder();
+        final StringBuilder output = new StringBuilder();
 
-        Iterator< String > it = links.iterator();
+        final Iterator< String > it = links.iterator();
         int count = 0;
 
         //
@@ -374,7 +359,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
         //
         while( it.hasNext() && ( (count < numItems) || ( numItems == ALL_ITEMS ) ) )
         {
-            String value = it.next();
+            final String value = it.next();
 
             if( count > 0 )
             {
@@ -385,7 +370,7 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
             output.append( m_before );
 
             // Make a Wiki markup link. See TranslatorReader.
-            output.append( "[" + m_engine.beautifyTitle(value) + "|" + value + "]" );
+            output.append( "[" + m_engine.getManager( RenderingManager.class ).beautifyTitle(value) + "|" + value + "]" );
             count++;
         }
 
@@ -405,25 +390,19 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      *  @return HTML
      *  @since 1.6.4
      */
-    protected String makeHTML( WikiContext context, String wikitext )
-    {
+    protected String makeHTML( final Context context, final String wikitext ) {
         String result = "";
 
-        RenderingManager mgr = m_engine.getRenderingManager();
+        final RenderingManager mgr = m_engine.getManager( RenderingManager.class );
 
-        try
-        {
-            MarkupParser parser = mgr.getParser(context, wikitext);
-
+        try {
+            final MarkupParser parser = mgr.getParser(context, wikitext);
             parser.addLinkTransmutator( new CutMutator(m_maxwidth) );
             parser.enableImageInlining( false );
 
-            WikiDocument doc = parser.parse();
-
+            final WikiDocument doc = parser.parse();
             result = mgr.getHTML( context, doc );
-        }
-        catch( IOException e )
-        {
+        } catch( final IOException e ) {
             log.error("Failed to convert page data to HTML", e);
         }
 
@@ -434,19 +413,17 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
      *  A simple class that just cuts a String to a maximum
      *  length, adding three dots after the cutpoint.
      */
-    private static class CutMutator implements StringTransmutator
-    {
+    private static class CutMutator implements StringTransmutator {
+
         private int m_length;
 
-        public CutMutator( int length )
-        {
+        public CutMutator( final int length ) {
             m_length = length;
         }
 
-        public String mutate( WikiContext context, String text )
-        {
-            if( text.length() > m_length )
-            {
+        @Override
+        public String mutate( final Context context, final String text ) {
+            if( text.length() > m_length ) {
                 return text.substring( 0, m_length ) + "...";
             }
 
@@ -457,11 +434,11 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
     /**
      * Helper method to initialize the comparator for this page.
      */
-    private void initSorter( WikiContext context, Map< String, String > params ) {
-        String order = params.get( PARAM_SORTORDER );
+    private void initSorter( final Context context, final Map< String, String > params ) {
+        final String order = params.get( PARAM_SORTORDER );
         if( order == null || order.length() == 0 ) {
             // Use the configured comparator
-            m_sorter = context.getEngine().getPageManager().getPageSorter();
+            m_sorter = context.getEngine().getManager( PageManager.class ).getPageSorter();
         } else if( order.equalsIgnoreCase( PARAM_SORTORDER_JAVA ) ) {
             // use Java "natural" ordering
             m_sorter = new PageSorter( JavaNaturalComparator.DEFAULT_JAVA_COMPARATOR );
@@ -472,16 +449,13 @@ public abstract class AbstractReferralPlugin implements WikiPlugin
             // use human ordering
             m_sorter = new PageSorter( HumanComparator.DEFAULT_HUMAN_COMPARATOR );
         } else {
-            try
-            {
-                Collator collator = new RuleBasedCollator( order );
+            try {
+                final Collator collator = new RuleBasedCollator( order );
                 collator.setStrength( Collator.PRIMARY );
                 m_sorter = new PageSorter( new CollatorComparator( collator ) );
-            }
-            catch( ParseException pe )
-            {
+            } catch( final ParseException pe ) {
                 log.info( "Failed to parse requested collator - using default ordering", pe );
-                m_sorter = context.getEngine().getPageManager().getPageSorter();
+                m_sorter = context.getEngine().getManager( PageManager.class ).getPageSorter();
             }
         }
     }

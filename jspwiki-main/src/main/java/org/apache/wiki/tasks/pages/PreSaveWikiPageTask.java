@@ -18,17 +18,16 @@
  */
 package org.apache.wiki.tasks.pages;
 
-import java.security.Principal;
-
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
-import org.apache.wiki.WikiPage;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.Page;
 import org.apache.wiki.api.exceptions.WikiException;
+import org.apache.wiki.filters.FilterManager;
 import org.apache.wiki.tasks.TasksManager;
 import org.apache.wiki.workflow.Outcome;
 import org.apache.wiki.workflow.Task;
-import org.apache.wiki.workflow.Workflow;
 import org.apache.wiki.workflow.WorkflowManager;
+
+import java.security.Principal;
 
 
 /**
@@ -39,7 +38,7 @@ import org.apache.wiki.workflow.WorkflowManager;
 public class PreSaveWikiPageTask extends Task {
 
     private static final long serialVersionUID = 6304715570092804615L;
-    private final WikiContext m_context;
+    private final Context m_context;
     private final String m_proposedText;
 
     /**
@@ -48,7 +47,7 @@ public class PreSaveWikiPageTask extends Task {
      * @param context The WikiContext
      * @param proposedText The text that was just saved.
      */
-    public PreSaveWikiPageTask( final WikiContext context, final String proposedText ) {
+    public PreSaveWikiPageTask( final Context context, final String proposedText ) {
         super( TasksManager.WIKIPAGE_PRESAVE_TASK_MESSAGE_KEY );
         m_context = context;
         m_proposedText = proposedText;
@@ -59,29 +58,22 @@ public class PreSaveWikiPageTask extends Task {
      */
     @Override
     public Outcome execute() throws WikiException {
-        // Retrieve attributes
-        WikiEngine engine = m_context.getEngine();
-        Workflow workflow = getWorkflow();
-
         // Get the wiki page
-        WikiPage page = m_context.getPage();
+        final Page page = m_context.getPage();
 
-        // Figure out who the author was. Prefer the author set programmatically; otherwise 
-        // get from the current logged in user
-        if (page.getAuthor() == null) {
-            Principal wup = m_context.getCurrentUser();
-
-            if (wup != null) {
-                page.setAuthor(wup.getName());
+        // Figure out who the author was. Prefer the author set programmatically; otherwise get from the current logged in user
+        if( page.getAuthor() == null ) {
+            final Principal wup = m_context.getCurrentUser();
+            if( wup != null ) {
+                page.setAuthor( wup.getName() );
             }
         }
 
         // Run the pre-save filters. If any exceptions, add error to list, abort, and redirect
-        String saveText = engine.getFilterManager().doPreSaveFiltering(m_context, m_proposedText);
+        final String saveText = m_context.getEngine().getManager( FilterManager.class ).doPreSaveFiltering(m_context, m_proposedText);
 
         // Stash the wiki context, old and new text as workflow attributes
-        workflow.setAttribute( WorkflowManager.WF_WP_SAVE_ATTR_PRESAVE_WIKI_CONTEXT, m_context );
-        workflow.setAttribute( WorkflowManager.WF_WP_SAVE_FACT_PROPOSED_TEXT, saveText );
+        getWorkflowContext().put( WorkflowManager.WF_WP_SAVE_FACT_PROPOSED_TEXT, saveText );
         return Outcome.STEP_COMPLETE;
     }
 

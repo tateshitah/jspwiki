@@ -18,16 +18,17 @@
  */
 package org.apache.wiki.plugin;
 
-import java.util.Map;
-
-import org.apache.wiki.WikiContext;
-import org.apache.wiki.WikiEngine;
+import org.apache.wiki.api.core.Attachment;
+import org.apache.wiki.api.core.Context;
+import org.apache.wiki.api.core.ContextEnum;
+import org.apache.wiki.api.core.Engine;
 import org.apache.wiki.api.exceptions.PluginException;
 import org.apache.wiki.api.exceptions.ProviderException;
-import org.apache.wiki.api.plugin.WikiPlugin;
-import org.apache.wiki.attachment.Attachment;
+import org.apache.wiki.api.plugin.Plugin;
 import org.apache.wiki.attachment.AttachmentManager;
 import org.apache.wiki.util.TextUtil;
+
+import java.util.Map;
 
 /**
  *  Provides an image plugin for better control than is possible with a simple image inclusion.
@@ -51,12 +52,10 @@ import org.apache.wiki.util.TextUtil;
  *
  *  @since 2.1.4.
  */
-// FIXME: It is not yet possible to do wiki internal links.  In order to
-//        do this cleanly, a TranslatorReader revamp is needed.
+// FIXME: It is not yet possible to do wiki internal links.  In order to do this cleanly, a TranslatorReader revamp is needed.
 
-public class Image
-    implements WikiPlugin
-{
+public class Image implements Plugin {
+
     /** The parameter name for setting the src.  Value is <tt>{@value}</tt>. */
     public static final String PARAM_SRC      = "src";
     /** The parameter name for setting the align.  Value is <tt>{@value}</tt>. */
@@ -87,98 +86,81 @@ public class Image
      *  This method is used to clean away things like quotation marks which
      *  a malicious user could use to stop processing and insert javascript.
      */
-    private static String getCleanParameter( Map<String, String> params, String paramId )
-    {
+    private static String getCleanParameter( final Map< String, String > params, final String paramId ) {
         return TextUtil.replaceEntities( params.get( paramId ) );
     }
 
     /**
      *  {@inheritDoc}
      */
-    public String execute( WikiContext context, Map<String, String> params )
-        throws PluginException
-    {
-        WikiEngine engine = context.getEngine();
-        String src     = getCleanParameter( params, PARAM_SRC );
-        String align   = getCleanParameter( params, PARAM_ALIGN );
-        String ht      = getCleanParameter( params, PARAM_HEIGHT );
-        String wt      = getCleanParameter( params, PARAM_WIDTH );
-        String alt     = getCleanParameter( params, PARAM_ALT );
-        String caption = getCleanParameter( params, PARAM_CAPTION );
-        String link    = getCleanParameter( params, PARAM_LINK );
-        String target  = getCleanParameter( params, PARAM_TARGET );
-        String style   = getCleanParameter( params, PARAM_STYLE );
-        String cssclass= getCleanParameter( params, PARAM_CLASS );
-        // String map     = getCleanParameter( params, PARAM_MAP );
-        String border  = getCleanParameter( params, PARAM_BORDER );
-        String title   = getCleanParameter( params, PARAM_TITLE );
+    @Override
+    public String execute( final Context context, final Map<String, String> params ) throws PluginException {
+        final Engine engine  = context.getEngine();
+        String src           = getCleanParameter( params, PARAM_SRC );
+        final String align   = getCleanParameter( params, PARAM_ALIGN );
+        final String ht      = getCleanParameter( params, PARAM_HEIGHT );
+        final String wt      = getCleanParameter( params, PARAM_WIDTH );
+        final String alt     = getCleanParameter( params, PARAM_ALT );
+        final String caption = getCleanParameter( params, PARAM_CAPTION );
+        final String link    = getCleanParameter( params, PARAM_LINK );
+        String target        = getCleanParameter( params, PARAM_TARGET );
+        final String style   = getCleanParameter( params, PARAM_STYLE );
+        final String cssclass= getCleanParameter( params, PARAM_CLASS );
+        // String map        = getCleanParameter( params, PARAM_MAP );
+        final String border  = getCleanParameter( params, PARAM_BORDER );
+        final String title   = getCleanParameter( params, PARAM_TITLE );
 
-        if( src == null )
-        {
+        if( src == null ) {
             throw new PluginException("Parameter 'src' is required for Image plugin");
         }
 
         //if( cssclass == null ) cssclass = "imageplugin";
 
-        if( target != null && !validTargetValue(target) )
-        {
+        if( target != null && !validTargetValue(target) ) {
             target = null; // not a valid value so ignore
         }
 
-        try
-        {
-            AttachmentManager mgr = engine.getAttachmentManager();
-            Attachment        att = mgr.getAttachmentInfo( context, src );
+        try {
+            final AttachmentManager mgr = engine.getManager( AttachmentManager.class );
+            final Attachment att = mgr.getAttachmentInfo( context, src );
 
-            if( att != null )
-            {
-                src = context.getURL( WikiContext.ATTACH, att.getName() );
+            if( att != null ) {
+                src = context.getURL( ContextEnum.PAGE_ATTACH.getRequestContext(), att.getName() );
             }
-        }
-        catch( ProviderException e )
-        {
-            throw new PluginException( "Attachment info failed: "+e.getMessage() );
+        } catch( final ProviderException e ) {
+            throw new PluginException( "Attachment info failed: " + e.getMessage() );
         }
 
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
         result.append( "<table border=\"0\" class=\"imageplugin\"" );
 
-        if( title != null )
-        {
-            result.append(" title=\""+title+"\"");
+        if( title != null ) {
+            result.append( " title=\"" + title + "\"" );
         }
 
-        if( align != null )
-        {
-            if( align.equals("center") )
-            {
-                result.append(" style=\"margin-left: auto; margin-right: auto; text-align:center; vertical-align:middle;\"");
-            }
-            else
-            {
-                result.append(" style=\"float:" + align + ";\"");
+        if( align != null ) {
+            if( align.equals( "center" ) ) {
+                result.append( " style=\"margin-left: auto; margin-right: auto; text-align:center; vertical-align:middle;\"" );
+            } else {
+                result.append( " style=\"float:" + align + ";\"" );
             }
         }
 
         result.append( ">\n" );
 
-        if( caption != null )
-        {
-            result.append("<caption>"+caption+"</caption>\n");
+        if( caption != null ) {
+            result.append( "<caption>" + caption + "</caption>\n" );
         }
 
-        //move css class and style to the container of the image,
-        //so it doesn't affect the caption
+        // move css class and style to the container of the image, so it doesn't affect the caption
         result.append( "<tr><td" );
 
-        if( cssclass != null )
-        {
+        if( cssclass != null ) {
             result.append(" class=\""+cssclass+"\"");
         }
 
-        if( style != null )
-        {
+        if( style != null ) {
             result.append(" style=\""+style);
 
             // Make sure that we add a ";" to the end of the style string
@@ -189,11 +171,9 @@ public class Image
 
         result.append( ">" );
 
-        if( link != null )
-        {
+        if( link != null ) {
             result.append("<a href=\""+link+"\"");
-            if( target != null )
-            {
+            if( target != null ) {
                 result.append(" target=\""+target+"\"");
             }
             result.append(">");
@@ -201,22 +181,31 @@ public class Image
 
         result.append( "<img src=\""+src+"\"" );
 
-        if( ht != null )     result.append(" height=\""+ht+"\"");
-        if( wt != null )     result.append(" width=\""+wt+"\"");
-        if( alt != null )    result.append(" alt=\""+alt+"\"");
-        if( border != null ) result.append(" border=\""+border+"\"");
+        if( ht != null ) {
+            result.append(" height=\""+ht+"\"");
+        }
+        if( wt != null ) {
+            result.append(" width=\""+wt+"\"");
+        }
+        if( alt != null ) {
+            result.append(" alt=\""+alt+"\"");
+        }
+        if( border != null ) {
+            result.append(" border=\""+border+"\"");
+        }
         // if( map != null )    result.append(" map=\""+map+"\"");
 
         result.append(" />");
-        if( link != null )  result.append("</a>");
+        if( link != null ) {
+            result.append("</a>");
+        }
         result.append("</td></tr>\n");
-
         result.append("</table>\n");
 
         return result.toString();
     }
 
-    private boolean validTargetValue( String s )
+    private boolean validTargetValue( final String s )
     {
         if( s.equals("_blank")
                 || s.equals("_self")
@@ -227,7 +216,7 @@ public class Image
         }
         else if( s.length() > 0 ) // check [a-zA-z]
         {
-            char c = s.charAt(0);
+            final char c = s.charAt(0);
             return Character.isLowerCase(c) || Character.isUpperCase(c);
         }
         return false;
